@@ -1,19 +1,26 @@
 import wikipedia
+import json
+import nltk
+# nltk.download()
+topics = ["David Gries"]
 
-topics = ["Mathematics", "David Gries", "Artificial Intelligence",
-"Computer Vision", "Natural Language Processing", "Deep Learning", "Mark Zuckerberg",
-"YouTube", "Apple", "IPhone", "Silicon Valley", "Spotify", "Pinterest",
-"Slack Technologies", "Scott Belsky", "Uber", "Warby Parker", "Cornell University",
-"Stanford University", "Turing Award", "Intel", "Deepmind", "Reinforcement Learning",
-"Steve Jobs", "Venture Capital", "IPad", "Algorithm", "Privacy",
-"Jeff Bezos", "Bill Gates", "Elon Musk", "Tesla", "SpaceX", "Tracy Chou",
-"Sheryl Sandberg", "Grace Hopper", "Anita Borg", "Barbara Liskov"]
+data = {}
 for topic in topics:
-  stuff = wikipedia.page(topic).content
+  content = wikipedia.page(topic).content
+  sent_tokenized_content = nltk.sent_tokenize(content)
+
+  if topic in data:
+      data[topic]['content'] = sent_tokenized_content
+  else:
+      data[topic] = {}
+      data[topic]['content'] = sent_tokenized_content
 
   file_name = topic + ".txt"
   text_file = open(file_name, "w")
 
-  text_file.write(stuff)
+  text_file.write(content)
 
   text_file.close()
+
+with open('data.json', 'w') as outfile:
+    json.dump(data, outfile, ensure_ascii=False)
