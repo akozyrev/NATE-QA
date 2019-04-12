@@ -1,6 +1,6 @@
 import wikipedia
 
-topics = ["Mathematics"]
+topics = ["Mathematics", "Logic"]
 for topic in topics:
   stuff = wikipedia.page(topic).content
 
