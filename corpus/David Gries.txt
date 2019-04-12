@@ -1,0 +1,50 @@
+David Gries (born 26 April 1939 in Flushing, Queens, New York) is an American computer scientist at Cornell University, United States primarily known for his books, The Science of Programming (1981) and A Logical Approach to Discrete Math (1993, with Fred B. Schneider).
+He is currently Associate Dean for Undergraduate Programs in the Cornell University College of Engineering.  His research interests include programming methodology and related areas such as programming languages, programming language semantics, and logic. His son, Paul Gries, has been a co-author of an introductory textbook to computer programming using Python and is a senior lecturer in the Department of Computer Science at Cornell University.
+
+
+== Life ==
+Gries graduated from Queens College in 1960.  He spent the following two years working as a programmer-mathematician for the U.S. Naval Weapons Laboratory, where he met his wife, Elaine.
+Gries earned his Master's degree in mathematics from the University of Illinois at Urbana-Champaign in 1963.  While at Illinois, Gries worked with Manfred Paul and Ruediger Wiehle to write a full ALGOL compiler for the IBM 7090 computer. He earned his Dr. Rer. Nat. in 1966 from the Munich University of Technology, studying under Friedrich L. Bauer and Joseph Stoer.
+Gries was an assistant professor at Stanford University from 1966–1969 and then became an associate professor at Cornell University in Ithaca, New York.  He spent the next 30 years there, including a stint as Chair of the Computer Science department from 1982–1987.  He had a Guggenheim Fellowship in 1984–1985.  He spent 1999–2002 at the University of Georgia in Athens and returned to Cornell in January 2003.
+He is the author, co-author, or editor of seven textbooks and 75 research papers. David Gries currently lives in Ithaca, New York.
+
+
+== Works ==
+Compiler Construction for Digital Computers. John Wiley and Sons, New York, 1971, 491 pages. (Translated into Spanish, Japanese, Chinese, Italian and Russian.)
+A Primer on Structured Programming, Using PL/I, PL/C and PL/C7. 1976, 397 pages. (with R. Conway).
+Primer on Structured Programming using Pascal. 1976, 433 pages. (with R. Conway and E.C. Zimmerman).
+An Introduction to Structured Programming using SP/K. 1977. (with R. Conway and D. Wortman).
+An Introduction to Programming --a structured approach. Winthrop, Cambridge, Edition 3, 1978, 509 pages. (with R. Conway).
+Introduction to Microprocessor Programming using PL/Z. 1979, 593 pages. (with R. Conway, M. Fay, and C. Bass).
+Programming Methodology: a Collection of Articles by Members of IFIP WG2.3. Editor. Springer Verlag, New York, 1979, 437 pages.
+The Science of Programming. Springer Verlag, New York, 1981, 350 pages. (Translated into Russian and Japanese.)
+Beauty is our Business. Editor. Springer Verlag, New York, 1990, 453 pages. (with W.H.J. Feijen, A.J.M. van Gasteren, and J. Misra).
+Instructor's Manual for "A Logical Approach to Discrete Math". D. Gries and F.B. Schneider, Ithaca, 1993. 311 pages (with F.B. Schneider).
+A Logical Approach to Discrete Math. Springer Verlag, NY, 1993, 500 pages (with F.B. Schneider).
+Programming Concepts and Methods, PROCOMET '98 (ed.). Chapman and Hall, London, 1998. (with W.-P. De Roever).
+Multimedia Introduction to Programming Using Java. Springer Verlag, NY, 2004, 536 pages (with P. Gries).
+The ProgramLive Companion. John Wiley & Sons, NY, 2001. 350 pages. (with P.Gries and P. Hall).
+ProgramLive. DataDescription. Ithaca, NY, 2000. (with P. Gries).
+
+
+== Awards ==
+Gries is the only recipient of four major educator awards in computer science:
+
+the American Federation of Information Processing Societies' Education Award (1986)
+the ACM SIGCSE Award for Outstanding Contributions to Computer Science Education (1991)
+the Institute for Electrical Engineers Computer Society Taylor L. Booth Education Award (1994)
+the ACM Karl V. Karlstrom Outstanding Educator Award (1995)He holds two honorary doctorates:
+
+an honorary Doctor of Laws, Daniel Webster College, Nashua, New Hampshire (1996)
+an honorary Doctor of Science, Miami University, Oxford, Ohio (1999)and is among the first ten Cornell faculty awarded a Cornell Weiss Presidential Fellowship for contributions to undergraduate education.
+In 1994 he was inducted as a Fellow of the Association for Computing Machinery for co-authoring "An Axiomatic Proof Technique for Parallel Programs I".
+
+
+== References ==
+
+
+== External links ==
+Professor David Gries
+Cornell University Science News: Computer association names Cornell's Gries an outstanding educator
+David Gries at the Mathematics Genealogy Project
+Books by David Gries (listed on Amazon)
