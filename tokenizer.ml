@@ -8,15 +8,6 @@ type t = {
   words : string list;
 }
 
-(** Convert string to character list *)
-let string_to_cl (word:string) : char list = 
-  List.init (String.length word) (String.get word)
-
-
-(** Convert character list back to string *)
-let cl_to_string (lst:char list) : string = 
-    String.concat "" (List.map (String.make 1) lst)
-
 
 (** Tokenizes the string text into sentences,
 returns list of sentences with process:
@@ -26,7 +17,6 @@ returns list of sentences with process:
   let sent_tokenize (text:string) : string list =
     let sentences = String.split_on_char '.'  text in
     let strip_sents = List.map (fun s -> String.trim s) sentences in
-
     strip_sents
 
 
@@ -58,9 +48,7 @@ let rec split_on_chars (chars : char list) (s : string) : string list =
     let words = split_on_chars puncts text in
     let filter_words = List.filter (fun w -> w <> "") words in
     let strip_words = List.map (fun w -> String.trim w) filter_words in
-    (* let strip_punct = List.map (fun w -> drop_punct w) strip_words in *)
     let all_lower = List.map (fun w -> make_lower w) strip_words in
-
     all_lower
 
 
