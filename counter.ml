@@ -70,13 +70,18 @@ module Counter = struct
       length = List.length new_dict
     }
 
-  let rec mem (word:string) (dict:(string * int) list) : bool = 
-    match dict with
-    |(s,i)::lst -> if s == word then true else mem word lst
-    |[] -> false
 
-  let mem (word:string ) (dict:(string * int) list)=
-    let dict_words = List.map (fun a -> fst a) dict 
+  (** Returns whether or not word is found in d dictionary *)
+  let mem (word:string) (d:t) =
+    let dict_words = List.map (fun a -> fst a) d.dict 
     in List.mem word dict_words
+
+  (** Return length of dictionary *)
+  let get_length (d:t) =
+    d.length
+
+  (** Return actual dictionary list *)
+  let get_dictionary (d:t) = 
+    d.dict
 
 end

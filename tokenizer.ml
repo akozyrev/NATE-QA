@@ -18,17 +18,6 @@ let cl_to_string (lst:char list) : string =
     String.concat "" (List.map (String.make 1) lst)
 
 
-(* let preprocess (text: string) : string = 
-  let cl = string_to_cl text in
-  let rec delete_chars lst = 
-    match lst with 
-    | [] -> []
-    | h::t -> if h = '\\' || h = '\"' then delete_chars t
-              else h::(delete_chars t) in
-
-   cl_to_string (delete_chars cl) *)
-
-
 (** Tokenizes the string text into sentences,
 returns list of sentences with process:
 1. seperate sentences into string list by '.'
@@ -40,29 +29,6 @@ returns list of sentences with process:
 
     strip_sents
 
-
-(* let rec filter_punct (lst: char list) : char list =
-  let puncts = [';'; ','; '.'; ':'; '?'; '$'; 
-                '-'; '!'; '#'; '%'; '^'; '&'; '*';
-                '('; ')'; '+'; '='; '/'; '\\';
-                 '\"' ] in
-  match lst with 
-    | [] -> []
-    | h::t -> if ((h >= 'a' && h <= 'z') 
-                  || (h >= 'A' && h <= 'Z')
-                  || (h >= '0' && h <= '9')) then lst
-                  (*TODO: should we only filter edges, or everything?*)
-              else if List.mem h puncts then filter_punct t
-              else h::filter_punct t
-
-  
-
-let drop_punct (word:string) : string =
-  let filter_left = cl_to_string (filter_punct (string_to_cl word)) in
-  let filter_right = cl_to_string (List.rev 
-            (filter_punct (List.rev (string_to_cl filter_left)))) in
-
-  filter_right *)
 
 (** Make all letters of word lowercase, 
 if applicable *)
@@ -115,6 +81,5 @@ let rec split_on_chars (chars : char list) (s : string) : string list =
   let get_words (tok:t) : string list =
     tok.words
 
-(*TODO: make getters for counter, too*)
 
 end
