@@ -60,16 +60,6 @@ module Counter = struct
       length = List.length new_dict
     }
 
-  (** Adds one word to dict; return new type t based off of 
-      current dictionary, but with specified word added to t.dict 
-      and t.length updated accordingly *)
-  let step_dict (word:string) (d:t) : t = 
-    let new_dict = add_word word d.dict in
-    { 
-      dict = new_dict;
-      length = List.length new_dict
-    }
-
 
   (** Returns whether or not word is found in d dictionary *)
   let mem (word:string) (d:t) =
