@@ -1,4 +1,4 @@
-MODULES= counter similarity tokenizer
+MODULES= counter similarity tokenizer word2dict
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

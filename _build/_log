@@ -1,5 +1,6 @@
 ### Starting build.
 # Target: counter.mli.depends, tags: { extension:mli, file:counter.mli, ocaml, ocamldep, quiet }
+<<<<<<< HEAD
 ocamlfind ocamldep -modules counter.mli > counter.mli.depends
 # Target: counter.cmi, tags: { byte, compile, extension:mli, file:counter.mli, interf, ocaml, quiet }
 ocamlfind ocamlc -c -o counter.cmi counter.mli
@@ -23,4 +24,33 @@ ocamlfind ocamlc -c -o tokenizer.cmi tokenizer.mli
 ocamlfind ocamldep -modules tokenizer.ml > tokenizer.ml.depends
 # Target: tokenizer.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet }
 ocamlfind ocamlc -c -o tokenizer.cmo tokenizer.ml
+=======
+ocamlfind ocamldep -modules counter.mli > counter.mli.depends # cached
+# Target: counter.cmi, tags: { byte, compile, extension:mli, file:counter.mli, interf, ocaml, quiet }
+ocamlfind ocamlc -c -o counter.cmi counter.mli # cached
+# Target: counter.ml.depends, tags: { extension:ml, file:counter.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules counter.ml > counter.ml.depends # cached
+# Target: counter.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:counter.cmo, file:counter.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -o counter.cmo counter.ml # cached
+# Target: similarity.mli.depends, tags: { extension:mli, file:similarity.mli, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules similarity.mli > similarity.mli.depends # cached
+# Target: similarity.cmi, tags: { byte, compile, extension:mli, file:similarity.mli, interf, ocaml, quiet }
+ocamlfind ocamlc -c -o similarity.cmi similarity.mli # cached
+# Target: similarity.ml.depends, tags: { extension:ml, file:similarity.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules similarity.ml > similarity.ml.depends # cached
+# Target: similarity.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:similarity.cmo, file:similarity.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -o similarity.cmo similarity.ml # cached
+# Target: tokenizer.mli.depends, tags: { extension:mli, file:tokenizer.mli, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules tokenizer.mli > tokenizer.mli.depends # cached
+# Target: tokenizer.cmi, tags: { byte, compile, extension:mli, file:tokenizer.mli, interf, ocaml, quiet }
+ocamlfind ocamlc -c -o tokenizer.cmi tokenizer.mli # cached
+# Target: tokenizer.ml.depends, tags: { extension:ml, file:tokenizer.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules tokenizer.ml > tokenizer.ml.depends # cached
+# Target: tokenizer.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -o tokenizer.cmo tokenizer.ml # cached
+# Target: word2dict.ml.depends, tags: { extension:ml, file:word2dict.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules word2dict.ml > word2dict.ml.depends
+# Target: word2dict.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:word2dict.cmo, file:word2dict.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -o word2dict.cmo word2dict.ml
+>>>>>>> 8b9b4a5d4b67c744971d3a88cfebec67e270c819
 # Compilation successful.
