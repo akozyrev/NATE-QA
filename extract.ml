@@ -72,42 +72,42 @@ let j = Yojson.Basic.from_file "corpus/data.json"
 
 (* create topic type that has the topic and its content *)
 let get_content (key_word:string) 
-                (json: Yojson.Basic.json) : topic= 
+    (json: Yojson.Basic.json) : topic= 
   {
     topic = key_word;
     content = json |> member key_word  
-                    |> member "content" |> to_list 
-                    |> List.map to_string;
+              |> member "content" |> to_list 
+              |> List.map to_string;
   }
 
 (* given a string list of all topics, 
     this one gives you list of topic type *)
 let rec all_topics (topics : string list) 
-        (json : Yojson.Basic.json) (acc : topic list) : topic list = 
+    (json : Yojson.Basic.json) (acc : topic list) : topic list = 
   match topics with 
   |word::t -> all_topics t (json) (get_content word json :: acc)
   |[] -> acc
 
 (* given a topic/key word, this one gives 
-  you a list of tokenized word of the content 
-  of the topic *)
+   you a list of tokenized word of the content 
+   of the topic *)
 let tokenized_word_list (key_word:string) 
-                        (json: Yojson.Basic.json) 
-                        (acc:string list): string list = 
+    (json: Yojson.Basic.json) 
+    (acc:string list): string list = 
   List.concat (List.map Tokenizer.word_tokenize 
-                (get_content key_word json).content)
+                 (get_content key_word json).content)
 
 (* gives a counter type of the topic *)
 let count_word (key_word:string) 
-            (json: Yojson.Basic.json) 
-              (acc:string list): counter = 
+    (json: Yojson.Basic.json) 
+    (acc:string list): counter = 
   Counter.make_dict (tokenized_word_list key_word json acc)
 
 (* returns topic_dict data type that has 
     the topic and the counter dictionary 
     via a representation of record *)
 let full_topic_dict (key_word:string) 
-          (json: Yojson.Basic.json) : topic_dict = 
+    (json: Yojson.Basic.json) : topic_dict = 
   {
     topic = key_word;
     counter = (count_word key_word json []);
@@ -116,15 +116,15 @@ let full_topic_dict (key_word:string)
 (* returns a list of topic_dict 
     type from a list of topics *)
 let rec all_full_topics (topics : string list) 
-        (json : Yojson.Basic.json) 
-        (acc : topic_dict list) : topic_dict list = 
+    (json : Yojson.Basic.json) 
+    (acc : topic_dict list) : topic_dict list = 
   match topics with 
   |word::t -> all_full_topics t 
-              json (full_topic_dict word json :: acc)
+                json (full_topic_dict word json :: acc)
   |[] -> acc
 
 (* this function actually creates a list of 
-  topic_dict from the topic list we have above *)
+   topic_dict from the topic list we have above *)
 let all_topic_dict_counter = all_full_topics topics j []
 
 (* a getter function that allows us to use 
@@ -137,7 +137,7 @@ let get_counter topic_dict =
 let rec print_topic_dict_list = function 
   |  [] -> ()
   |  (e:topic_dict)::l -> print_string e.topic ; 
-            print_string " | " ; print_topic_dict_list l
+    print_string " | " ; print_topic_dict_list l
 
 (* given a word, this function checks every 
     topic_dict generated from the above topic list, 
@@ -145,15 +145,15 @@ let rec print_topic_dict_list = function
     dictionary, then we add that entire topic_dict 
     type to the accumulator  *)
 let rec which_dict_has_the_word (word:string)
-      (topic_dict_lst:topic_dict list)
-        (acc:topic_dict list): topic_dict list =
+    (topic_dict_lst:topic_dict list)
+    (acc:topic_dict list): topic_dict list =
   match topic_dict_lst with
   |topic_dict::lst-> 
     if Counter.mem (Tokenizer.make_lower word) topic_dict.counter 
-          then which_dict_has_the_word (Tokenizer.make_lower word) 
-                lst (topic_dict::acc) 
+    then which_dict_has_the_word (Tokenizer.make_lower word) 
+        lst (topic_dict::acc) 
     else which_dict_has_the_word 
-          (Tokenizer.make_lower word) lst acc
+        (Tokenizer.make_lower word) lst acc
   |[]->acc
 
 (* the above function only process one word; 
@@ -161,16 +161,16 @@ let rec which_dict_has_the_word (word:string)
       list and merge each `topic_dict list` into 
       a whole list with removing duplicates *)
 let rec process_phrase (words:string list)
-            (topic_dict_lst:topic_dict list)
-            (acc:topic_dict list) : topic_dict list = 
+    (topic_dict_lst:topic_dict list)
+    (acc:topic_dict list) : topic_dict list = 
   match words with
   |word::lst -> (process_phrase lst topic_dict_lst 
-                (which_dict_has_the_word word topic_dict_lst []))
+                   (which_dict_has_the_word word topic_dict_lst []))
   |[]->acc
 
 (* a wrapper pretty much that uses tokenize a string into a 
-  string list and apply the above function to generate a 
-  `topic_dict list` and use `Similarity.remove_dups` to remove duplicates*)
+   string list and apply the above function to generate a 
+   `topic_dict list` and use `Similarity.remove_dups` to remove duplicates*)
 let which_dict_has_the_words (words)(topic_dict_lst)(acc)= 
   let tokens = Tokenizer.word_tokenize words in
   Similarity.remove_dups (process_phrase tokens topic_dict_lst acc)
