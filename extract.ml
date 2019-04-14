@@ -138,6 +138,7 @@ let which_dict_has_the_words (words)(topic_dict_lst)(acc)=
 let rec most_common_dict (word:string)(topic_dict_lst:topic_dict list)(max:int)(acc:topic_dict) : topic_dict =
   match topic_dict_lst with
   |topic_dict::lst -> 
+    print_string "run ";
     let counter = get_counter topic_dict in
     let occurance = Counter.find_word word counter in 
     let topic_dict_2 =  most_common_dict word lst occurance topic_dict in
@@ -149,8 +150,9 @@ let rec most_common_dict (word:string)(topic_dict_lst:topic_dict list)(max:int)(
   |[] -> acc
 
 let rec most_common (word:string)(topic_dict_lst:topic_dict list)(max:int) : topic_dict =
-  let acc = List.hd topic_dict_lst in
-  most_common_dict word topic_dict_lst 0 acc
+  let topics_that_have_the_word = which_dict_has_the_words word topic_dict_lst [] in
+  let acc = List.hd topics_that_have_the_word in
+  most_common_dict word topics_that_have_the_word 0 acc
 
 
 

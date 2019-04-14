@@ -32,7 +32,7 @@ ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules
 # Target: word2dict.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:word2dict.cmo, file:word2dict.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o word2dict.cmo word2dict.ml # cached
 # Target: extract.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:extract.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends
 # Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml # cached
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
 # Compilation successful.
