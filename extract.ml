@@ -181,11 +181,11 @@ let rec most_common_dict (word:string)(topic_dict_lst:topic_dict list)
   |topic_dict::lst -> 
     print_string "run ";
     let counter = get_counter topic_dict in
-    let occurance = Counter.find_word word counter in 
+    let occurance = Counter.find_word word counter in
     let topic_dict_2 =  most_common_dict word lst occurance topic_dict in
     let counter_2 = get_counter topic_dict_2 in
     let occurance_2 = Counter.find_word word counter_2 in
-    if occurance_2 > occurance 
+    if occurance_2 > occurance
     then most_common_dict word lst occurance_2 topic_dict_2
     else most_common_dict word lst max topic_dict
   |[] -> acc
@@ -195,5 +195,9 @@ let rec most_common (word:string)(topic_dict_lst:topic_dict list)(max:int) : top
   let acc = List.hd topics_that_have_the_word in
   most_common_dict word topics_that_have_the_word 0 acc
 
+(** [term_frequency t] computes the term frequency of a word [t], where term
+    frequency is defined as follows:
+    # of times [t] appears in a document / total number of terms in document *)
+let term_frequency t d = failwith "Unimplemented"
 
 
