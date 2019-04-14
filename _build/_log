@@ -1,12 +1,38 @@
 ### Starting build.
-# Target: tokenizer.ml.depends, tags: { extension:ml, file:tokenizer.ml, ocaml, ocamldep, quiet }
-ocamlfind ocamldep -modules tokenizer.ml > tokenizer.ml.depends
-# Target: tokenizer.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet }
-ocamlfind ocamlc -c -o tokenizer.cmo tokenizer.ml
-# Target: tokenizer.byte, tags: { byte, dont_link_with, extension:byte, file:tokenizer.byte, link, ocaml, program, quiet }
-ocamlfind ocamlc -linkpkg tokenizer.cmo -o tokenizer.byte
-+ ocamlfind ocamlc -linkpkg tokenizer.cmo -o tokenizer.byte
-File "_none_", line 1:
-Error: Required module `Str' is unavailable
-Command exited with code 2.
-# Compilation unsuccessful.
+# Target: counter.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:counter.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.mli > counter.mli.depends # cached
+# Target: counter.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:counter.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmi counter.mli # cached
+# Target: counter.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:counter.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.ml > counter.ml.depends # cached
+# Target: counter.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:counter.cmo, file:counter.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmo counter.ml # cached
+# Target: similarity.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:similarity.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.mli > similarity.mli.depends # cached
+# Target: similarity.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:similarity.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmi similarity.mli # cached
+# Target: similarity.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:similarity.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.ml > similarity.ml.depends # cached
+# Target: similarity.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:similarity.cmo, file:similarity.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmo similarity.ml # cached
+# Target: tokenizer.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:tokenizer.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.mli > tokenizer.mli.depends # cached
+# Target: tokenizer.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:tokenizer.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmi tokenizer.mli # cached
+# Target: tokenizer.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:tokenizer.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.ml > tokenizer.ml.depends # cached
+# Target: tokenizer.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmo tokenizer.ml # cached
+# Target: word2dict.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:word2dict.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules word2dict.mli > word2dict.mli.depends # cached
+# Target: word2dict.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:word2dict.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o word2dict.cmi word2dict.mli # cached
+# Target: word2dict.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:word2dict.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules word2dict.ml > word2dict.ml.depends # cached
+# Target: word2dict.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:word2dict.cmo, file:word2dict.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o word2dict.cmo word2dict.ml # cached
+# Target: extract.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:extract.ml, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends
+# Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
+# Compilation successful.
