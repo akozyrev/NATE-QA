@@ -1,15 +1,9 @@
 #require "oUnit";;
 #require "yojson";;
-<<<<<<< HEAD
 #require "ANSITerminal";;
-#directory "_build";;
-#load "counter.cmo";;
-#load "tokenizer.cmo";;
-=======
 #directory "_build";;
 #load "tokenizer.cmo";;
 #load "counter.cmo";;
 #load "similarity.cmo";;
 #load "extract.cmo";;
 
->>>>>>> 309384f0a1d6394ecb71039c0689556368009955
