@@ -1,4 +1,4 @@
-module Counter = sig
+module Counter : sig
 
   (** Type for this module, which is represented as
       a dictionary containing elements in the from of 
@@ -26,7 +26,7 @@ module Counter = sig
       Will create new element in dictionary with occurence 1 if word not 
       already found in dictionary keys, will add 1 to corresponding value if
       word is member of dictionary keys. Used as helper for step_dict*)
-  val add_word : string -> (string*int) list -> (string*int) list = 
+  val add_word : string -> (string*int) list -> (string*int) list
 
   (** Construct a dictionary, given a list of words, with dictionary keys
       being unique words, values being number of occurence of each word.

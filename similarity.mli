@@ -1,4 +1,4 @@
-module Similarity = sig
+module Similarity : sig
 
   type cos_sim = float
   type jac_sim = float
@@ -16,7 +16,7 @@ module Similarity = sig
 
 (** Compute cosine similarity metric of vectors a and b,
   represented as int lists*)
-  val cosine_sim : (int list) -> (b: int list) -> cos_sim 
+  val cosine_sim : int list-> int list -> cos_sim 
 
 (** Remove all duplicates from lst, i.e.
   the set operation *)

@@ -1,4 +1,4 @@
-module Tokenizer = sig
+module Tokenizer : sig
 
   (** Tokenizer type, containing tokenized 
       sentences and tokenized words in 2 list 
