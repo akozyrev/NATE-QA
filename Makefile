@@ -15,7 +15,8 @@ build:
 test:
 	$(OCAMLBUILD) -tag debug $(TEST) && ./$(TEST)
 
-docs: docs-public docs-private
+bot:
+	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 	
 docs-public: build
 	mkdir -p doc.public
