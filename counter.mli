@@ -9,16 +9,16 @@ module Counter : sig
     length: int;
   }
 
-(** Determine whether or not words is a list containing 
-  unique elements (each element is present only once). 
-  Used as helper for rep_ok *)
+  (** Determine whether or not words is a list containing 
+      unique elements (each element is present only once). 
+      Used as helper for rep_ok *)
   val no_repeats: string list -> bool 
 
-(** Determine whether or not d satisfies the representation
-    invariant (dict has no repeats, and length is its actual length)*)
+  (** Determine whether or not d satisfies the representation
+      invariant (dict has no repeats, and length is its actual length)*)
   val rep_ok: t -> bool
 
- (** Determine whether or not d is an empty dictionary *)
+  (** Determine whether or not d is an empty dictionary *)
   val is_empty : t -> bool 
 
   (** Add a word to the list representing dictionary with keys
@@ -43,7 +43,7 @@ module Counter : sig
 
   (** Returns whether or not word is found in d dictionary *)
   val mem: string -> t -> bool
-   
+
   (** Return length of dictionary *)
   val get_length: t -> int
 
@@ -51,6 +51,6 @@ module Counter : sig
   val get_dictionary: t -> (string * int) list 
 
 
-
+  val find_word : string -> t -> int
 
 end

@@ -60,7 +60,6 @@ module Counter = struct
       length = List.length new_dict
     }
 
-
   (** Returns whether or not word is found in d dictionary *)
   let mem (word:string) (d:t) : bool =
     let dict_words = List.map (fun a -> fst a) d.dict 
@@ -73,5 +72,19 @@ module Counter = struct
   (** Return actual dictionary list *)
   let get_dictionary (d:t) : (string * int) list= 
     d.dict
+
+  (** [find k d] is [Some v] if [k] is bound to [v] in [d]; or
+      if [k] is not bound, then it is [None]. *)
+  let rec find k d =
+    match d with
+    | [] -> None
+    | h::t -> if (fst h) = k then (Some (snd h)) else find k t
+
+  let rec find_word (word:string) (d:t) : int =
+    let dict = get_dictionary d in 
+    match (find word dict) with
+    |None->0
+    |Some n-> n
+
 
 end
