@@ -152,52 +152,70 @@ let rec which_dict_has_the_word (word:string)
     if Counter.mem (Tokenizer.make_lower word) topic_dict.counter 
     then which_dict_has_the_word (Tokenizer.make_lower word) 
         lst (topic_dict::acc) 
-    else which_dict_has_the_word 
+    else which_dict_has_the_word
         (Tokenizer.make_lower word) lst acc
   |[]->acc
 
-(* the above function only process one word; 
-      this one just patterns matches a string 
-      list and merge each `topic_dict list` into 
+(* the above function only process one word;
+      this one just patterns matches a string
+      list and merge each `topic_dict list` into
       a whole list with removing duplicates *)
 let rec process_phrase (words:string list)
     (topic_dict_lst:topic_dict list)
-    (acc:topic_dict list) : topic_dict list = 
+    (acc:topic_dict list) : topic_dict list =
   match words with
-  |word::lst -> (process_phrase lst topic_dict_lst 
+  |word::lst -> (process_phrase lst topic_dict_lst
                    (which_dict_has_the_word word topic_dict_lst []))
   |[]->acc
 
-(* a wrapper pretty much that uses tokenize a string into a 
-   string list and apply the above function to generate a 
+(* a wrapper pretty much that uses tokenize a string into a
+   string list and apply the above function to generate a
    `topic_dict list` and use `Similarity.remove_dups` to remove duplicates*)
-let which_dict_has_the_words (words)(topic_dict_lst)(acc)= 
+let which_dict_has_the_words (words)(topic_dict_lst)(acc)=
   let tokens = Tokenizer.word_tokenize words in
   Similarity.remove_dups (process_phrase tokens topic_dict_lst acc)
 
-let rec most_common_dict (word:string)(topic_dict_lst:topic_dict list)
-    (max:int)(acc:topic_dict) : topic_dict =
-  match topic_dict_lst with
-  |topic_dict::lst -> 
-    print_string "run ";
-    let counter = get_counter topic_dict in
-    let occurance = Counter.find_word word counter in
-    let topic_dict_2 =  most_common_dict word lst occurance topic_dict in
-    let counter_2 = get_counter topic_dict_2 in
-    let occurance_2 = Counter.find_word word counter_2 in
-    if occurance_2 > occurance
-    then most_common_dict word lst occurance_2 topic_dict_2
-    else most_common_dict word lst max topic_dict
-  |[] -> acc
+let rec most_common_dict (word:string)
+    (topic_dict_lst:topic_dict list) : string =
+  let relevant_dicts = which_dict_has_the_word word topic_dict_lst [] in
+  let rec find_max_k tds acc_int acc_topic =
+    match tds with
+    | [] -> acc_topic
+    | h::t ->
+      let num_occurence = (Counter.find_word word h.counter) in
+      if num_occurence > acc_int then find_max_k t num_occurence h.topic
+      else find_max_k t acc_int acc_topic
 
-let rec most_common (word:string)(topic_dict_lst:topic_dict list)(max:int) : topic_dict =
-  let topics_that_have_the_word = which_dict_has_the_words word topic_dict_lst [] in
-  let acc = List.hd topics_that_have_the_word in
-  most_common_dict word topics_that_have_the_word 0 acc
+  in (find_max_k relevant_dicts 0 "")
 
-(** [term_frequency t] computes the term frequency of a word [t], where term
-    frequency is defined as follows:
-    # of times [t] appears in a document / total number of terms in document *)
-let term_frequency t d = failwith "Unimplemented"
+let rec count_word_in_topic (word:string) (topic:string) (json): int =
+  let topic_dict_we_want = full_topic_dict topic json in
+  let counter = get_counter topic_dict_we_want in
+  Counter.find_word word (counter)
+
+
+(** [tf word topic] is term frequency of [word] in [topic]
+    calculated as follows:
+    # of times [word] appears in [topic] / total number of topics *)
+let rec tf (word:string) (topic:string) =
+  float_of_int (count_word_in_topic word topic j) /.
+  float_of_int (Counter.get_length (get_counter (full_topic_dict topic j)))
+
+(** [idf word] is a statistical measure of how important [word] is, based
+    on the following calculation:
+    log (total # of documents / # of documents with [word] in them) *)
+let rec idf (word:string) =
+  Pervasives.log(
+    float_of_int (List.length topics) /.
+    float_of_int (List.length
+                    ((which_dict_has_the_word word all_topic_dict_counter) [])))
+
+(** [tfidf input_word topics] is the TF-IDF of an input word computed for each
+    topic in [topics].*)
+let rec tfidf (input_word:string) =
+  match topics with
+  | [] -> 0.0
+  | h::t ->
+    (tf input_word topic)  *. (idf input_word)
 
 
