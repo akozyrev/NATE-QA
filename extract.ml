@@ -175,24 +175,19 @@ let which_dict_has_the_words (words)(topic_dict_lst)(acc)=
   let tokens = Tokenizer.word_tokenize words in
   Similarity.remove_dups (process_phrase tokens topic_dict_lst acc)
 
-let rec most_common_dict (word:string)(topic_dict_lst:topic_dict list)
-                    (max:int)(acc:topic_dict) : topic_dict =
-  match topic_dict_lst with
-  |topic_dict::lst -> 
-    let counter = get_counter topic_dict in
-    let occurance = Counter.find_word word counter in 
-    let topic_dict_2 =  most_common_dict word lst occurance topic_dict in
-    let counter_2 = get_counter topic_dict_2 in
-    let occurance_2 = Counter.find_word word counter_2 in
-    if occurance_2 > occurance 
-    then most_common_dict word lst occurance_2 topic_dict_2
-    else most_common_dict word lst max topic_dict
-  |[] -> acc
+let rec most_common_dict (word:string)
+                (topic_dict_lst:topic_dict list) : string =
+  let relevant_dicts = which_dict_has_the_word word topic_dict_lst [] in
+  let rec find_max_k tds acc_int acc_topic = 
+    match tds with 
+      | [] -> acc_topic
+      | h::t -> 
+      let num_occurence = (Counter.find_word word h.counter) in
+      if num_occurence > acc_int then find_max_k t num_occurence h.topic
+      else find_max_k t acc_int acc_topic
+  
+  in (find_max_k relevant_dicts 0 "")
 
-let rec most_common (word:string)(topic_dict_lst:topic_dict list)
-        (max:int) : topic_dict =
-  let acc = List.hd topic_dict_lst in
-  most_common_dict word topic_dict_lst 0 acc
 
 
 
