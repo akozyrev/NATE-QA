@@ -176,18 +176,21 @@ let which_dict_has_the_words (words)(topic_dict_lst)(acc)=
   Similarity.remove_dups (process_phrase tokens topic_dict_lst acc)
 
 let rec most_common_dict (word:string)
-                (topic_dict_lst:topic_dict list) : string =
+    (topic_dict_lst:topic_dict list) : string =
   let relevant_dicts = which_dict_has_the_word word topic_dict_lst [] in
   let rec find_max_k tds acc_int acc_topic = 
     match tds with 
-      | [] -> acc_topic
-      | h::t -> 
+    | [] -> acc_topic
+    | h::t -> 
       let num_occurence = (Counter.find_word word h.counter) in
       if num_occurence > acc_int then find_max_k t num_occurence h.topic
       else find_max_k t acc_int acc_topic
-  
+
   in (find_max_k relevant_dicts 0 "")
 
-
+let rec find_word_in_a_topic (word:string) (topic:string) (json): int = 
+  let topic_dict_we_want = full_topic_dict topic json in
+  let counter = get_counter topic_dict_we_want in
+  Counter.find_word word (counter)
 
 

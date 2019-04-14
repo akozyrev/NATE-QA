@@ -35,26 +35,4 @@ ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o word
 ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends
 # Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
-<<<<<<< HEAD
-+ ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
-File "extract.ml", line 75, characters 23-40:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 86, characters 16-33:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 95, characters 31-48:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 102, characters 19-36:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 110, characters 17-34:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 119, characters 16-33:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-=======
->>>>>>> dc122d120b646d81e55e7de48ea6c06d0d925cac
 # Compilation successful.
