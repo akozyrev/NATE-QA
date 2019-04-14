@@ -17,14 +17,16 @@ let rec response input =
     | input ->  
     let output = process input in
     Pervasives.print_endline output;
+    print_string  "> ";
 
     let new_input = Pervasives.read_line () in response new_input
 
 (* [main ()] greets the user and starts the chatbot. *)
 let main () = 
     ANSITerminal.(print_string [red]
-                  "\nHello! My name is CSBot, and I am here to introduce you to the field of computer science and answer any questions you may have.\n");
-    print_endline "Some things you can ask me include: \n'What is artificial intelligence?'\n'Who founded Apple?'\n'What are some popular programming languages?'\n";
+                  "\nHello! My name is CSBot, and I am here to introduce you to the field of computer science and answer any questions you may have.\n\n");
+    print_endline "Some things you can ask me include: \n- What is artificial intelligence?\n- Who founded Apple?\n- What are some popular programming languages?\n";
+    print_string  "> ";
     response (Pervasives.read_line ())
 
 (* Executes the chatbot. *)
