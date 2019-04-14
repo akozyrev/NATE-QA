@@ -1,0 +1,8 @@
+#require "oUnit";;
+#require "yojson";;
+#directory "_build";;
+#load "tokenizer.cmo";;
+#load "counter.cmo";;
+#load "similarity.cmo";;
+#load "extract.cmo";;
+
