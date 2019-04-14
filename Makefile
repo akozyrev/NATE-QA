@@ -28,7 +28,6 @@ docs-private: build
 		-html -stars -d doc.private \
 		-inv-merge-ml-mli -m A -hide-warnings $(MLIS) $(MLS)
 
-
 clean:
 	ocamlbuild -clean
 	rm -rf doc.public doc.private report

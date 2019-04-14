@@ -1,0 +1,26 @@
+### Starting build.
+# Target: counter.mli.depends, tags: { extension:mli, file:counter.mli, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules counter.mli > counter.mli.depends
+# Target: counter.cmi, tags: { byte, compile, extension:mli, file:counter.mli, interf, ocaml, quiet }
+ocamlfind ocamlc -c -o counter.cmi counter.mli
+# Target: counter.ml.depends, tags: { extension:ml, file:counter.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules counter.ml > counter.ml.depends
+# Target: counter.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:counter.cmo, file:counter.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -o counter.cmo counter.ml
+# Target: similarity.mli.depends, tags: { extension:mli, file:similarity.mli, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules similarity.mli > similarity.mli.depends
+# Target: similarity.cmi, tags: { byte, compile, extension:mli, file:similarity.mli, interf, ocaml, quiet }
+ocamlfind ocamlc -c -o similarity.cmi similarity.mli
+# Target: similarity.ml.depends, tags: { extension:ml, file:similarity.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules similarity.ml > similarity.ml.depends
+# Target: similarity.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:similarity.cmo, file:similarity.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -o similarity.cmo similarity.ml
+# Target: tokenizer.mli.depends, tags: { extension:mli, file:tokenizer.mli, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules tokenizer.mli > tokenizer.mli.depends
+# Target: tokenizer.cmi, tags: { byte, compile, extension:mli, file:tokenizer.mli, interf, ocaml, quiet }
+ocamlfind ocamlc -c -o tokenizer.cmi tokenizer.mli
+# Target: tokenizer.ml.depends, tags: { extension:ml, file:tokenizer.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -modules tokenizer.ml > tokenizer.ml.depends
+# Target: tokenizer.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -o tokenizer.cmo tokenizer.ml
+# Compilation successful.
