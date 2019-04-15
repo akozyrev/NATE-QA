@@ -171,7 +171,7 @@ let rec process_phrase (words:string list)
 (* a wrapper pretty much that uses tokenize a string into a
    string list and apply the above function to generate a
    `topic_dict list` and use `Similarity.remove_dups` to remove duplicates*)
-let which_dict_has_the_words (words)(topic_dict_lst)(acc)=
+let which_dict_has_the_words (words)(topic_dict_lst)(acc) : topic_dict list=
   let tokens = Tokenizer.word_tokenize words in
   Similarity.remove_dups (process_phrase tokens topic_dict_lst acc)
 
@@ -210,8 +210,6 @@ let rec idf (word:string) =
     float_of_int (List.length
                     ((which_dict_has_the_word word all_topic_dict_counter) [])))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 (** [tfidf input_word topics] is the TF-IDF of an input word computed for the 
     given [topic] .*)
 let rec tfidf (input_word:string) (topic:string) =
@@ -238,97 +236,42 @@ let rec construct_tfidf (input_word:string) =
 (** Return sentence in specified document topic containing the 
     maximum jaccard similarity metric, compared with the 
     input sentence (question we ask the chatbot).
-    This is the last function we will need to return the
+    This is the last function we will need to return the 
     calculated response to the user's input *)
-let max_jaccard_sentence (topic:string) (input_sent:string): string =
-  let topic_we_want = get_content topic j in
+let max_jaccard_sentence (topic:string) (input_sent:string) (json): string = 
+  let topic_we_want = get_content topic json in
   let doc_sentences = topic_we_want.content in
-  let input_tokens = Similarity.remove_dups
+  let input_tokens = Similarity.remove_dups 
       (Tokenizer.word_tokenize input_sent) in
 
   (* create [key: sentence, value: sentence's word token list] dict *)
-  let doc_sent_tok_dict = List.map (fun s ->
+  let doc_sent_tok_dict = List.map (fun s -> 
       (s, Similarity.remove_dups(Tokenizer.word_tokenize s))) doc_sentences in
 
   (* create [key: sentence, value: sentence's jaccard score] dict *)
-  let doc_sent_jac_dict = List.map (fun e ->
-      (fst e,  Similarity.jaccard_sim
+  let doc_sent_jac_dict = List.map (fun e -> 
+      (fst e,  Similarity.jaccard_sim 
          (snd e) (input_tokens))) doc_sent_tok_dict in
 
-  let rec find_max_j dsj_dict acc_sent acc_int =
+  let rec find_max_j dsj_dict acc_sent acc_int = 
     (* Pervasives.print_string "iter"; *)
     match dsj_dict with
     | [] -> acc_sent
-    | h::t -> if (snd h > acc_int) then
+    | h::t -> if (snd h > acc_int) then 
         begin
           (* Pervasives.print_float (snd h);
              Pervasives.print_newline (); *)
           find_max_j t (fst h) (snd h)
-        end
+        end 
       else find_max_j t acc_sent acc_int
 
   in find_max_j doc_sent_jac_dict "" 0.0
 
+let get_topic(td:topic_dict) = 
+  td.topic
+
+let get_topics (td_lst:topic_dict list) =
+  List.map get_topic td_lst
+
 (*note: just trying to debug, no substantial changes*)
-=======
-(** [tfidf input_word topics] is the TF-IDF of an input word computed for each
-    topic in [topics].*)
-(* let rec tfidf (input_word:string) =
-  match topics with
-  | [] -> 0.0
-  | h::t ->
-    (tf input_word topic)  *. (idf input_word) *)
-
-
-(** Return sentence in specified document topic containing the 
-=======
-(** [tfidf input_word topics] is the TF-IDF of an input word computed for each
-    topic in [topics].*)
-(* let rec tfidf (input_word:string) =
-  match topics with
-  | [] -> 0.0
-  | h::t ->
-    (tf input_word topic)  *. (idf input_word) *)
-
-
-(** Return sentence in specified document topic containing the 
->>>>>>> parent of 1020d57... extract test
-  maximum jaccard similarity metric, compared with the 
-  input sentence (question we ask the chatbot).
-  This is the last function we will need to return the 
-  calculated response to the user's input *)
-let max_jaccard_sentence (topic:string) (input_sent:string): string = 
-    let topic_we_want = get_content topic j in
-    let doc_sentences = topic_we_want.content in
-    let input_tokens = Similarity.remove_dups 
-                (Tokenizer.word_tokenize input_sent) in
-
-    (* create [key: sentence, value: sentence's word token list] dict *)
-    let doc_sent_tok_dict = List.map (fun s -> 
-              (s, Similarity.remove_dups(Tokenizer.word_tokenize s))) doc_sentences in
-    
-    (* create [key: sentence, value: sentence's jaccard score] dict *)
-    let doc_sent_jac_dict = List.map (fun e -> 
-          (fst e,  Similarity.jaccard_sim 
-          (snd e) (input_tokens))) doc_sent_tok_dict in
-
-    let rec find_max_j dsj_dict acc_sent acc_int = 
-      (* Pervasives.print_string "iter"; *)
-      match dsj_dict with
-        | [] -> acc_sent
-        | h::t -> if (snd h > acc_int) then 
-            begin
-            (* Pervasives.print_float (snd h);
-            Pervasives.print_newline (); *)
-            find_max_j t (fst h) (snd h)
-            end 
-          else find_max_j t acc_sent acc_int
-
-    in find_max_j doc_sent_jac_dict "" 0.0
-
-    (*note: just trying to debug, no substantial changes*)
-<<<<<<< HEAD
->>>>>>> parent of 1020d57... extract test
-=======
->>>>>>> parent of 1020d57... extract test
 

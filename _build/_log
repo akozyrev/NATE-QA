@@ -1,86 +1,46 @@
 ### Starting build.
-<<<<<<< HEAD
-<<<<<<< HEAD
 # Target: counter.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:counter.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.mli > counter.mli.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.mli > counter.mli.depends
 # Target: counter.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:counter.mli, interf, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmi counter.mli
 # Target: counter.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:counter.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.ml > counter.ml.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.ml > counter.ml.depends
 # Target: counter.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:counter.cmo, file:counter.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmo counter.ml
 # Target: similarity.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:similarity.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.mli > similarity.mli.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.mli > similarity.mli.depends
 # Target: similarity.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:similarity.mli, interf, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmi similarity.mli
 # Target: similarity.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:similarity.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.ml > similarity.ml.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.ml > similarity.ml.depends
 # Target: similarity.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:similarity.cmo, file:similarity.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmo similarity.ml
 # Target: tokenizer.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:tokenizer.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.mli > tokenizer.mli.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.mli > tokenizer.mli.depends
 # Target: tokenizer.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:tokenizer.mli, interf, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmi tokenizer.mli
 # Target: tokenizer.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:tokenizer.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.ml > tokenizer.ml.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.ml > tokenizer.ml.depends
 # Target: tokenizer.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmo tokenizer.ml
 # Target: extract.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:extract.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.mli > extract.mli.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.mli > extract.mli.depends
 # Target: extract.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:extract.mli, interf, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmi extract.mli
 # Target: extract.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:extract.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends # cached
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends
 # Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
-=======
-=======
->>>>>>> parent of db91f71... tfidf algorithm implemented
-# Target: test.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:ml, file:test.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules test.ml > test.ml.depends
-# Target: counter.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:mli, file:counter.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.mli > counter.mli.depends # cached
-# Target: counter.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:mli, file:counter.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o counter.cmi counter.mli # cached
-# Target: extract.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:mli, file:extract.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.mli > extract.mli.depends # cached
-# Target: extract.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:mli, file:extract.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o extract.cmi extract.mli # cached
-# Target: similarity.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:mli, file:similarity.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.mli > similarity.mli.depends # cached
-# Target: similarity.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:mli, file:similarity.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o similarity.cmi similarity.mli # cached
-# Target: tokenizer.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:mli, file:tokenizer.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.mli > tokenizer.mli.depends # cached
-# Target: tokenizer.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:mli, file:tokenizer.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmi tokenizer.mli # cached
-# Target: test.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:cmo, extension:ml, file:test.cmo, file:test.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o test.cmo test.ml
-+ ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o test.cmo test.ml
-File "test.ml", line 128, characters 2-117:
-Warning 10: this expression should have type unit.
-File "test.ml", line 131, characters 2-139:
-Warning 10: this expression should have type unit.
-# Target: counter.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:ml, file:counter.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.ml > counter.ml.depends # cached
-# Target: counter.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:cmo, extension:ml, file:counter.cmo, file:counter.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o counter.cmo counter.ml # cached
-# Target: extract.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:ml, file:extract.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends # cached
-# Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml # cached
-# Target: similarity.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:ml, file:similarity.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.ml > similarity.ml.depends # cached
-# Target: similarity.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:cmo, extension:ml, file:similarity.cmo, file:similarity.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o similarity.cmo similarity.ml # cached
-# Target: tokenizer.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:ml, file:tokenizer.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.ml > tokenizer.ml.depends # cached
-# Target: tokenizer.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, debug, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmo tokenizer.ml # cached
-# Target: test.byte, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, debug, dont_link_with, extension:byte, file:test.byte, link, ocaml, program, quiet, traverse }
-ocamlfind ocamlc -linkpkg -g -package oUnit -package yojson -package ANSITerminal counter.cmo similarity.cmo tokenizer.cmo extract.cmo test.cmo -o test.byte
-<<<<<<< HEAD
->>>>>>> parent of db91f71... tfidf algorithm implemented
-=======
->>>>>>> parent of db91f71... tfidf algorithm implemented
-# Compilation successful.
++ ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
+File "extract.ml", line 1:
+Error: The implementation extract.ml
+       does not match the interface extract.cmi:
+       Values do not match:
+         val max_jaccard_sentence :
+           string -> string -> Yojson.Basic.json -> string
+       is not included in
+         val max_jaccard_sentence : string -> string -> string
+       File "extract.mli", line 70, characters 0-53: Expected declaration
+       File "extract.ml", line 241, characters 4-24: Actual declaration
+Command exited with code 2.
+# Compilation unsuccessful.
