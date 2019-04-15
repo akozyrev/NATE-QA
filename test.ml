@@ -195,7 +195,9 @@ let similarity_test = [
 
 (** tests for extract module *)
 (*TODO*)
-let extract_test = []
+let extract_test = [
+  
+]
 
 
 let suite =
