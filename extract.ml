@@ -211,6 +211,7 @@ let rec idf (word:string) =
                     ((which_dict_has_the_word word all_topic_dict_counter) [])))
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 (** [tfidf input_word topics] is the TF-IDF of an input word computed for the 
     given [topic] .*)
 let rec tfidf (input_word:string) (topic:string) =
@@ -280,6 +281,18 @@ let max_jaccard_sentence (topic:string) (input_sent:string): string =
 
 
 (** Return sentence in specified document topic containing the 
+=======
+(** [tfidf input_word topics] is the TF-IDF of an input word computed for each
+    topic in [topics].*)
+(* let rec tfidf (input_word:string) =
+  match topics with
+  | [] -> 0.0
+  | h::t ->
+    (tf input_word topic)  *. (idf input_word) *)
+
+
+(** Return sentence in specified document topic containing the 
+>>>>>>> parent of 1020d57... extract test
   maximum jaccard similarity metric, compared with the 
   input sentence (question we ask the chatbot).
   This is the last function we will need to return the 
@@ -314,5 +327,8 @@ let max_jaccard_sentence (topic:string) (input_sent:string): string =
     in find_max_j doc_sent_jac_dict "" 0.0
 
     (*note: just trying to debug, no substantial changes*)
+<<<<<<< HEAD
+>>>>>>> parent of 1020d57... extract test
+=======
 >>>>>>> parent of 1020d57... extract test
 
