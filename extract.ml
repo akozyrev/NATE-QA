@@ -226,7 +226,7 @@ let rec construct_tfidf (input_word:string) =
   in 
   tfidf_topics topics 
 
-(* TODO *)
+(* TODO hello*)
 (* let rec sent_compute_tfidf (input_sent:string) =
    match input_sent with 
    | [] -> 0.0
@@ -267,7 +267,7 @@ let max_jaccard_sentence (topic:string) (input_sent:string) (json): string =
 
   in find_max_j doc_sent_jac_dict "" 0.0
 
-let get_topic(td:topic_dict) = 
+let get_topic(td:topic_dict) =
   td.topic
 
 let get_topics (td_lst:topic_dict list) =
