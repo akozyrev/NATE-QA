@@ -240,10 +240,18 @@ let max_jaccard_sentence (topic:string) (input_sent:string): string =
           (snd e) (input_tokens))) doc_sent_tok_dict in
 
     let rec find_max_j dsj_dict acc_sent acc_int = 
+      (* Pervasives.print_string "iter"; *)
       match dsj_dict with
         | [] -> acc_sent
-        | h::t -> if (snd h > acc_int) then find_max_j t (fst h) (snd h)
-                  else find_max_j t acc_sent acc_int
+        | h::t -> if (snd h > acc_int) then 
+            begin
+            (* Pervasives.print_float (snd h);
+            Pervasives.print_newline (); *)
+            find_max_j t (fst h) (snd h)
+            end 
+          else find_max_j t acc_sent acc_int
 
     in find_max_j doc_sent_jac_dict "" 0.0
+
+    (*note: just trying to debug, no substantial changes*)
 

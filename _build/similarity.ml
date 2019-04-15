@@ -60,9 +60,9 @@ module Similarity = struct
   (unique words represented) 
   PRECONDITION: a and b have no duplicates*)
   let jaccard_sim (a: string list) (b: string list) : jac_sim = 
-    if (not (Counter.Counter.no_repeats a)) || (not (Counter.Counter.no_repeats b))
+    (* if (not (Counter.Counter.no_repeats a)) || (not (Counter.Counter.no_repeats b))
       then failwith "Violated precondition: either a or b or both contains duplicates!"
-    else  (*TODO: why won't it register Counter module?*)
+    else   *)
       (float_of_int (intersect_cardinality a b)) /. (float_of_int (union_cardinality a b))
 
 end
