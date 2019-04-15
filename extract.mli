@@ -72,3 +72,6 @@ val max_jaccard_sentence : string ->  string -> Yojson.Basic.json -> string
 val get_topic : topic_dict -> string
 
 val get_topics : topic_dict list -> string list
+
+
+val get_response : string -> string
