@@ -233,6 +233,46 @@ let get_topics_tfidf (input_sent:string): ((string*float) list list) =
         (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
 
+(** Return sentence in specified document topic containing the 
+    maximum jaccard similarity metric, compared with the 
+    input sentence (question we ask the chatbot).
+    This is the last function we will need to return the 
+    calculated response to the user's input *)
+let max_jaccard_sentence (topic:string) (input_sent:string) (json): string = 
+  let topic_we_want = get_content topic json in
+  let doc_sentences = topic_we_want.content in
+  let input_tokens = Similarity.remove_dups 
+      (Tokenizer.word_tokenize input_sent) in
+
+  (* create [key: sentence, value: sentence's word token list] dict *)
+  let doc_sent_tok_dict = List.map (fun s -> 
+      (s, Similarity.remove_dups(Tokenizer.word_tokenize s))) doc_sentences in
+
+  (* create [key: sentence, value: sentence's jaccard score] dict *)
+  let doc_sent_jac_dict = List.map (fun e -> 
+      (fst e,  Similarity.jaccard_sim 
+         (snd e) (input_tokens))) doc_sent_tok_dict in
+
+  let rec find_max_j dsj_dict acc_sent acc_int = 
+    (* Pervasives.print_string "iter"; *)
+    match dsj_dict with
+    | [] -> acc_sent
+    | h::t -> if (snd h > acc_int) then 
+        begin
+          (* Pervasives.print_float (snd h);
+             Pervasives.print_newline (); *)
+          find_max_j t (fst h) (snd h)
+        end 
+      else find_max_j t acc_sent acc_int
+
+  in find_max_j doc_sent_jac_dict "" 0.0
+
+let get_topic (td:topic_dict) =
+  td.topic
+
+let get_topics (td_lst:topic_dict list) =
+  List.map get_topic td_lst
+
 (** [add_elt_to_list doc lst] appends the tfidf score of a word for each document. It returns a list
   where the string is the "topic" and the value is the combined tfidf scores of each word
   in that document. *)
@@ -241,7 +281,7 @@ let rec add_elt_to_list (doc : string*float) (lst: (string*float) list) =
   | [] -> [doc]
   | h::t -> if fst doc = fst h then (fst h, (snd doc) +. (snd h))::t else h::(add_elt_to_list doc t)
 
-(* [add_list_to_list lst1 lst2] adds the elements of lst1 to lst2. *)
+(* [add_list_to_list lst1 lst2] adds the elements of lst1 to lst2.*)
 let rec add_list_to_list (lst1: (string*float) list) (lst2: (string*float) list) =
   List.fold_left (fun y x -> add_elt_to_list x y) lst1 lst2
 
