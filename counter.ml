@@ -80,6 +80,7 @@ module Counter = struct
     | [] -> None
     | h::t -> if (fst h) = k then (Some (snd h)) else find k t
 
+  (** find number of occurences of word in Counter d *)
   let rec find_word (word:string) (d:t) : int =
     let dict = get_dictionary d in 
     match (find word dict) with
