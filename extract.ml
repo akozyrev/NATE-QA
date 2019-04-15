@@ -213,13 +213,14 @@ let rec idf (word:string) =
 (** [tfidf input_word topics] is the TF-IDF of an input word computed for each
     topic in [topics].*)
 (* let rec tfidf (input_word:string) =
-   match topics with
-   | [] -> 0.0
-   | h::t ->
+  match topics with
+  | [] -> 0.0
+  | h::t ->
     (tf input_word topic)  *. (idf input_word) *)
 
 
 (** Return sentence in specified document topic containing the 
+<<<<<<< HEAD
     maximum jaccard similarity metric, compared with the 
     input sentence (question we ask the chatbot).
     This is the last function we will need to return the
@@ -263,4 +264,40 @@ let get_topics (td_lst:topic_dict list) =
 =======
 >>>>>>> parent of db91f71... tfidf algorithm implemented
 (*note: just trying to debug, no substantial changes*)
+=======
+  maximum jaccard similarity metric, compared with the 
+  input sentence (question we ask the chatbot).
+  This is the last function we will need to return the 
+  calculated response to the user's input *)
+let max_jaccard_sentence (topic:string) (input_sent:string): string = 
+    let topic_we_want = get_content topic j in
+    let doc_sentences = topic_we_want.content in
+    let input_tokens = Similarity.remove_dups 
+                (Tokenizer.word_tokenize input_sent) in
+
+    (* create [key: sentence, value: sentence's word token list] dict *)
+    let doc_sent_tok_dict = List.map (fun s -> 
+              (s, Similarity.remove_dups(Tokenizer.word_tokenize s))) doc_sentences in
+    
+    (* create [key: sentence, value: sentence's jaccard score] dict *)
+    let doc_sent_jac_dict = List.map (fun e -> 
+          (fst e,  Similarity.jaccard_sim 
+          (snd e) (input_tokens))) doc_sent_tok_dict in
+
+    let rec find_max_j dsj_dict acc_sent acc_int = 
+      (* Pervasives.print_string "iter"; *)
+      match dsj_dict with
+        | [] -> acc_sent
+        | h::t -> if (snd h > acc_int) then 
+            begin
+            (* Pervasives.print_float (snd h);
+            Pervasives.print_newline (); *)
+            find_max_j t (fst h) (snd h)
+            end 
+          else find_max_j t acc_sent acc_int
+
+    in find_max_j doc_sent_jac_dict "" 0.0
+
+    (*note: just trying to debug, no substantial changes*)
+>>>>>>> parent of 1020d57... extract test
 

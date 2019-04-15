@@ -67,5 +67,9 @@ val count_word_in_topic : string -> string -> Yojson.Basic.json -> int
     input sentence (question we ask the chatbot).
     This is the last function we will need to return the 
     calculated response to the user's input *)
+<<<<<<< HEAD
 val max_jaccard_sentence : string -> string -> -> string
+=======
+val max_jaccard_sentence : string -> string -> string
+>>>>>>> parent of 1020d57... extract test
 

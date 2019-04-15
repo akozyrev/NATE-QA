@@ -1,19 +1,26 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/extract.ml": "K\216\229\2316\167\205\232n5\246#\137\251\219e"
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/counter.mli": "G\177\245\187;\228M\166'\200]+\029\154\231="
 =======
+=======
+>>>>>>> parent of 1020d57... extract test
 "Rule: ocaml: ml & cmi -> cmo (%=word2dict )": "G\208\tJ\200\027\177\201\199f\142:\151\186_\t"
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/extract.ml": "4\020\017\191\223\r\255\146w`\018@\001\205B\242"
 "Rule: ocaml dependencies ml (%=word2dict )": "\238\174\177\199\173~\025f?~\187U\154\183e\168"
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/counter.mli": "G\177\245\187;\228M\166'\200]+\029\154\231="
 "Rule: ocaml dependencies ml (%=test )": "3\193\175u\014>\145\213o\182\160\127\031&P\149"
 "Resource: /Users/Jane/Desktop/cs3110-a6/tokenizer.ml": "\150\245d\138J\152\148`BQE\176 \147#\022"
+<<<<<<< HEAD
 >>>>>>> parent of db91f71... tfidf algorithm implemented
+=======
+>>>>>>> parent of 1020d57... extract test
 "Rule: ocaml dependencies mli (%=tokenizer )": "\1962\196w\004l*\201\019\003\231g\177oxK"
 "Rule: ocaml dependencies mli (%=similarity )": ":\252\175\224f\171\229H\172\175\130T\165\235\132\239"
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/similarity.ml": "c\200\002>\132Y\026Sf\015\204\020\162\211\021T"
 "Rule: ocaml dependencies ml (%=extract )": "\196s\223&Ka\136E\nD\\\223d\1538\154"
 "Rule: ocaml dependencies ml (%=counter )": ";RVggt\138e'\n\228od\147\175\134"
+<<<<<<< HEAD
 <<<<<<< HEAD
 "Rule: ocaml: mli -> cmi (%=tokenizer )": "5\152\189x\134\191\003\186W\179\226\nm?\157\131"
 "Rule: ocaml: mli -> cmi (%=similarity )": "&c\229\215\232\0119R\235\003\173:\193I\252\169"
@@ -32,6 +39,8 @@
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/tokenizer.ml": "\150\245d\138J\152\148`BQE\176 \147#\022"
 "Rule: ocaml: ml & cmi -> cmo (%=similarity )": "\204$\t\170\235\176\136\012s\128\199_\011o9\246"
 =======
+=======
+>>>>>>> parent of 1020d57... extract test
 "Rule: ocaml: mli -> cmi (%=tokenizer )": "m\253_\127Yj\030e\206\191\155#\253\195J\239"
 "Rule: ocaml: mli -> cmi (%=similarity )": "@'TV\153e\246#3\129\240/\229K\185\142"
 "Rule: ocaml: mli -> cmi (%=counter )": "\012]\245>\134\132\004\1323\022\235\157\175\131\239\006"
