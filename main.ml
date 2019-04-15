@@ -1,12 +1,14 @@
 open Tokenizer
 open Counter
+open Extract
 
 (* [process input] will return the correct response to the input
     the user provides. *)
 let process input = 
-    match input with
+    Extract.get_response input
+    (* match input with
     | "" -> ""
-    | _ -> "I don’t have the answer for that."
+    | _ -> "I don’t have the answer for that." *)
 
 (* [response input] provides the user with a response to the input
     they provide. It also prompts the user for another question, if

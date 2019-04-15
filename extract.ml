@@ -291,3 +291,9 @@ let add_tfidf (input_sent : string) : string =
   let doc_list = get_topics_tfidf input_sent in
   let temp_list = List.fold_left (fun y x -> add_list_to_list x y) [] doc_list in
   fst (List.fold_left (fun y x -> (if ((snd y) >= (snd x)) then y else x)) ("", 0.0) temp_list)
+
+
+let get_response (input_sent : string) : string =
+  let topic_doc = add_tfidf input_sent in
+  let response = max_jaccard_sentence topic_doc input_sent j in
+  response

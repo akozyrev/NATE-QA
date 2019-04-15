@@ -84,3 +84,5 @@ val add_list_to_list : (string*float) list -> (string*float) list -> (string*flo
 (* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
   the document with the highest sum. *)
 val add_tfidf : string -> string
+
+val get_response : string -> string
