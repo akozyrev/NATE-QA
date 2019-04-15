@@ -210,13 +210,27 @@ let rec idf (word:string) =
     float_of_int (List.length
                     ((which_dict_has_the_word word all_topic_dict_counter) [])))
 
-(** [tfidf input_word topics] is the TF-IDF of an input word computed for each
-    topic in [topics].*)
-(* let rec tfidf (input_word:string) =
-   match topics with
+(** [tfidf input_word topics] is the TF-IDF of an input word computed for the 
+    given [topic] .*)
+let rec tfidf (input_word:string) (topic:string) =
+  (tf input_word topic) *. (idf input_word)
+
+(** [construct_tfidf input_word] is a list of tuples, where the first 
+    element of each tuple is a topic title (string) and the second element 
+    is the TF-IDF value for that topic with respect to [input_word] *)
+let rec construct_tfidf (input_word:string) =
+  let rec tfidf_topics topics =
+    match topics with 
+    | [] -> []
+    | h::t -> (h, (tfidf input_word h)) :: [] @ tfidf_topics t 
+  in 
+  tfidf_topics topics 
+
+(* TODO *)
+(* let rec sent_compute_tfidf (input_sent:string) =
+   match input_sent with 
    | [] -> 0.0
-   | h::t ->
-    (tf input_word topic)  *. (idf input_word) *)
+   | h::t -> (construct_tfidf input_word)  *)
 
 
 (** Return sentence in specified document topic containing the 
@@ -256,7 +270,7 @@ let max_jaccard_sentence (topic:string) (input_sent:string) (json): string =
 let get_topic(td:topic_dict) = 
   td.topic
 
-let get_topics (td_lst:topic_dict list) = 
+let get_topics (td_lst:topic_dict list) =
   List.map get_topic td_lst
 
 (*note: just trying to debug, no substantial changes*)
