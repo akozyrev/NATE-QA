@@ -1,4 +1,4 @@
-MODULES= counter similarity tokenizer word2dict extract
+MODULES= counter similarity tokenizer extract
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

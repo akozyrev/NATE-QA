@@ -23,35 +23,12 @@ ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o toke
 ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.ml > tokenizer.ml.depends # cached
 # Target: tokenizer.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmo tokenizer.ml # cached
-# Target: word2dict.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:word2dict.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules word2dict.mli > word2dict.mli.depends # cached
-# Target: word2dict.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:word2dict.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o word2dict.cmi word2dict.mli # cached
-# Target: word2dict.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:word2dict.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules word2dict.ml > word2dict.ml.depends # cached
-# Target: word2dict.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:word2dict.cmo, file:word2dict.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o word2dict.cmo word2dict.ml # cached
+# Target: extract.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:extract.mli, ocaml, ocamldep, quiet, traverse }
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.mli > extract.mli.depends
+# Target: extract.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:extract.mli, interf, ocaml, quiet, traverse }
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmi extract.mli
 # Target: extract.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:extract.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends # cached
 # Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
-+ ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
-File "extract.ml", line 75, characters 11-28:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 86, characters 12-29:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 95, characters 11-28:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 102, characters 11-28:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 110, characters 11-28:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
-File "extract.ml", line 119, characters 12-29:
-Warning 3: deprecated: Yojson.Basic.json
-json types are being renamed and will be removed in the next Yojson major version. Use type t instead
 # Compilation successful.
