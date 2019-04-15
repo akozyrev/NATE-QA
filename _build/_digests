@@ -8,8 +8,13 @@
 "Resource: /Users/Jane/Desktop/cs3110-a6/extract.ml": "4\020\017\191\223\r\255\146w`\018@\001\205B\242"
 "Rule: ocaml dependencies mli (%=similarity )": ":\252\175\224f\171\229H\172\175\130T\165\235\132\239"
 <<<<<<< HEAD
+<<<<<<< HEAD
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/similarity.ml": "\197,\186GCS\210\n\000\250\200\152'.\219Y"
 "Rule: ocaml dependencies ml (%=extract )": "m\"`r\151qu\181J\209C\182p\020\142\190"
+=======
+"Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/similarity.ml": "c\200\002>\132Y\026Sf\015\204\020\162\211\021T"
+"Rule: ocaml dependencies ml (%=extract )": "\196s\223&Ka\136E\nD\\\223d\1538\154"
+>>>>>>> parent of db91f71... tfidf algorithm implemented
 =======
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/similarity.ml": "c\200\002>\132Y\026Sf\015\204\020\162\211\021T"
 "Rule: ocaml dependencies ml (%=extract )": "\196s\223&Ka\136E\nD\\\223d\1538\154"
@@ -26,7 +31,11 @@
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/tokenizer.mli": "\242\026\155\188#\200\183\179\254\021\249-\166\165\194\243"
 "Rule: ocaml: mli -> cmi (%=word2dict )": "\b\234\207oT\227\142\211E\141\205\175\155\142\154\234"
 <<<<<<< HEAD
+<<<<<<< HEAD
 "Rule: ocaml: ml & cmi -> cmo (%=extract )": "\221\014\017\220\217}#\178\165\206k\137\181`\154\223"
+=======
+"Rule: ocaml: ml & cmi -> cmo (%=extract )": "92I]:}\150\023\219\246*\244\248\214\211\028"
+>>>>>>> parent of db91f71... tfidf algorithm implemented
 =======
 "Rule: ocaml: ml & cmi -> cmo (%=extract )": "92I]:}\150\023\219\246*\244\248\214\211\028"
 >>>>>>> parent of db91f71... tfidf algorithm implemented
@@ -37,10 +46,17 @@
 "Rule: ocaml dependencies ml (%=similarity )": "\165\216\t\129\128\168\2398=\177-\130\r\228!s"
 "Resource: /Users/Jane/Desktop/cs3110-a6/similarity.ml": "\197,\186GCS\210\n\000\250\200\152'.\219Y"
 <<<<<<< HEAD
+<<<<<<< HEAD
 "Rule: ocaml: ml & cmi -> cmo (%=tokenizer )": "\204\175\228S\156\166\209d\b\158\129yy\238\225="
 "Rule: ocaml dependencies ml (%=tokenizer )": "\143\246\148\131\196\176\245\222\130\002\003p\205\200\231C"
 "Rule: ocaml: ml & cmi -> cmo (%=counter )": "r\128w)\026\199\161\023\174oz\238\005o\212\003"
 "Rule: ocaml: ml -> cmo & cmi (%=test )": "\031,\1733\026\227\173\129\147F\180\132\bAi\202"
+=======
+"Rule: ocaml: ml & cmi -> cmo (%=tokenizer )": "a\163\161\222\0029\247$\234\147\030\209f$\173b"
+"Rule: ocaml dependencies ml (%=tokenizer )": "\143\246\148\131\196\176\245\222\130\002\003p\205\200\231C"
+"Rule: ocaml: ml & cmi -> cmo (%=counter )": "4\145\221\161\161\154PKc\213<\193sA\222O"
+"Rule: ocaml: ml -> cmo & cmi (%=test )": "\221\151\144\154g\190\005\203\222\175\186\175e\253T}"
+>>>>>>> parent of db91f71... tfidf algorithm implemented
 =======
 "Rule: ocaml: ml & cmi -> cmo (%=tokenizer )": "a\163\161\222\0029\247$\234\147\030\209f$\173b"
 "Rule: ocaml dependencies ml (%=tokenizer )": "\143\246\148\131\196\176\245\222\130\002\003p\205\200\231C"
@@ -54,10 +70,16 @@
 "Resource: /Users/Jane/Desktop/cs3110-a6/word2dict.mli": "K&<\245\nZ\191\218\227r}\171\229\011\238\234"
 "Resource: /Users/Jane/Desktop/cs3110-a6/test.ml": ":\142UU>n\202\rW\\U\235a39\213"
 <<<<<<< HEAD
+<<<<<<< HEAD
 "Rule: ocaml: cmo* -> byte (%=test )": "\232(\157\224z\154\142\201\171\011\b\172\207\215\156\023"
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/extract.mli": "\246$3\027,\236\012\247\140\163p\217L\171/["
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/tokenizer.ml": "\150\245d\138J\152\148`BQE\176 \147#\022"
 "Rule: ocaml: ml & cmi -> cmo (%=similarity )": "\204$\t\170\235\176\136\012s\128\199_\011o9\246"
+=======
+"Rule: ocaml: cmo* -> byte (%=test )": "U\165JN\164\011C\238\r\131\168;\191\220\224B"
+"Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/tokenizer.ml": "X\173h\199\239\162\170Vqt\024\141\r\228!<"
+"Rule: ocaml: ml & cmi -> cmo (%=similarity )": "\142\231\220L{\233\225\244\227\146\243n\007\030\235;"
+>>>>>>> parent of db91f71... tfidf algorithm implemented
 =======
 "Rule: ocaml: cmo* -> byte (%=test )": "U\165JN\164\011C\238\r\131\168;\191\220\224B"
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/tokenizer.ml": "X\173h\199\239\162\170Vqt\024\141\r\228!<"

@@ -1,5 +1,6 @@
 ### Starting build.
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Target: counter.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:counter.mli, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.mli > counter.mli.depends # cached
 # Target: counter.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:counter.mli, interf, ocaml, quiet, traverse }
@@ -33,6 +34,8 @@ ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules
 # Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
 =======
+=======
+>>>>>>> parent of db91f71... tfidf algorithm implemented
 # Target: test.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:ml, file:test.ml, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules test.ml > test.ml.depends
 # Target: counter.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), debug, extension:mli, file:counter.mli, ocaml, ocamldep, quiet, traverse }
@@ -76,5 +79,8 @@ ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules
 ocamlfind ocamlc -c -g -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmo tokenizer.ml # cached
 # Target: test.byte, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, debug, dont_link_with, extension:byte, file:test.byte, link, ocaml, program, quiet, traverse }
 ocamlfind ocamlc -linkpkg -g -package oUnit -package yojson -package ANSITerminal counter.cmo similarity.cmo tokenizer.cmo extract.cmo test.cmo -o test.byte
+<<<<<<< HEAD
+>>>>>>> parent of db91f71... tfidf algorithm implemented
+=======
 >>>>>>> parent of db91f71... tfidf algorithm implemented
 # Compilation successful.
