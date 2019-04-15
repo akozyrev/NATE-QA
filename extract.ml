@@ -273,15 +273,15 @@ let get_topic (td:topic_dict) =
 let get_topics (td_lst:topic_dict list) =
   List.map get_topic td_lst
 
-(** [add_elt_to_list doc lst] appends the tfidf score of a word for each document. It returns a list
-  where the string is the "topic" and the value is the combined tfidf scores of each word
-  in that document. *)
+(** [add_elt_to_list doc lst] returns a list of tuples where the first value corresponds
+  to the document and the value is the combined tfidf scores of each word in that document. *)
 let rec add_elt_to_list (doc : string*float) (lst: (string*float) list) =
   match lst with
   | [] -> [doc]
   | h::t -> if fst doc = fst h then (fst h, (snd doc) +. (snd h))::t else h::(add_elt_to_list doc t)
 
-(* [add_list_to_list lst1 lst2] adds the elements of lst1 to lst2.*)
+(* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate 
+  string values. If the string values are equal, their float values are added. *)
 let rec add_list_to_list (lst1: (string*float) list) (lst2: (string*float) list) =
   List.fold_left (fun y x -> add_elt_to_list x y) lst1 lst2
 
