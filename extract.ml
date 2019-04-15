@@ -226,6 +226,12 @@ let rec construct_tfidf (input_word:string) =
   in 
   tfidf_topics topics 
 
+(*TODO: document*)
+let get_topics_tfidf (input_sent:string): ((string*float) list list) = 
+  let input_tokens = Similarity.remove_dups 
+        (Tokenizer.word_tokenize input_sent) in
+  List.map (fun w -> construct_tfidf w) input_tokens
+
 (* TODO *)
 (* let rec sent_compute_tfidf (input_sent:string) =
    match input_sent with 

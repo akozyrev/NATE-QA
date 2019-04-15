@@ -1,34 +1,78 @@
 ### Starting build.
 # Target: counter.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:counter.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.mli > counter.mli.depends
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.mli > counter.mli.depends # cached
 # Target: counter.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:counter.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmi counter.mli
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmi counter.mli # cached
 # Target: counter.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:counter.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.ml > counter.ml.depends
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules counter.ml > counter.ml.depends # cached
 # Target: counter.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:counter.cmo, file:counter.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmo counter.ml
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o counter.cmo counter.ml # cached
 # Target: similarity.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:similarity.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.mli > similarity.mli.depends
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.mli > similarity.mli.depends # cached
 # Target: similarity.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:similarity.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmi similarity.mli
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmi similarity.mli # cached
 # Target: similarity.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:similarity.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.ml > similarity.ml.depends
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules similarity.ml > similarity.ml.depends # cached
 # Target: similarity.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:similarity.cmo, file:similarity.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmo similarity.ml
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o similarity.cmo similarity.ml # cached
 # Target: tokenizer.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:tokenizer.mli, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.mli > tokenizer.mli.depends
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.mli > tokenizer.mli.depends # cached
 # Target: tokenizer.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:tokenizer.mli, interf, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmi tokenizer.mli
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmi tokenizer.mli # cached
 # Target: tokenizer.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:tokenizer.ml, ocaml, ocamldep, quiet, traverse }
-ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.ml > tokenizer.ml.depends
+ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules tokenizer.ml > tokenizer.ml.depends # cached
 # Target: tokenizer.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:tokenizer.cmo, file:tokenizer.ml, implem, ocaml, quiet, traverse }
-ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmo tokenizer.ml
+ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o tokenizer.cmo tokenizer.ml # cached
 # Target: extract.mli.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:mli, file:extract.mli, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.mli > extract.mli.depends
 # Target: extract.cmi, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:mli, file:extract.mli, interf, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmi extract.mli
++ ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmi extract.mli
+File "extract.mli", line 8, characters 28-45:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.mli", line 13, characters 32-49:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.mli", line 18, characters 36-53:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.mli", line 23, characters 27-44:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.mli", line 28, characters 32-49:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.mli", line 33, characters 37-54:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.mli", line 63, characters 46-63:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.mli", line 70, characters 48-65:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
 # Target: extract.ml.depends, tags: { package(ANSITerminal), package(oUnit), package(yojson), extension:ml, file:extract.ml, ocaml, ocamldep, quiet, traverse }
 ocamlfind ocamldep -package oUnit -package yojson -package ANSITerminal -modules extract.ml > extract.ml.depends
 # Target: extract.cmo, tags: { package(ANSITerminal), package(oUnit), package(yojson), byte, compile, extension:cmo, extension:ml, file:extract.cmo, file:extract.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
++ ocamlfind ocamlc -c -package oUnit -package yojson -package ANSITerminal -o extract.cmo extract.ml
+File "extract.ml", line 75, characters 11-28:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.ml", line 86, characters 12-29:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.ml", line 95, characters 11-28:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.ml", line 102, characters 11-28:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.ml", line 110, characters 11-28:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
+File "extract.ml", line 119, characters 12-29:
+Warning 3: deprecated: Yojson.Basic.json
+json types are being renamed and will be removed in the next Yojson major version. Use type t instead
 # Compilation successful.
