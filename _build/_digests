@@ -7,21 +7,12 @@
 "Rule: ocaml dependencies mli (%=tokenizer )": "\1962\196w\004l*\201\019\003\231g\177oxK"
 "Resource: /Users/Jane/Desktop/cs3110-a6/extract.ml": "4\020\017\191\223\r\255\146w`\018@\001\205B\242"
 "Rule: ocaml dependencies mli (%=similarity )": ":\252\175\224f\171\229H\172\175\130T\165\235\132\239"
-<<<<<<< HEAD
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/similarity.ml": "c\200\002>\132Y\026Sf\015\204\020\162\211\021T"
 "Rule: ocaml dependencies ml (%=extract )": "\196s\223&Ka\136E\nD\\\223d\1538\154"
 "Rule: ocaml dependencies ml (%=counter )": ";RVggt\138e'\n\228od\147\175\134"
 "Rule: ocaml: mli -> cmi (%=tokenizer )": "m\253_\127Yj\030e\206\191\155#\253\195J\239"
 "Rule: ocaml: mli -> cmi (%=similarity )": "@'TV\153e\246#3\129\240/\229K\185\142"
 "Rule: ocaml: mli -> cmi (%=counter )": "\012]\245>\134\132\004\1323\022\235\157\175\131\239\006"
-=======
-"Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/similarity.ml": "\197,\186GCS\210\n\000\250\200\152'.\219Y"
-"Rule: ocaml dependencies ml (%=counter )": "\024G|\150D\005\015\212$\150e7\127\228\1562"
-"Rule: ocaml dependencies ml (%=extract )": "\196s\223&Ka\136E\nD\\\223d\1538\154"
-"Rule: ocaml: mli -> cmi (%=tokenizer )": "5\152\189x\134\191\003\186W\179\226\nm?\157\131"
-"Rule: ocaml: mli -> cmi (%=counter )": "a\239\203\212*\153\147\007\147\196\187\143\147\244\166\254"
-"Rule: ocaml: mli -> cmi (%=similarity )": "&c\229\215\232\0119R\235\003\173:\193I\252\169"
->>>>>>> cd5ad1f391d90e8eb2aaa2bea08888b95f004287
 "Resource: /Users/Jane/Desktop/cs3110-a6/counter.mli": "G\177\245\187;\228M\166'\200]+\029\154\231="
 "Rule: ocaml: mli -> cmi (%=extract )": "\137\244\134\232&a\195\201\192\016\174\216\253\147\213\227"
 "Resource: /Users/junanqu/Documents/GitHub/cs3110-a6/word2dict.ml": "\212\029\140\217\143\000\178\004\233\128\t\152\236\248B~"
