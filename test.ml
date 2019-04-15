@@ -73,7 +73,11 @@ let counter_test = [
 ]
 
 (** tests for tokenizer module --todo *)
-let tokenizer_test = []
+let tokenizer_test = [
+  "test_sent_tokenize" >:: (fun _ -> assert_equal ["The cat is fat"; "The cat ate the rat"] 
+    (Tokenizer.sent_tokenize "The cat is fat. The cat ate the rat."));
+
+]
 
 
 (** tests for similarity module --todo*)

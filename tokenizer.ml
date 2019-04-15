@@ -17,7 +17,7 @@ module Tokenizer = struct
   let sent_tokenize (text:string) : string list =
     let sentences = String.split_on_char '.'  text in
     let strip_sents = List.map (fun s -> String.trim s) sentences in
-    strip_sents
+    List.filter (fun s -> s <> "") strip_sents
 
 
   (** Make all letters of word lowercase, 
