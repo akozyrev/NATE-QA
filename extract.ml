@@ -302,10 +302,13 @@ let add_tfidf (input_sent : string) : string =
   let good_tup = Hashtbl.fold (fun (a : string) (b: float) (c : string * float) : (string * float) -> 
         if b > (snd c) then (a, b) else c) temp_list ("", 0.0) in
 
+  begin
   fst good_tup
-
+  end
 
 let get_response (input_sent : string) : string =
   let topic_doc = add_tfidf input_sent in
-  let response = max_jaccard_sentence topic_doc input_sent j in
-  response
+  let response = begin Pervasives.print_string topic_doc; 
+              max_jaccard_sentence topic_doc input_sent j 
+              end 
+  in response
