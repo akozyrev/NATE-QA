@@ -226,6 +226,25 @@ let rec construct_tfidf (input_word:string) =
   in 
   tfidf_topics topics 
 
+let rec construct_tfidf_by_doc (input_sent:string) (topic:string) =
+  let input_tokens = Similarity.remove_dups 
+        (Tokenizer.word_tokenize input_sent) in
+  let rec tfidf_topics sent_words =
+    match sent_words with 
+    | [] -> []
+    | h::t -> (h, (tfidf h topic)) :: [] @ tfidf_topics t 
+  in 
+  (topic, tfidf_topics input_tokens)
+
+let compile_list lst =
+  let helper x = (fst x, (List.fold_left (fun acc y -> (acc +. snd y)) 0.0 (snd x))) in 
+  List.map helper lst
+
+let return_topic (input_sent:string) = 
+  let temp_list = List.map (fun x -> construct_tfidf_by_doc input_sent x) topics in 
+  let new_list = compile_list temp_list in 
+  fst (List.fold_left (fun y x -> (if ((snd y) >= (snd x)) then y else x)) ("", 0.0) new_list)
+
 (* [get_topics_tfidf input_sent] takes in a sentence, tokenizes it, and for each word, 
   computes a list of tfidf scores of each word in each document. *)
 let get_topics_tfidf (input_sent:string): ((string*float) list list) = 
@@ -292,8 +311,12 @@ let add_tfidf (input_sent : string) : string =
   let temp_list = List.fold_left (fun y x -> add_list_to_list x y) [] doc_list in
   fst (List.fold_left (fun y x -> (if ((snd y) >= (snd x)) then y else x)) ("", 0.0) temp_list)
 
-
 let get_response (input_sent : string) : string =
   let topic_doc = add_tfidf input_sent in
+  let response = max_jaccard_sentence topic_doc input_sent j in
+  response
+
+let get_response_2 (input_sent : string) : string =
+  let topic_doc = return_topic input_sent in
   let response = max_jaccard_sentence topic_doc input_sent j in
   response

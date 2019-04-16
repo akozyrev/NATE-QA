@@ -86,3 +86,5 @@ val add_list_to_list : (string*float) list -> (string*float) list -> (string*flo
 val add_tfidf : string -> string
 
 val get_response : string -> string
+
+val get_response_2 : string -> string
