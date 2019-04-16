@@ -236,6 +236,7 @@ let rec count_word_in_topic (word:string)
 (** [tf word topic] is term frequency of [word] in [topic]
     calculated as follows:
     # of times [word] appears in [topic] / total number of topics *)
+    (*OPTIMIZED*)
 let rec tf (word:string) (topic:string) =
   float_of_int (count_word_in_topic word topic) /.
   float_of_int (Hashtbl.length all_topic_dict_counter_ht)
