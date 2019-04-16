@@ -73,6 +73,7 @@ let j = Yojson.Basic.from_file "corpus/data.json"
 (* create topic type that has the topic and its content *)
 let get_content (key_word:string) 
     (json: Yojson.Basic.json) : topic= 
+    (* Pervasives.print_string "track 2" ; *)
   {
     topic = key_word;
     content = json |> member key_word  
@@ -83,9 +84,11 @@ let get_content (key_word:string)
 (* given a string list of all topics, 
     this one gives you list of topic type *)
 let rec all_topics (topics : string list) 
-    (json : Yojson.Basic.json) (acc : topic list) : topic list = 
+  (json : Yojson.Basic.json) (acc : topic list):topic list = 
+    (* Pervasives.print_string "track 1" ; *)
   match topics with 
-  |word::t -> all_topics t (json) (get_content word json :: acc)
+  |word::t -> all_topics t (json) 
+        (get_content word json :: acc)
   |[] -> acc
 
 (* given a topic/key word, this one gives 
@@ -94,6 +97,7 @@ let rec all_topics (topics : string list)
 let tokenized_word_list (key_word:string) 
     (json: Yojson.Basic.json) 
     (acc:string list): string list = 
+    (* Pervasives.print_string "track 0" ; *)
   List.concat (List.map Tokenizer.word_tokenize 
                  (get_content key_word json).content)
 
@@ -101,6 +105,7 @@ let tokenized_word_list (key_word:string)
 let count_word (key_word:string) 
     (json: Yojson.Basic.json) 
     (acc:string list): counter = 
+    (* Pervasives.print_string "help 0" ; *)
   Counter.make_dict (tokenized_word_list key_word json acc)
 
 (* returns topic_dict data type that has 
@@ -108,6 +113,7 @@ let count_word (key_word:string)
     via a representation of record *)
 let full_topic_dict (key_word:string) 
     (json: Yojson.Basic.json) : topic_dict = 
+    (* Pervasives.print_string "help 1" ; *)
   {
     topic = key_word;
     counter = (count_word key_word json []);
@@ -118,6 +124,7 @@ let full_topic_dict (key_word:string)
 let rec all_full_topics (topics : string list) 
     (json : Yojson.Basic.json) 
     (acc : topic_dict list) : topic_dict list = 
+    (* Pervasives.print_string "help 3" ; *)
   match topics with 
   |word::t -> all_full_topics t 
                 json (full_topic_dict word json :: acc)
@@ -130,6 +137,7 @@ let all_topic_dict_counter = all_full_topics topics j []
 (* a getter function that allows us to use 
     List.map in the following *)
 let get_counter topic_dict =
+(* Pervasives.print_string "help 4" ; *)
   topic_dict.counter
 
 (* print helper function to visualize 
@@ -147,6 +155,7 @@ let rec print_topic_dict_list = function
 let rec which_dict_has_the_word (word:string)
     (topic_dict_lst:topic_dict list)
     (acc:topic_dict list): topic_dict list =
+    (* Pervasives.print_string "help 5" ; *)
   match topic_dict_lst with
   |topic_dict::lst-> 
     if Counter.mem (Tokenizer.make_lower word) topic_dict.counter 
@@ -163,6 +172,7 @@ let rec which_dict_has_the_word (word:string)
 let rec process_phrase (words:string list)
     (topic_dict_lst:topic_dict list)
     (acc:topic_dict list) : topic_dict list =
+    (* Pervasives.print_string "help 6" ; *)
   match words with
   |word::lst -> (process_phrase lst topic_dict_lst
                    (which_dict_has_the_word word topic_dict_lst []))
@@ -170,30 +180,47 @@ let rec process_phrase (words:string list)
 
 (* a wrapper pretty much that uses tokenize a string into a
    string list and apply the above function to generate a
-   `topic_dict list` and use `Similarity.remove_dups` to remove duplicates*)
-let which_dict_has_the_words (words)(topic_dict_lst)(acc) : topic_dict list=
+   `topic_dict list` and use `Similarity.remove_dups` 
+    to remove duplicates*)
+let which_dict_has_the_words (words)(topic_dict_lst)
+      (acc) : topic_dict list=
+(* Pervasives.print_string "help 7" ; *)
   let tokens = Tokenizer.word_tokenize words in
   Similarity.remove_dups (process_phrase tokens topic_dict_lst acc)
 
 let rec most_common_dict (word:string)
     (topic_dict_lst:topic_dict list) : string =
-  let relevant_dicts = which_dict_has_the_word word topic_dict_lst [] in
+    (* Pervasives.print_string "help 8" ; *)
+  let relevant_dicts = which_dict_has_the_word 
+      word topic_dict_lst [] in
   let rec find_max_k tds acc_int acc_topic =
     match tds with
     | [] -> acc_topic
     | h::t ->
-      let num_occurence = (Counter.find_word word h.counter) in
-      if num_occurence > acc_int then find_max_k t num_occurence h.topic
+      let num_occurence = (Counter.find_word 
+              word h.counter) in
+      if num_occurence > acc_int then find_max_k 
+              t num_occurence h.topic
       else find_max_k t acc_int acc_topic
 
   in (find_max_k relevant_dicts 0 "")
 
-(*TODO: TOO MUCH TIME, OPTIMIze*)
-let rec count_word_in_topic (word:string) (topic:string) (json): int =
-  let topic_dict_we_want = full_topic_dict topic json in
-  let counter = get_counter topic_dict_we_want in
-  Counter.find_word word (counter)
 
+let rec count_word_in_topic (word:string) 
+      (topic:string) (json): int =
+  (* Pervasives.print_string "here 0" ; *)
+  let topic_dict_we_want = full_topic_dict topic json in
+  let counter = 
+  begin
+  (* Pervasives.print_string "here 1" ; *)
+  get_counter topic_dict_we_want 
+  end in
+  let output = Counter.find_word word (counter) in
+  begin
+  (* Pervasives.print_string "here 2"; *)
+  output; 
+
+  end
 
 (** [tf word topic] is term frequency of [word] in [topic]
     calculated as follows:
@@ -202,33 +229,41 @@ let rec tf (word:string) (topic:string) =
   float_of_int (count_word_in_topic word topic j) /.
   float_of_int (Counter.get_length (get_counter (full_topic_dict topic j)))
 
-(** [idf word] is a statistical measure of how important [word] is, based
-    on the following calculation:
-    log (total # of documents / # of documents with [word] in them) *)
+(** [idf word] is a statistical measure of 
+    how important [word] is, based on the following 
+    calculation: log (total # of documents / # of 
+    documents with [word] in them) *)
 let rec idf (word:string) =
   Pervasives.log(
     float_of_int (List.length topics) /.
     float_of_int (List.length
-                    ((which_dict_has_the_word word all_topic_dict_counter) [])))
+    ((which_dict_has_the_word word all_topic_dict_counter) [])))
 
-(** [tfidf input_word topics] is the TF-IDF of an input word computed for the 
-    given [topic] .*)
-let rec tfidf (input_word:string) (topic:string): float =
+(** [tfidf input_word topics] is the TF-IDF 
+  of an input word computed for the given [topic] .*)
+let rec tfidf (input_word:string) 
+      (topic:string): float =
   (tf input_word topic) *. (idf input_word)
 
-(** [construct_tfidf input_word] is a list of tuples, where the first 
-    element of each tuple is a topic title (string) and the second element 
-    is the TF-IDF value for that topic with respect to [input_word] *)
-let rec construct_tfidf (input_word:string) : (string, float) Hashtbl.t =
+(** [construct_tfidf input_word] is a list of tuples, 
+    where the first element of each tuple is a topic title 
+    (string) and the second element is the TF-IDF value for 
+    that topic with respect to [input_word] *)
+let rec construct_tfidf (input_word:string) : 
+    (string, float) Hashtbl.t =
   let ht = Hashtbl.create 200000 in
     begin
-      List.map (fun (topic : string) : unit -> Hashtbl.add ht topic (tfidf input_word topic)) topics;
+      List.map (fun (topic : string) : unit -> 
+        Hashtbl.add ht topic (tfidf input_word topic)) topics;
       ht
     end
 
-(* [get_topics_tfidf input_sent] takes in a sentence, tokenizes it, and for each word, 
-  computes a list of tfidf scores of each word in each document. *)
-let get_topics_tfidf (input_sent:string): ((string, float) Hashtbl.t list) = 
+(* [get_topics_tfidf input_sent] takes in a 
+  sentence, tokenizes it, and for each word, 
+  computes a list of tfidf scores of each word 
+  in each document. *)
+let get_topics_tfidf (input_sent:string): 
+    ((string, float) Hashtbl.t list) = 
   let input_tokens = Similarity.remove_dups 
         (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
@@ -238,17 +273,21 @@ let get_topics_tfidf (input_sent:string): ((string, float) Hashtbl.t list) =
     input sentence (question we ask the chatbot).
     This is the last function we will need to return the 
     calculated response to the user's input *)
-let max_jaccard_sentence (topic:string) (input_sent:string) (json): string = 
+let max_jaccard_sentence (topic:string) 
+    (input_sent:string) (json): string = 
   let topic_we_want = get_content topic json in
   let doc_sentences = topic_we_want.content in
   let input_tokens = Similarity.remove_dups 
       (Tokenizer.word_tokenize input_sent) in
 
-  (* create [key: sentence, value: sentence's word token list] dict *)
+  (* create [key: sentence, value: sentence's 
+  word token list] dict *)
   let doc_sent_tok_dict = List.map (fun s -> 
-      (s, Similarity.remove_dups(Tokenizer.word_tokenize s))) doc_sentences in
+      (s, Similarity.remove_dups 
+        (Tokenizer.word_tokenize s))) doc_sentences in
 
-  (* create [key: sentence, value: sentence's jaccard score] dict *)
+  (* create [key: sentence, value: sentence's 
+      jaccard score] dict *)
   let doc_sent_jac_dict = List.map (fun e -> 
       (fst e,  Similarity.jaccard_sim 
          (snd e) (input_tokens))) doc_sent_tok_dict in
@@ -273,36 +312,48 @@ let get_topic (td:topic_dict) =
 let get_topics (td_lst:topic_dict list) =
   List.map get_topic td_lst
 
-(** [add_elt_to_list doc lst] returns a list of tuples where the first value corresponds
-  to the document and the value is the combined tfidf scores of each word in that document. *)
-let rec add_elt_to_list (doc : string*float) (lst: (string, float) Hashtbl.t) : (string, float) Hashtbl.t =
+(** [add_elt_to_list doc lst] returns a list of 
+      tuples where the first value corresponds
+  to the document and the value is the combined 
+    tfidf scores of each word in that document. *)
+let rec add_elt_to_list (doc : string*float) 
+    (lst: (string, float) Hashtbl.t) : (string, float) Hashtbl.t =
   let tfidf = Hashtbl.find_opt lst (fst doc) in
   match tfidf with 
   | None -> Hashtbl.add lst (fst doc) (snd doc); lst
-  | Some i -> Hashtbl.remove lst (fst doc); Hashtbl.add lst (fst doc) (i +. (snd doc)); lst
-  (* match lst with
-  | [] -> [doc]
-  | h::t -> if fst doc = fst h then (fst h, (snd doc) +. (snd h))::t else h::(add_elt_to_list doc t) *)
+  | Some i -> Hashtbl.remove lst (fst doc); 
+          Hashtbl.add lst (fst doc) (i +. (snd doc)); lst
 
-(* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate 
-  string values. If the string values are equal, their float values are added. *)
-let rec add_list_to_list (lst1: (string, float) Hashtbl.t) (lst2: (string, float) Hashtbl.t): (string, float) Hashtbl.t=
+
+(* [add_list_to_list lst1 lst2] combines the elements 
+    of lst1 and lst2, where there are no duplicate 
+  string values. If the string values are equal, 
+      their float values are added. *)
+let rec add_list_to_list (lst1: (string, float) Hashtbl.t) 
+      (lst2: (string, float) Hashtbl.t): (string, float) Hashtbl.t=
   Hashtbl.iter (fun (a : string) (b : float) : unit -> 
     match (Hashtbl.find_opt lst1 a) with
-      | Some found_b -> Hashtbl.remove lst1 a; Hashtbl.add lst1 a (b +. found_b)
+      | Some found_b -> Hashtbl.remove lst1 a; 
+            Hashtbl.add lst1 a (b +. found_b)
       | None -> Hashtbl.add lst1 a b
   ) lst2; lst1
 
-let print_hashtable (ht : (string, float) Hashtbl.t) : unit = 
-Hashtbl.iter (fun x y -> print_string x; print_float y; print_newline ()) ht
+let print_hashtable (ht : 
+        (string, float) Hashtbl.t) : unit = 
+    Hashtbl.iter (fun x y -> print_string x; 
+          print_float y; print_newline ()) ht
 
-(* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
+(* [add_tfidf input_sent] computes the sum of 
+TFIDF scores for each word in each document and returns
   the document with the highest sum. *)
 let add_tfidf (input_sent : string) : string =
   let doc_list = get_topics_tfidf input_sent in
-  let temp_list = List.fold_left add_list_to_list (Hashtbl.create 20000) doc_list in
-  let good_tup = Hashtbl.fold (fun (a : string) (b: float) (c : string * float) : (string * float) -> 
-        if b > (snd c) then (a, b) else c) temp_list ("David Gries", 0.0) in
+  let temp_list = List.fold_left add_list_to_list 
+        (Hashtbl.create 20000) doc_list in
+  let good_tup = Hashtbl.fold (fun (a : string) 
+            (b: float) (c : string * float) : (string * float) -> 
+        if b > (snd c) then (a, b) else c) 
+        temp_list ("David Gries", 0.0) in
 
   begin
   (* print_hashtable temp_list; *)
@@ -311,7 +362,7 @@ let add_tfidf (input_sent : string) : string =
 
 let get_response (input_sent : string) : string =
   let topic_doc = add_tfidf input_sent in
-  let response = begin Pervasives.print_string topic_doc; 
-              max_jaccard_sentence topic_doc input_sent j 
-              end 
+  let response = begin (*  Pervasives.print_string topic_doc;  *)
+          max_jaccard_sentence topic_doc input_sent j 
+          end 
   in response

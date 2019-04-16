@@ -5,87 +5,67 @@ module Counter = struct
       string (unique word) and int (number of occurences) 
       tuples. *)
   type t = {
-    dict: (string * int) list;   
+    dict: (string, int) Hashtbl.t;   
     length: int;
   }
-
-  (** Determine whether or not words is a list containing 
-      unique elements (each element is present only once). 
-      Used as helper for rep_ok *)
-  let rec no_repeats (words:string list) : bool = 
-    match words with
-    | [] -> true
-    | h::t -> if List.mem h t then false
-      else no_repeats t 
-
-  (** Determine whether or not d satisfies the representation
-      invariant (dict has no repeats, and length is its actual length)*)
-  let rep_ok (d:t) : bool =
-    (List.length d.dict = d.length) &&
-    (let dict_words = List.map (fun a -> fst a) d.dict in
-     no_repeats dict_words)
-
-  (** Determine whether or not d is an empty dictionary *)
-  let is_empty (d:t) : bool = 
-    d.dict = [] && d.length = 0
 
   (** Add a word to the list representing dictionary with keys
       being unique words, values being number of occurence of each word.
       Will create new element in dictionary with occurence 1 if word not 
       already found in dictionary keys, will add 1 to corresponding value if
       word is member of dictionary keys. Used as helper for step_dict*)
-  let rec add_word (word:string) (dict:(string*int) list):(string*int) list = 
-    match dict with
-    | [] -> [(word, 1)]
-    | h::t -> if (fst h = word) then (fst h, (snd h) + 1)::t
-      else h::(add_word word t) 
+  let rec add_word (word:string) (dict: 
+          (string, int) Hashtbl.t): (string, int) Hashtbl.t = 
+  (* Pervasives.print_string "e2"; *)
+    let w = Hashtbl.find_opt dict word in
+    match w with 
+    | None -> Hashtbl.add dict word 1; dict
+    | Some i -> Hashtbl.replace dict word (i+1); dict 
 
   (** Construct a dictionary, given a list of words, with dictionary keys
       being unique words, values being number of occurence of each word.
       Will create new element in dictionary with occurence 1 if word not 
       already found in dictionary keys, will add 1 to corresponding value if
       word is member of dictionary keys. Used as helper for make_dict*)
-  let rec add_words (words:string list) (dict:(string*int) list):(string*int) list = 
+  let rec add_words (words:string list) (dict: (string, int) 
+        Hashtbl.t):(string, int) Hashtbl.t = 
+  (* Pervasives.print_string "e3"; *)
     match words with
     | [] -> dict
     | h::t -> add_words t (add_word h dict) 
 
 
   (** Make new dict from scratch, using list of TOKENIZED WORDS. 
-      Dictionary keys are unique words and values are num occurences of word. *)
+      Dictionary keys are unique words and values are num 
+      occurences of word. *)
   let make_dict (words:string list) : t =
-    let new_dict = add_words words [] in
+  (* Pervasives.print_string "e4"; *)
+    let new_dict = add_words words (Hashtbl.create 20000) in
     {
       dict = new_dict;
-      length = List.length new_dict
+      length = Hashtbl.length new_dict
     }
 
   (** Returns whether or not word is found in d dictionary *)
   let mem (word:string) (d:t) : bool =
-    let dict_words = List.map (fun a -> fst a) d.dict 
-    in List.mem word dict_words
+  (* Pervasives.print_string "e5"; *)
+    Hashtbl.mem d.dict word
 
   (** Return length of dictionary *)
   let get_length (d:t) : int =
     d.length
 
   (** Return actual dictionary list *)
-  let get_dictionary (d:t) : (string * int) list= 
+  let get_dictionary (d:t) : (string, int) Hashtbl.t = 
     d.dict
 
-  (** [find k d] is [Some v] if [k] is bound to [v] in [d]; or
-      if [k] is not bound, then it is [None]. *)
-  let rec find k d =
-    match d with
-    | [] -> None
-    | h::t -> if (fst h) = k then (Some (snd h)) else find k t
 
   (** find number of occurences of word in Counter d *)
   let rec find_word (word:string) (d:t) : int =
-    let dict = get_dictionary d in 
-    match (find word dict) with
-    |None->0
-    |Some n-> n
-
+  (* Pervasives.print_string "e7"; *)
+    let result = Hashtbl.find_opt d.dict word in
+    match result with 
+    | None -> 0
+    | Some n -> n
 
 end
