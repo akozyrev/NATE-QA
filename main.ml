@@ -5,7 +5,7 @@ open Extract
 (* [process input] will return the correct response to the input
     the user provides. *)
 let process input = 
-    Extract.get_response input
+    Extract.get_response_2 input
     (* match input with
     | "" -> ""
     | _ -> "I don’t have the answer for that." *)

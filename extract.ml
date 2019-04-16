@@ -3,13 +3,73 @@ open Tokenizer
 open Counter
 open Similarity
 
+let people = [
+  "David Gries";
+  "Alan Turing";
+  "Anita Borg";
+  "Barbara Liskov";
+  "Bill Gates";
+  "David Gries";
+  "Elon Musk";
+  "Grace Hopper";
+  "Jeff Bezos";
+  "Mark Zuckerberg";
+  "Scott Belsky";
+  "Sheryl Sandberg";
+  "Steve Jobs";
+  "Tracy Chou";
+  ]
+let products = [
+  "Apple";
+  "iPad";
+  "iPhone";
+]
+let companies = [
+  "Apple";
+  "Facebook";
+  "Intel";
+  "Microsoft";
+  "Pinterest";
+  "Slack Technologies";
+  "Tesla";
+  "Twitter";
+  "Uber";
+  "Amazon Company";
+  "Warby Parker";
+  "YouTube";
+]
+let topics = [
+  "Algorithm";
+  "Computer Graphics";
+  "Computer Science";
+  "Computer Vision";
+  "Deep Learning";
+  "Deepmind";
+  "Distributed Computing";
+  "Embedded Systems";
+  "Human Computer Interaction";
+  "Logic";
+  "Machine Learning";
+  "Mathematics";
+  "Natural Language Processing";
+  "Privacy";
+  "Programming Languages";
+  "Reinforcement Learning";
+]
+let extra = [
+  "Cornell University";
+  "Silicon Valley";
+  "Turing Award";
+  "Venture Capital";
+]
+
 let topics = [
   "David Gries";
   "Alan Turing";
   "Algorithm";
   "Anita Borg";
   "Apple";
-  "Artifical Intelligence";
+  "Artificial Intelligence";
   "Barbara Liskov";
   "Bill Gates";
   "Computer Graphics";
@@ -52,7 +112,7 @@ let topics = [
   "Venture Capital";
   "Warby Parker";
   "Amazon Company";
-  "youTube";
+  "YouTube";
 ]
 
 type counter = Counter.t
