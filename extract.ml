@@ -9,7 +9,7 @@ let topics = [
   "Algorithm";
   "Anita Borg";
   "Apple";
-  "Artifical Intelligence";
+  "Artificial Intelligence";
   "Barbara Liskov";
   "Bill Gates";
   "Computer Graphics";
