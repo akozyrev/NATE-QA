@@ -60,7 +60,7 @@ val most_common_dict : string -> topic_dict list -> string
 (**
    Returns the number of occurance of a word in a topic's content
 *)
-val count_word_in_topic : string -> string -> Yojson.Basic.json -> int
+val count_word_in_topic : string -> string -> int
 
 (** Return sentence in specified document topic containing the 
     maximum jaccard similarity metric, compared with the 

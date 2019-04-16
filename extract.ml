@@ -134,6 +134,22 @@ let rec all_full_topics (topics : string list)
    topic_dict from the topic list we have above *)
 let all_topic_dict_counter = all_full_topics topics j []
 
+(* this function actually creates a HASHTABLE of 
+   topic_dict from the topic list we have above *)
+let rec get_td_counter_ht (td: topic_dict list)  
+  (acc_tbl: (string, Counter.t) Hashtbl.t) : 
+  ((string, Counter.t) Hashtbl.t ) = 
+  match td with 
+  | [] -> acc_tbl
+  | h::t -> Hashtbl.add acc_tbl h.topic h.counter; 
+            get_td_counter_ht t acc_tbl
+
+
+(* this variable is a HASHTABLE of 
+   topic_dict from the topic list we have above *)
+let all_topic_dict_counter_ht = get_td_counter_ht 
+      all_topic_dict_counter (Hashtbl.create 100)
+
 (* a getter function that allows us to use 
     List.map in the following *)
 let get_counter topic_dict =
@@ -164,6 +180,7 @@ let rec which_dict_has_the_word (word:string)
     else which_dict_has_the_word
         (Tokenizer.make_lower word) lst acc
   |[]->acc
+
 
 (* the above function only process one word;
       this one just patterns matches a string
@@ -207,27 +224,21 @@ let rec most_common_dict (word:string)
 
 
 let rec count_word_in_topic (word:string) 
-      (topic:string) (json): int =
+      (topic:string) : int =
   (* Pervasives.print_string "here 0" ; *)
-  let topic_dict_we_want = full_topic_dict topic json in
-  let counter = 
-  begin
-  (* Pervasives.print_string "here 1" ; *)
-  get_counter topic_dict_we_want 
-  end in
+  let counter = Hashtbl.find all_topic_dict_counter_ht topic in 
   let output = Counter.find_word word (counter) in
   begin
   (* Pervasives.print_string "here 2"; *)
   output; 
-
   end
 
 (** [tf word topic] is term frequency of [word] in [topic]
     calculated as follows:
     # of times [word] appears in [topic] / total number of topics *)
 let rec tf (word:string) (topic:string) =
-  float_of_int (count_word_in_topic word topic j) /.
-  float_of_int (Counter.get_length (get_counter (full_topic_dict topic j)))
+  float_of_int (count_word_in_topic word topic) /.
+  float_of_int (Hashtbl.length all_topic_dict_counter_ht)
 
 (** [idf word] is a statistical measure of 
     how important [word] is, based on the following 
