@@ -21,85 +21,6 @@ let cmp_set_like_lists lst1 lst2 =
   uniq1 = uniq2
 
 
-(* let j = Yojson.Basic.from_file "corpus/data.json" *)
-
-(** tests for counter module --done*)
-let counter_test = [
-  "test_no_repeats1" >:: (fun _ -> assert_equal true 
-                             (Counter.no_repeats ["hello"; "world"]));
-
-  "test_no_repeats2" >:: (fun _ -> assert_equal true 
-                             (Counter.no_repeats []));
-
-  "test_no_repeats3" >:: (fun _ -> assert_equal false 
-                             (Counter.no_repeats ["hello"; "world"; "hello"]));
-
-  "test_repOK1" >:: (fun _ -> assert_equal true 
-                        (Counter.rep_ok {dict = [("hello", 1); 
-                                                 ("world", 1)]; length = 2}));
-
-  "test_repOK2" >:: (fun _ -> assert_equal false 
-                        (Counter.rep_ok {dict = [("hello", 1); 
-                                                 ("world", 1)]; length = 1}));
-
-  "test_repOK3" >:: (fun _ -> assert_equal false 
-                        (Counter.rep_ok {dict = [("hello", 1); ("world", 1); 
-                                                 ("world", 2)]; length = 2}));
-
-  "test_is_empty1" >:: (fun _ -> assert_equal true 
-                           (Counter.is_empty {dict = []; length = 0}));
-
-  "test_is_empty2" >:: (fun _ -> assert_equal false 
-                           (Counter.is_empty {dict = [("hello", 1); 
-                                                      ("world", 2)]; length = 2}));
-
-  "test_add_word1" >:: (fun _ -> assert_equal 
-                           [("hello", 2); ("world", 1)]
-                           (Counter.add_word "hello"  [("hello", 1); ("world", 1)]) );
-
-  "test_add_word2" >:: (fun _ -> assert_equal 
-                           [("world", 1)]
-                           (Counter.add_word "world"  []) );
-
-  "test_add_words1" >:: (fun _ -> assert_equal 
-                            [("hello", 2); ("world", 1)]
-                            (Counter.add_words ["hello";"world";"hello"]  []) );
-
-  "test_add_words2" >:: (fun _ -> assert_equal 
-                            [("world", 1)]
-                            (Counter.add_words ["world"]  []));
-
-  "test_make_dict1" >:: (fun _ -> assert_equal 
-                            ({dict = [("hello", 1);  ("world", 2)]; 
-                              length = 2}:Counter.t )
-                            (Counter.make_dict ["hello"; "world"; "world"]));
-
-  "test_make_dict2" >:: (fun _ -> assert_equal 
-                            ({dict = []; length = 0}:Counter.t )
-                            (Counter.make_dict []));
-
-  "test_mem1" >:: (fun _ -> assert_equal false 
-                      (Counter.mem "hi" {dict = [("hello", 1); 
-                                                 ("world", 2)]; length = 2}));
-
-  "test_mem2" >:: (fun _ -> assert_equal true 
-                      (Counter.mem "hello" {dict = [("hello", 1); 
-                                                    ("world", 2)]; length = 2}));
-
-  "test_get_len" >:: (fun _ -> assert_equal 2 
-                         (Counter.get_length {dict = [("hello", 1); 
-                                                      ("world", 2)]; length = 2}));
-
-  "test_get_dict" >:: (fun _ -> assert_equal 
-                          ([("hello", 1); ("world", 2)])
-                          (Counter.get_dictionary {dict = [("hello", 1); 
-                                                           ("world", 2)]; length = 2}));
-
-  "test_find_word" >:: (fun _ -> assert_equal 2
-                           (Counter.find_word "world" {dict = [("hello", 1); 
-                                                               ("world", 2)]; length = 2} ) );
-]
-
 (** tests for tokenizer module --done *)
 let tok = ({sentences = ["The cat is fat"; "The cat ate the rat"];
             words = ["the"; "cat"; "is"; "fat"; "the"; 
@@ -201,7 +122,7 @@ let extract_test = [
       assert_equal (Extract.tokenized_word_list "Test_3" test_json [])
         (["this";"is";"a";"test";"sentence"]) );
 
-  "test_counter_word_in_topic" >:: (fun _ -> 
+  (* "test_counter_word_in_topic" >:: (fun _ -> 
       assert_equal (count_word_in_topic "this" "Test_1" test_json )
         (3) );
 
@@ -215,9 +136,9 @@ let extract_test = [
 
   "test_most_common_dict_real" >:: (fun _ -> 
       assert_equal (most_common_dict "youtube"  all_topic_dict_counter)
-        ("youTube") );
+        ("youTube") ); *)
 
-  "test_which_dict_has_the_words_1" >:: (fun _ -> 
+  (* "test_which_dict_has_the_words_1" >:: (fun _ -> 
       assert_equal (get_topics (which_dict_has_the_words "second sentence" test_topic_dict_list []))
         (["Test_1";"Test_2";"Test_3"]) );  
 
@@ -227,11 +148,62 @@ let extract_test = [
 
   "test_which_dict_has_the_words_3" >:: (fun _ -> 
       assert_equal (get_topics (which_dict_has_the_words "second makes" test_topic_dict_list []))
-        (["Test_1";"Test_2"]) ); 
+        (["Test_1";"Test_2"]) );  *)
 
   "test_max_jaccard_sentence">:: (fun _ -> 
       assert_equal (max_jaccard_sentence "Test_1" "Lion sleesp in the jungle" test_json)
         ("Do you watch Lion King?") ); 
+]
+
+
+(** tests for counter module --done*)
+let counter_test = [
+
+  (* "test_add_word1" >:: (fun _ -> assert_equal 
+                           [("hello", 2); ("world", 1)]
+                           (Counter.add_word "hello"  [("hello", 1); ("world", 1)]) );
+
+  "test_add_word2" >:: (fun _ -> assert_equal 
+                           [("world", 1)]
+                           (Counter.add_word "world"  []) );
+
+  "test_add_words1" >:: (fun _ -> assert_equal 
+                            [("hello", 2); ("world", 1)]
+                            (Counter.add_words ["hello";"world";"hello"]  []) );
+
+  "test_add_words2" >:: (fun _ -> assert_equal 
+                            [("world", 1)]
+                            (Counter.add_words ["world"]  []));
+
+  "test_make_dict1" >:: (fun _ -> assert_equal 
+                            ({dict = [("hello", 1);  ("world", 2)]; 
+                              length = 2}:Counter.t )
+                            (Counter.make_dict ["hello"; "world"; "world"]));
+
+  "test_make_dict2" >:: (fun _ -> assert_equal 
+                            ({dict = []; length = 0}:Counter.t )
+                            (Counter.make_dict []));
+
+  "test_mem1" >:: (fun _ -> assert_equal false 
+                      (Counter.mem "hi" {dict = [("hello", 1); 
+                                                 ("world", 2)]; length = 2}));
+
+  "test_mem2" >:: (fun _ -> assert_equal true 
+                      (Counter.mem "hello" {dict = [("hello", 1); 
+                                                    ("world", 2)]; length = 2}));
+
+  "test_get_len" >:: (fun _ -> assert_equal 2 
+                         (Counter.get_length {dict = [("hello", 1); 
+                                                      ("world", 2)]; length = 2}));
+
+  "test_get_dict" >:: (fun _ -> assert_equal 
+                          ([("hello", 1); ("world", 2)])
+                          (Counter.get_dictionary {dict = [("hello", 1); 
+                                                           ("world", 2)]; length = 2}));
+
+  "test_find_word" >:: (fun _ -> assert_equal 2
+                           (Counter.find_word "world" {dict = [("hello", 1); 
+                                                               ("world", 2)]; length = 2} ) ); *)
 ]
 
 let suite =

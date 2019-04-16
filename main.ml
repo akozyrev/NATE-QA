@@ -27,9 +27,9 @@ let rec response input =
 let main () = 
     ANSITerminal.(print_string [red]
                   ("\nHello! My name is CSCamlBot, and I am here to introduce" ^ 
-                  " you to the field of computer science \n(famous people, concepts, and companies)"^
-                  " and answer any questions you may have.\n\n" ));
-    print_endline ("Some things you can ask me include:" 
+                  " you to the field of computer science.\n"^
+                  "Ask me about famous concepts, people, or companies and I'll try my best to answer!\n\n" ));
+    print_endline ("Some things you may ask me include:" 
             ^ " \n- Where does David Gries live?\n- " ^ 
             "What is natural language processing used for?"^
             "\n- Recommend me a good machine learning course.\n" );
