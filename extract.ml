@@ -188,6 +188,7 @@ let rec most_common_dict (word:string)
 
   in (find_max_k relevant_dicts 0 "")
 
+(*TODO: TOO MUCH TIME, OPTIMIze*)
 let rec count_word_in_topic (word:string) (topic:string) (json): int =
   let topic_dict_we_want = full_topic_dict topic json in
   let counter = get_counter topic_dict_we_want in
@@ -220,12 +221,10 @@ let rec tfidf (input_word:string) (topic:string): float =
     is the TF-IDF value for that topic with respect to [input_word] *)
 let rec construct_tfidf (input_word:string) : (string, float) Hashtbl.t =
   let ht = Hashtbl.create 200000 in
-  let rec tfidf_topics topics acc_tbl =
-    match topics with 
-    | [] -> ()
-    | h::t -> Hashtbl.add acc_tbl h (tfidf input_word h)
-    in tfidf_topics topics ht; ht
-
+    begin
+      List.map (fun (topic : string) : unit -> Hashtbl.add ht topic (tfidf input_word topic)) topics;
+      ht
+    end
 
 (* [get_topics_tfidf input_sent] takes in a sentence, tokenizes it, and for each word, 
   computes a list of tfidf scores of each word in each document. *)
@@ -280,7 +279,7 @@ let rec add_elt_to_list (doc : string*float) (lst: (string, float) Hashtbl.t) : 
   let tfidf = Hashtbl.find_opt lst (fst doc) in
   match tfidf with 
   | None -> Hashtbl.add lst (fst doc) (snd doc); lst
-  | Some i -> Hashtbl.add lst (fst doc) (i +. (snd doc)); lst
+  | Some i -> Hashtbl.remove lst (fst doc); Hashtbl.add lst (fst doc) (i +. (snd doc)); lst
   (* match lst with
   | [] -> [doc]
   | h::t -> if fst doc = fst h then (fst h, (snd doc) +. (snd h))::t else h::(add_elt_to_list doc t) *)
@@ -290,19 +289,23 @@ let rec add_elt_to_list (doc : string*float) (lst: (string, float) Hashtbl.t) : 
 let rec add_list_to_list (lst1: (string, float) Hashtbl.t) (lst2: (string, float) Hashtbl.t): (string, float) Hashtbl.t=
   Hashtbl.iter (fun (a : string) (b : float) : unit -> 
     match (Hashtbl.find_opt lst1 a) with
-      | Some found_b -> Hashtbl.add lst1 a (b +. found_b)
-      | None -> ()
+      | Some found_b -> Hashtbl.remove lst1 a; Hashtbl.add lst1 a (b +. found_b)
+      | None -> Hashtbl.add lst1 a b
   ) lst2; lst1
+
+let print_hashtable (ht : (string, float) Hashtbl.t) : unit = 
+Hashtbl.iter (fun x y -> print_string x; print_float y; print_newline ()) ht
 
 (* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
   the document with the highest sum. *)
 let add_tfidf (input_sent : string) : string =
   let doc_list = get_topics_tfidf input_sent in
-  let temp_list = List.fold_left (fun y x -> add_list_to_list x y) (Hashtbl.create 20000) doc_list in
+  let temp_list = List.fold_left add_list_to_list (Hashtbl.create 20000) doc_list in
   let good_tup = Hashtbl.fold (fun (a : string) (b: float) (c : string * float) : (string * float) -> 
-        if b > (snd c) then (a, b) else c) temp_list ("", 0.0) in
+        if b > (snd c) then (a, b) else c) temp_list ("David Gries", 0.0) in
 
   begin
+  (* print_hashtable temp_list; *)
   fst good_tup
   end
 
