@@ -52,7 +52,7 @@ let topics = [
   "Venture Capital";
   "Warby Parker";
   "Amazon Company";
-  "youTube";
+  "YouTube";
 ]
 
 type counter = Counter.t
