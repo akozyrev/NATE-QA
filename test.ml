@@ -193,7 +193,6 @@ let similarity_test = [
 
 
 (** tests for extract module *)
-(*TODO*)
 let test_json = Yojson.Basic.from_file "corpus/test.json"
 let real_json = Yojson.Basic.from_file "corpus/data.json"
 let test_topic_dict_list = all_full_topics ["Test_1";"Test_2";"Test_3"] test_json []
