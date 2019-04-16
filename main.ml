@@ -17,6 +17,7 @@ let rec response input =
     match input with
     | "bye" -> Pervasives.print_endline "Thank you for talking to me!"
     | input ->  
+    print_endline "Searching for the answer...";
     let output = process input in
     Pervasives.print_endline output;
     print_string  "> ";
