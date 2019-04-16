@@ -168,6 +168,7 @@ let rec print_topic_dict_list = function
     and if the word is in the topic_dict's counter 
     dictionary, then we add that entire topic_dict 
     type to the accumulator  *)
+    (*OPTIMIZED*)
 let rec which_dict_has_the_word (word:string)
     (topic_dict_lst:topic_dict list)
     (acc:topic_dict list): topic_dict list =
@@ -181,47 +182,7 @@ let rec which_dict_has_the_word (word:string)
   |[]->acc
 
 
-(* the above function only process one word;
-      this one just patterns matches a string
-      list and merge each `topic_dict list` into
-      a whole list with removing duplicates *)
-let rec process_phrase (words:string list)
-    (topic_dict_lst:topic_dict list)
-    (acc:topic_dict list) : topic_dict list =
-    (* Pervasives.print_string "help 6" ; *)
-  match words with
-  |word::lst -> (process_phrase lst topic_dict_lst
-                   (which_dict_has_the_word word topic_dict_lst []))
-  |[]->acc
-
-(* a wrapper pretty much that uses tokenize a string into a
-   string list and apply the above function to generate a
-   `topic_dict list` and use `Similarity.remove_dups` 
-    to remove duplicates*)
-let which_dict_has_the_words (words)(topic_dict_lst)
-      (acc) : topic_dict list=
-(* Pervasives.print_string "help 7" ; *)
-  let tokens = Tokenizer.word_tokenize words in
-  Similarity.remove_dups (process_phrase tokens topic_dict_lst acc)
-
-let rec most_common_dict (word:string)
-    (topic_dict_lst:topic_dict list) : string =
-    (* Pervasives.print_string "help 8" ; *)
-  let relevant_dicts = which_dict_has_the_word 
-      word topic_dict_lst [] in
-  let rec find_max_k tds acc_int acc_topic =
-    match tds with
-    | [] -> acc_topic
-    | h::t ->
-      let num_occurence = (Counter.find_word 
-              word h.counter) in
-      if num_occurence > acc_int then find_max_k 
-              t num_occurence h.topic
-      else find_max_k t acc_int acc_topic
-
-  in (find_max_k relevant_dicts 0 "")
-
-
+(*OPTIMIZED*)
 let rec count_word_in_topic (word:string) 
       (topic:string) : int =
   (* Pervasives.print_string "here 0" ; *)
@@ -244,6 +205,7 @@ let rec tf (word:string) (topic:string) =
     how important [word] is, based on the following 
     calculation: log (total # of documents / # of 
     documents with [word] in them) *)
+    (*OPTIMIZED*)
 let rec idf (word:string) =
   Pervasives.log(
     float_of_int (List.length topics) /.

@@ -48,11 +48,6 @@ val print_topic_dict_list : topic_dict list -> unit
 val which_dict_has_the_word : string -> topic_dict list -> topic_dict list -> topic_dict list
 
 (**
-   Returns all topic_dicts that contain any word of a sentence
-*)
-val which_dict_has_the_words : string -> topic_dict list -> topic_dict list -> topic_dict list
-
-(**
    Returns the topic whose content contains the most number of occurance of a word
 *)
 val most_common_dict : string -> topic_dict list -> string
