@@ -212,23 +212,24 @@ let rec idf (word:string) =
 
 (** [tfidf input_word topics] is the TF-IDF of an input word computed for the 
     given [topic] .*)
-let rec tfidf (input_word:string) (topic:string) =
+let rec tfidf (input_word:string) (topic:string): float =
   (tf input_word topic) *. (idf input_word)
 
 (** [construct_tfidf input_word] is a list of tuples, where the first 
     element of each tuple is a topic title (string) and the second element 
     is the TF-IDF value for that topic with respect to [input_word] *)
-let rec construct_tfidf (input_word:string) =
-  let rec tfidf_topics topics =
+let rec construct_tfidf (input_word:string) : (string, float) Hashtbl.t =
+  let ht = Hashtbl.create 200000 in
+  let rec tfidf_topics topics acc_tbl =
     match topics with 
-    | [] -> []
-    | h::t -> (h, (tfidf input_word h)) :: [] @ tfidf_topics t 
-  in 
-  tfidf_topics topics 
+    | [] -> ()
+    | h::t -> Hashtbl.add acc_tbl h (tfidf input_word h)
+    in tfidf_topics topics ht; ht
+
 
 (* [get_topics_tfidf input_sent] takes in a sentence, tokenizes it, and for each word, 
   computes a list of tfidf scores of each word in each document. *)
-let get_topics_tfidf (input_sent:string): ((string*float) list list) = 
+let get_topics_tfidf (input_sent:string): ((string, float) Hashtbl.t list) = 
   let input_tokens = Similarity.remove_dups 
         (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
@@ -275,22 +276,33 @@ let get_topics (td_lst:topic_dict list) =
 
 (** [add_elt_to_list doc lst] returns a list of tuples where the first value corresponds
   to the document and the value is the combined tfidf scores of each word in that document. *)
-let rec add_elt_to_list (doc : string*float) (lst: (string*float) list) =
-  match lst with
+let rec add_elt_to_list (doc : string*float) (lst: (string, float) Hashtbl.t) : (string, float) Hashtbl.t =
+  let tfidf = Hashtbl.find_opt lst (fst doc) in
+  match tfidf with 
+  | None -> Hashtbl.add lst (fst doc) (snd doc); lst
+  | Some i -> Hashtbl.add lst (fst doc) (i +. (snd doc)); lst
+  (* match lst with
   | [] -> [doc]
-  | h::t -> if fst doc = fst h then (fst h, (snd doc) +. (snd h))::t else h::(add_elt_to_list doc t)
+  | h::t -> if fst doc = fst h then (fst h, (snd doc) +. (snd h))::t else h::(add_elt_to_list doc t) *)
 
 (* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate 
   string values. If the string values are equal, their float values are added. *)
-let rec add_list_to_list (lst1: (string*float) list) (lst2: (string*float) list) =
-  List.fold_left (fun y x -> add_elt_to_list x y) lst1 lst2
+let rec add_list_to_list (lst1: (string, float) Hashtbl.t) (lst2: (string, float) Hashtbl.t): (string, float) Hashtbl.t=
+  Hashtbl.iter (fun (a : string) (b : float) : unit -> 
+    match (Hashtbl.find_opt lst1 a) with
+      | Some found_b -> Hashtbl.add lst1 a (b +. found_b)
+      | None -> ()
+  ) lst2; lst1
 
 (* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
   the document with the highest sum. *)
 let add_tfidf (input_sent : string) : string =
   let doc_list = get_topics_tfidf input_sent in
-  let temp_list = List.fold_left (fun y x -> add_list_to_list x y) [] doc_list in
-  fst (List.fold_left (fun y x -> (if ((snd y) >= (snd x)) then y else x)) ("", 0.0) temp_list)
+  let temp_list = List.fold_left (fun y x -> add_list_to_list x y) (Hashtbl.create 20000) doc_list in
+  let good_tup = Hashtbl.fold (fun (a : string) (b: float) (c : string * float) : (string * float) -> 
+        if b > (snd c) then (a, b) else c) temp_list ("", 0.0) in
+
+  fst good_tup
 
 
 let get_response (input_sent : string) : string =

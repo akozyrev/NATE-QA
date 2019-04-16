@@ -75,11 +75,11 @@ val get_topics : topic_dict list -> string list
 
 (** [add_elt_to_list doc lst] returns a list of tuples where the first value corresponds
   to the document and the value is the combined tfidf scores of each word in that document. *)
-val add_elt_to_list : (string*float) -> (string*float) list -> (string*float) list
+val add_elt_to_list : (string * float) -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t
 
 (* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate 
   string values. If the string values are equal, their float values are added. *)
-val add_list_to_list : (string*float) list -> (string*float) list -> (string*float) list 
+val add_list_to_list : (string, float) Hashtbl.t -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t 
 
 (* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
   the document with the highest sum. *)
