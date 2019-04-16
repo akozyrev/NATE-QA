@@ -174,11 +174,10 @@ let rec which_dict_has_the_word (word:string)
     (* Pervasives.print_string "help 5" ; *)
   match topic_dict_lst with
   |topic_dict::lst-> 
-    if Counter.mem (Tokenizer.make_lower word) topic_dict.counter 
-    then which_dict_has_the_word (Tokenizer.make_lower word) 
+    if Counter.mem word topic_dict.counter 
+    then which_dict_has_the_word word 
         lst (topic_dict::acc) 
-    else which_dict_has_the_word
-        (Tokenizer.make_lower word) lst acc
+    else which_dict_has_the_word word lst acc
   |[]->acc
 
 
