@@ -59,10 +59,6 @@ val count_word_in_topic : string -> string -> int
     calculated response to the user's input *)
 val max_jaccard_sentence : string ->  string ->  string
 
-val get_topic : topic_dict -> string
-
-val get_topics : topic_dict list -> string list
-
 (** [add_elt_to_list doc lst] returns a list of tuples where the first value corresponds
   to the document and the value is the combined tfidf scores of each word in that document. *)
 val add_elt_to_list : (string * float) -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t

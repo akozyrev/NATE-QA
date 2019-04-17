@@ -38,7 +38,7 @@ module Counter : sig
   (** Return actual dictionary list *)
   val get_dictionary: t -> (string, int) Hashtbl.t
 
-
+(** find number of occurences of word in Counter d *)
   val find_word : string -> t -> int
 
 end

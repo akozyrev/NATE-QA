@@ -15,9 +15,8 @@ type topic = {
   content : string list;
 }
 
-(* open up the json file *)
-let j = Yojson.Basic.from_file "corpus/improved_data.json"
 
+(**unpack given json file*)
 let unpack_Yojson (json: Yojson.Basic.json): topic = 
   {
     topic = member "topic" json|>to_string;
@@ -26,24 +25,24 @@ let unpack_Yojson (json: Yojson.Basic.json): topic =
               |> List.map to_string;
   }
 
-let json_lst = to_list j
-let all_topics = List.map unpack_Yojson json_lst
+(** open up the json file *)
+let j = Yojson.Basic.from_file "corpus/improved_data.json"
 
+(** return topic of tp *)
 let get_topic (tp: topic) : string =
   tp.topic
 
+(** return all topic bindings of tp list*)
 let get_all_topics (topic_lst: topic list) : string list =
   List.map (get_topic) topic_lst
 
-let topics = get_all_topics all_topics
-
-
+(** return content of given topic *)
 let find_the_topics_content (key_word:string) (top_lst: topic list)= 
   match (List.filter (fun x -> x.topic = key_word) top_lst) with
   |topic::lst -> topic.content
   |[]->failwith"This topc does not exist"
 
-(* create topic type that has the topic and its content *)
+(** create topic type that has the topic and its content *)
 let get_content (key_word:string) 
     (json: Yojson.Basic.json) : topic= 
     (* Pervasives.print_string "track 2" ; *)
@@ -65,12 +64,19 @@ let rec string_topic_dict (tp: string list)
     | h::t -> Hashtbl.add acc_tbl h (get_content h j);
               string_topic_dict t acc_tbl 
 
+(*json to list format*)
+let json_lst = to_list j
 
-(** store value of string topic dict as global var
-for fast access*)
-let content_dict = string_topic_dict topics (Hashtbl.create 200) 
+(**list of topic strings we parsed *)
+let all_topics = List.map unpack_Yojson json_lst
 
-(* given a string list of all topics, 
+(**list of topic_dicts we parsed *)
+let topics = get_all_topics all_topics
+
+(** string topic dict stored for fast access*)
+let content_dict = string_topic_dict topics (Hashtbl.create 200)
+
+(** given a string list of all topics, 
     this one gives you list of topic type *)
 let rec all_topics (topics : string list) 
   (json : Yojson.Basic.json) (acc : topic list):topic list = 
@@ -80,7 +86,7 @@ let rec all_topics (topics : string list)
         (get_content word json :: acc)
   |[] -> acc
 
-(* given a topic/key word, this one gives 
+(** given a topic/key word, this one gives 
    you a list of tokenized word of the content 
    of the topic *)
 let tokenized_word_list (key_word:string)  
@@ -89,13 +95,13 @@ let tokenized_word_list (key_word:string)
   List.concat (List.map Tokenizer.word_tokenize 
                  (Hashtbl.find content_dict key_word).content)
 
-(* gives a counter type of the topic *)
+(** gives a counter type of the topic *)
 let count_word (key_word:string) 
     (acc:string list): counter = 
     (* Pervasives.print_string "help 0" ; *)
   Counter.make_dict (tokenized_word_list key_word acc)
 
-(* returns topic_dict data type that has 
+(** returns topic_dict data type that has 
     the topic and the counter dictionary 
     via a representation of record *)
 let full_topic_dict (key_word:string) : topic_dict = 
@@ -105,7 +111,7 @@ let full_topic_dict (key_word:string) : topic_dict =
     counter = (count_word key_word []);
   }
 
-(* returns a list of topic_dict 
+(** returns a list of topic_dict 
     type from a list of topics *)
 let rec all_full_topics (topics : string list) 
     (acc : topic_dict list) : topic_dict list = 
@@ -115,11 +121,12 @@ let rec all_full_topics (topics : string list)
                  (full_topic_dict word :: acc)
   |[] -> acc
 
-(* this function actually creates a list of 
-   topic_dict from the topic list we have above *)
+
+(** list of topic_dict from the topic list we have above *)
 let all_topic_dict_counter = all_full_topics topics []
 
-(* this function actually creates a HASHTABLE of 
+
+(** this function actually creates a HASHTABLE of 
    topic_dict from the topic list we have above *)
 let rec get_td_counter_ht (td: topic_dict list)  
   (acc_tbl: (string, Counter.t) Hashtbl.t) : 
@@ -130,25 +137,25 @@ let rec get_td_counter_ht (td: topic_dict list)
             get_td_counter_ht t acc_tbl
 
 
-(* this variable is a HASHTABLE of 
+(** this variable is a HASHTABLE of 
    topic_dict from the topic list we have above *)
 let all_topic_dict_counter_ht = get_td_counter_ht 
       all_topic_dict_counter (Hashtbl.create 100)
 
-(* a getter function that allows us to use 
+(** a getter function that allows us to use 
     List.map in the following *)
 let get_counter topic_dict =
 (* Pervasives.print_string "help 4" ; *)
   topic_dict.counter
 
-(* print helper function to visualize 
+(** print helper function to visualize 
     `topic_dict list` from `all_topic_dict_counter` *)
 let rec print_topic_dict_list = function 
   |  [] -> ()
   |  (e:topic_dict)::l -> print_string e.topic ; 
     print_string " | " ; print_topic_dict_list l
 
-(* given a word, this function checks every 
+(** given a word, this function checks every 
     topic_dict generated from the above topic list, 
     and if the word is in the topic_dict's counter 
     dictionary, then we add that entire topic_dict 
@@ -167,7 +174,7 @@ let rec which_dict_has_the_word (word:string)
   |[]->acc
 
 
-(*OPTIMIZED*)
+(** count how many times word appears in given topic*)
 let rec count_word_in_topic (word:string) 
       (topic:string) : int =
   (* Pervasives.print_string "here 0" ; *)
@@ -216,7 +223,7 @@ let rec construct_tfidf (input_word:string) :
       ht
     end
 
-(* [get_topics_tfidf input_sent] takes in a 
+(** [get_topics_tfidf input_sent] takes in a 
   sentence, tokenizes it, and for each word, 
   computes a list of tfidf scores of each word 
   in each document. *)
@@ -264,11 +271,6 @@ let max_jaccard_sentence (topic:string)
 
   in find_max_j doc_sent_jac_dict "" 0.0
 
-let get_topic (td:topic_dict) =
-  td.topic
-
-let get_topics (td_lst:topic_dict list) =
-  List.map get_topic td_lst
 
 (** [add_elt_to_list doc lst] returns a list of 
       tuples where the first value corresponds
@@ -283,7 +285,7 @@ let rec add_elt_to_list (doc : string*float)
           Hashtbl.add lst (fst doc) (i +. (snd doc)); lst
 
 
-(* [add_list_to_list lst1 lst2] combines the elements 
+(** [add_list_to_list lst1 lst2] combines the elements 
     of lst1 and lst2, where there are no duplicate 
   string values. If the string values are equal, 
       their float values are added. *)
@@ -296,12 +298,14 @@ let rec add_list_to_list (lst1: (string, float) Hashtbl.t)
       | None -> Hashtbl.add lst1 a b
   ) lst2; lst1
 
+(** helper function to print hashtable 
+for debugging *)
 let print_hashtable (ht : 
         (string, float) Hashtbl.t) : unit = 
     Hashtbl.iter (fun x y -> print_string x; 
           print_float y; print_newline ()) ht
 
-(* [add_tfidf input_sent] computes the sum of 
+(** [add_tfidf input_sent] computes the sum of 
 TFIDF scores for each word in each document and returns
   the document with the highest sum. *)
 let add_tfidf (input_sent : string) : string =
@@ -318,9 +322,15 @@ let add_tfidf (input_sent : string) : string =
   fst good_tup
   end
 
+(**calculate response of input sentence
+and return answer*)
 let get_response (input_sent : string) : string =
   let topic_doc = add_tfidf input_sent in
   let response = begin (*  Pervasives.print_string topic_doc;  *)
           max_jaccard_sentence topic_doc input_sent 
           end 
   in response
+
+
+
+
