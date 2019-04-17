@@ -3,58 +3,6 @@ open Tokenizer
 open Counter
 open Similarity
 
-let topics = [
-  "David Gries";
-  "Alan Turing";
-  "Algorithm";
-  "Anita Borg";
-  "Apple";
-  "Artifical Intelligence";
-  "Barbara Liskov";
-  "Bill Gates";
-  "Computer Graphics";
-  "Computer Science";
-  "Computer Vision";
-  "Cornell University";
-  "David Gries";
-  "Deep Learning";
-  "Deepmind";
-  "Distributed Computing";
-  "Elon Musk";
-  "Embedded Systems";
-  "Facebook";
-  "Grace Hopper";
-  "Human Computer Interaction";
-  "Intel";
-  "iPad";
-  "iPhone";
-  "Jeff Bezos";
-  "Logic";
-  "Machine Learning";
-  "Mark Zuckerberg";
-  "Mathematics";
-  "Microsoft";
-  "Natural Language Processing";
-  "Pinterest";
-  "Privacy";
-  "Programming Languages";
-  "Reinforcement Learning";
-  "Scott Belsky";
-  "Sheryl Sandberg";
-  "Silicon Valley";
-  "Slack Technologies";
-  "Steve Jobs";
-  "Tesla";
-  "Tracy Chou";
-  "Turing Award";
-  "Twitter";
-  "Uber";
-  "Venture Capital";
-  "Warby Parker";
-  "Amazon Company";
-  "youTube";
-]
-
 type counter = Counter.t
 
 type topic_dict = {
@@ -68,16 +16,41 @@ type topic = {
 }
 
 (* open up the json file *)
-let j = Yojson.Basic.from_file "corpus/data.json"
+let j = Yojson.Basic.from_file "corpus/improved_data.json"
+
+let unpack_Yojson (json: Yojson.Basic.json): topic = 
+  {
+    topic = member "topic" json|>to_string;
+    content = member "content" json
+              |>to_list 
+              |> List.map to_string;
+  }
+
+let json_lst = to_list j
+let all_topics = List.map unpack_Yojson json_lst
+
+let get_topic (tp: topic) : string =
+  tp.topic
+
+let get_all_topics (topic_lst: topic list) : string list =
+  List.map (get_topic) topic_lst
+
+let topics = get_all_topics all_topics
+
+let find_the_topics_content (key_word:string) (top_lst: topic list)= 
+  match (List.filter (fun x -> x.topic = key_word) top_lst) with
+  |topic::lst -> topic.content
+  |[]->failwith"This topc does not exist"
 
 (* create topic type that has the topic and its content *)
 let get_content (key_word:string) 
     (json: Yojson.Basic.json) : topic= 
   {
     topic = key_word;
-    content = json |> member key_word  
-              |> member "content" |> to_list 
-              |> List.map to_string;
+    content = json
+              |>to_list
+              |>List.map unpack_Yojson
+              |>find_the_topics_content key_word
   }
 
 (* given a string list of all topics, 
@@ -228,7 +201,7 @@ let rec construct_tfidf (input_word:string) =
 
 let rec construct_tfidf_by_doc (input_sent:string) (topic:string) =
   let input_tokens = Similarity.remove_dups 
-        (Tokenizer.word_tokenize input_sent) in
+      (Tokenizer.word_tokenize input_sent) in
   let rec tfidf_topics sent_words =
     match sent_words with 
     | [] -> []
@@ -246,10 +219,10 @@ let return_topic (input_sent:string) =
   fst (List.fold_left (fun y x -> (if ((snd y) >= (snd x)) then y else x)) ("", 0.0) new_list)
 
 (* [get_topics_tfidf input_sent] takes in a sentence, tokenizes it, and for each word, 
-  computes a list of tfidf scores of each word in each document. *)
+   computes a list of tfidf scores of each word in each document. *)
 let get_topics_tfidf (input_sent:string): ((string*float) list list) = 
   let input_tokens = Similarity.remove_dups 
-        (Tokenizer.word_tokenize input_sent) in
+      (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
 
 (** Return sentence in specified document topic containing the 
@@ -293,19 +266,19 @@ let get_topics (td_lst:topic_dict list) =
   List.map get_topic td_lst
 
 (** [add_elt_to_list doc lst] returns a list of tuples where the first value corresponds
-  to the document and the value is the combined tfidf scores of each word in that document. *)
+    to the document and the value is the combined tfidf scores of each word in that document. *)
 let rec add_elt_to_list (doc : string*float) (lst: (string*float) list) =
   match lst with
   | [] -> [doc]
   | h::t -> if fst doc = fst h then (fst h, (snd doc) +. (snd h))::t else h::(add_elt_to_list doc t)
 
 (* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate 
-  string values. If the string values are equal, their float values are added. *)
+   string values. If the string values are equal, their float values are added. *)
 let rec add_list_to_list (lst1: (string*float) list) (lst2: (string*float) list) =
   List.fold_left (fun y x -> add_elt_to_list x y) lst1 lst2
 
 (* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
-  the document with the highest sum. *)
+   the document with the highest sum. *)
 let add_tfidf (input_sent : string) : string =
   let doc_list = get_topics_tfidf input_sent in
   let temp_list = List.fold_left (fun y x -> add_list_to_list x y) [] doc_list in
