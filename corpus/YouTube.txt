@@ -186,6 +186,10 @@ On July 27, 2015, Google announced in a blog post that it would be removing the 
 In December 2012, two billion views were removed from the view counts of Universal and Sony music videos on YouTube, prompting a claim by The Daily Dot that the views had been deleted due to a violation of the site's terms of service, which ban the use of automated processes to inflate view counts. This was disputed by Billboard, which said that the two billion views had been moved to Vevo, since the videos were no longer active on YouTube. On August 5, 2015, YouTube removed the feature which caused a video's view count to freeze at "301" (later "301+") until the actual count was verified to prevent view count fraud. YouTube view counts once again updated in real time.
 
 
+=== Other algorithm misfires ===
+In 2018, Youtube introduced an a system that would automatically add information boxes to videos that its algorithms determined may present conspiracy theories and other fake news, filling the infobox with content from Encyclopedia Britannica and Wikipedia as a means to inform users to minimize misinformation propagation without impacting freedom of speech. In the wake of the Notre-Dame de Paris fire on April 15, 2019, several user-uploaded videos of the landmark fire were flagged by Youtube' system automatically with an Encyclopedia Britannica article on the false conspiracy theories around the September 11 attacks. Several users complained to Youtube about this inappropriate connection. Youtube officials apologized for this, stating that their algorithms had misidentified the fire videos and added the information block automatically, and were taking steps to remedy this.
+
+
 == Censorship and filtering ==
 
 As of 2018, China and North Korea permanently block accessing YouTube, while Iran blocks YouTube on only one internet service provider. YouTube was blocked in Uzbekistan in October 2018 for unknown reasons. Access to Facebook had been blocked a month earlier. People in the country rely on virtual private network software to circumvent the blockage. On January 15, it was reported that the blockage had been repealed, but it lasted only for 6-7 hours.Governments block YouTube for a variety of reasons, including:
@@ -245,6 +249,6 @@ Official website (Mobile)
 YouTube on Blogger
 Press room – YouTube
 YouTube – Google Developers
-Haran, Brady; Hamilton, Ted. "Why do YouTube views freeze at 301?". Numberphile. Brady Haran.
+Haran, Brady; Hamilton, Ted. "Why do YouTube views freeze at 301?". Numberphile. Brady Haran. Archived from the original on December 26, 2016. Retrieved April  8, 2013.
 Dickey, Megan Rose (February 15, 2013). "The 22 Key Turning Points in the History of YouTube". Business Insider. Axel Springer SE. Retrieved March 25, 2017.
 Are YouTubers Revolutionizing Entertainment? (June 6, 2013), video produced for PBS by Off Book.

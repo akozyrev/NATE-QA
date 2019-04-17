@@ -115,7 +115,7 @@ let similarity_test = [
 
 (** tests for extract module *)
 let test_json = Yojson.Basic.from_file "corpus/test.json"
-let real_json = Yojson.Basic.from_file "corpus/data.json"
+let real_json = Yojson.Basic.from_file "corpus/improved_data.json"
 let test_topic_dict_list = all_full_topics ["Test_1";"Test_2";"Test_3"] test_json []
 let extract_test = [
   "test_get_content" >:: (fun _ -> 
@@ -128,7 +128,7 @@ let extract_test = [
 
   "test_counter_word_in_topic_in_real" >:: (fun _ -> 
       assert_equal (count_word_in_topic "youtube" "youTube" real_json )
-        (362) );
+        (365) );
 
   "test_most_common_dict_test" >:: (fun _ -> 
       assert_equal (most_common_dict "this"  test_topic_dict_list)

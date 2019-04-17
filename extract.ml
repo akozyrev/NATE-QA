@@ -3,58 +3,6 @@ open Tokenizer
 open Counter
 open Similarity
 
-let topics = [
-  "David Gries";
-  "Alan Turing";
-  "Algorithm";
-  "Anita Borg";
-  "Apple";
-  "Artificial Intelligence";
-  "Barbara Liskov";
-  "Bill Gates";
-  "Computer Graphics";
-  "Computer Science";
-  "Computer Vision";
-  "Cornell University";
-  "David Gries";
-  "Deep Learning";
-  "Deepmind";
-  "Distributed Computing";
-  "Elon Musk";
-  "Embedded Systems";
-  "Facebook";
-  "Grace Hopper";
-  "Human Computer Interaction";
-  "Intel";
-  "iPad";
-  "iPhone";
-  "Jeff Bezos";
-  "Logic";
-  "Machine Learning";
-  "Mark Zuckerberg";
-  "Mathematics";
-  "Microsoft";
-  "Natural Language Processing";
-  "Pinterest";
-  "Privacy";
-  "Programming Languages";
-  "Reinforcement Learning";
-  "Scott Belsky";
-  "Sheryl Sandberg";
-  "Silicon Valley";
-  "Slack Technologies";
-  "Steve Jobs";
-  "Tesla";
-  "Tracy Chou";
-  "Turing Award";
-  "Twitter";
-  "Uber";
-  "Venture Capital";
-  "Warby Parker";
-  "Amazon Company";
-  "YouTube";
-]
-
 type counter = Counter.t
 
 type topic_dict = {
@@ -68,7 +16,31 @@ type topic = {
 }
 
 (* open up the json file *)
-let j = Yojson.Basic.from_file "corpus/data.json"
+let j = Yojson.Basic.from_file "corpus/improved_data.json"
+
+let unpack_Yojson (json: Yojson.Basic.json): topic = 
+  {
+    topic = member "topic" json|>to_string;
+    content = member "content" json
+              |>to_list 
+              |> List.map to_string;
+  }
+
+let json_lst = to_list j
+let all_topics = List.map unpack_Yojson json_lst
+
+let get_topic (tp: topic) : string =
+  tp.topic
+
+let get_all_topics (topic_lst: topic list) : string list =
+  List.map (get_topic) topic_lst
+
+let topics = get_all_topics all_topics
+
+let find_the_topics_content (key_word:string) (top_lst: topic list)= 
+  match (List.filter (fun x -> x.topic = key_word) top_lst) with
+  |topic::lst -> topic.content
+  |[]->failwith"This topc does not exist"
 
 (* create topic type that has the topic and its content *)
 let get_content (key_word:string) 
@@ -76,9 +48,10 @@ let get_content (key_word:string)
     (* Pervasives.print_string "track 2" ; *)
   {
     topic = key_word;
-    content = json |> member key_word  
-              |> member "content" |> to_list 
-              |> List.map to_string;
+    content = json
+              |>to_list
+              |>List.map unpack_Yojson
+              |>find_the_topics_content key_word
   }
 
 (* given a string list of all topics, 
@@ -238,7 +211,7 @@ let rec construct_tfidf (input_word:string) :
 let get_topics_tfidf (input_sent:string): 
     ((string, float) Hashtbl.t list) = 
   let input_tokens = Similarity.remove_dups 
-        (Tokenizer.word_tokenize input_sent) in
+      (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
 
 (** Return sentence in specified document topic containing the 
