@@ -114,96 +114,71 @@ let similarity_test = [
 
 
 (** tests for extract module *)
-let test_json = Yojson.Basic.from_file "corpus/test.json"
-let real_json = Yojson.Basic.from_file "corpus/improved_data.json"
-let test_topic_dict_list = all_full_topics ["Test_1";"Test_2";"Test_3"] test_json []
 let extract_test = [
-  "test_get_content" >:: (fun _ -> 
-      assert_equal (Extract.tokenized_word_list "Test_3" test_json [])
-        (["this";"is";"a";"test";"sentence"]) );
-
-  (* "test_counter_word_in_topic" >:: (fun _ -> 
-      assert_equal (count_word_in_topic "this" "Test_1" test_json )
-        (3) );
-
   "test_counter_word_in_topic_in_real" >:: (fun _ -> 
-      assert_equal (count_word_in_topic "youtube" "youTube" real_json )
+      assert_equal (count_word_in_topic "youtube" "youTube"  )
         (365) );
 
-  "test_most_common_dict_test" >:: (fun _ -> 
-      assert_equal (most_common_dict "this"  test_topic_dict_list)
-        ("Test_2") );
-
-  "test_most_common_dict_real" >:: (fun _ -> 
-      assert_equal (most_common_dict "youtube"  all_topic_dict_counter)
-        ("youTube") ); *)
-
-  (* "test_which_dict_has_the_words_1" >:: (fun _ -> 
-      assert_equal (get_topics (which_dict_has_the_words "second sentence" test_topic_dict_list []))
-        (["Test_1";"Test_2";"Test_3"]) );  
+  "test_which_dict_has_the_words_1" >:: (fun _ -> assert_equal 
+    (get_topics (which_dict_has_the_word "spacex" all_topic_dict_counter []))
+        (["Artificial Intelligence"; "Elon Musk"]) );
 
   "test_which_dict_has_the_words_2" >:: (fun _ -> 
-      assert_equal (get_topics (which_dict_has_the_words "second MAKES" test_topic_dict_list []))
-        (["Test_1";"Test_2"]) );  
-
-  "test_which_dict_has_the_words_3" >:: (fun _ -> 
-      assert_equal (get_topics (which_dict_has_the_words "second makes" test_topic_dict_list []))
-        (["Test_1";"Test_2"]) );  *)
+      assert_equal (get_topics (which_dict_has_the_word 
+      "askdnjaksjdaojd" all_topic_dict_counter []))
+        ([]) );  
 
   "test_max_jaccard_sentence">:: (fun _ -> 
-      assert_equal (max_jaccard_sentence "Test_1" "Lion sleesp in the jungle" test_json)
-        ("Do you watch Lion King?") ); 
+      assert_equal 
+      (max_jaccard_sentence "David Gries" "Where does David Gries live?")
+        "David Gries currently lives in Ithaca, New York."); 
 ]
+
+let empty_dict = Counter.get_dictionary (Counter.make_dict [])
+let word_dict = Hashtbl.create 5 
 
 
 (** tests for counter module --done*)
 let counter_test = [
 
-  (* "test_add_word1" >:: (fun _ -> assert_equal 
-                           [("hello", 2); ("world", 1)]
-                           (Counter.add_word "hello"  [("hello", 1); ("world", 1)]) );
+    "test_add_word1" >:: (fun _ -> assert_equal 
+                       (Hashtbl.add word_dict "hello" 1; word_dict)
+                           (Counter.add_word "hello"  word_dict) );
 
-  "test_add_word2" >:: (fun _ -> assert_equal 
-                           [("world", 1)]
-                           (Counter.add_word "world"  []) );
+    "test_add_word2" >:: (fun _ -> assert_equal 
+                       (Hashtbl.add word_dict "world" 1; word_dict)
+                           (Counter.add_word "world"  word_dict) );
 
-  "test_add_words1" >:: (fun _ -> assert_equal 
-                            [("hello", 2); ("world", 1)]
-                            (Counter.add_words ["hello";"world";"hello"]  []) );
+    "test_add_words" >:: (fun _ -> assert_equal 
+                    (Hashtbl.add word_dict "world" 2;
+                    Hashtbl.add word_dict "hello" 3;
+                     word_dict)
+            (Counter.add_words ["hello";"world";"hello"]  word_dict) );
 
-  "test_add_words2" >:: (fun _ -> assert_equal 
-                            [("world", 1)]
-                            (Counter.add_words ["world"]  []));
 
-  "test_make_dict1" >:: (fun _ -> assert_equal 
-                            ({dict = [("hello", 1);  ("world", 2)]; 
-                              length = 2}:Counter.t )
-                            (Counter.make_dict ["hello"; "world"; "world"]));
+    "test_get_len1" >:: (fun _ -> assert_equal 0
+                            (Hashtbl.length empty_dict));
 
-  "test_make_dict2" >:: (fun _ -> assert_equal 
-                            ({dict = []; length = 0}:Counter.t )
-                            (Counter.make_dict []));
+    "test_get_len2" >:: (fun _ -> assert_equal 2
+        (Counter.get_length (Counter.make_dict 
+        ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_mem1" >:: (fun _ -> assert_equal false 
-                      (Counter.mem "hi" {dict = [("hello", 1); 
-                                                 ("world", 2)]; length = 2}));
+    "test_mem1" >:: (fun _ -> assert_equal false (Counter.mem "hi"
+        (Counter.make_dict ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_mem2" >:: (fun _ -> assert_equal true 
-                      (Counter.mem "hello" {dict = [("hello", 1); 
-                                                    ("world", 2)]; length = 2}));
+    "test_mem2" >:: (fun _ -> assert_equal true 
+        (Counter.mem "hello" (Counter.make_dict 
+        ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_get_len" >:: (fun _ -> assert_equal 2 
-                         (Counter.get_length {dict = [("hello", 1); 
-                                                      ("world", 2)]; length = 2}));
+    "test_find_word1" >:: (fun _ -> assert_equal 3 
+        (Counter.find_word "hello" (Counter.make_dict 
+        ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_get_dict" >:: (fun _ -> assert_equal 
-                          ([("hello", 1); ("world", 2)])
-                          (Counter.get_dictionary {dict = [("hello", 1); 
-                                                           ("world", 2)]; length = 2}));
+    "test_find_word2" >:: (fun _ -> assert_equal 0 
+        (Counter.find_word "hi" (Counter.make_dict 
+        ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_find_word" >:: (fun _ -> assert_equal 2
-                           (Counter.find_word "world" {dict = [("hello", 1); 
-                                                               ("world", 2)]; length = 2} ) ); *)
+
 ]
 
 let suite =

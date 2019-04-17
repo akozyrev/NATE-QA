@@ -37,6 +37,7 @@ let get_all_topics (topic_lst: topic list) : string list =
 
 let topics = get_all_topics all_topics
 
+
 let find_the_topics_content (key_word:string) (top_lst: topic list)= 
   match (List.filter (fun x -> x.topic = key_word) top_lst) with
   |topic::lst -> topic.content
@@ -54,6 +55,21 @@ let get_content (key_word:string)
               |>find_the_topics_content key_word
   }
 
+(**make dict containing bindings of topic name 
+  -> topic type*)
+let rec string_topic_dict (tp: string list) 
+  (acc_tbl : ((string, topic) Hashtbl.t)) : 
+  ((string, topic) Hashtbl.t) =
+    match tp with 
+    | [] -> acc_tbl
+    | h::t -> Hashtbl.add acc_tbl h (get_content h j);
+              string_topic_dict t acc_tbl 
+
+
+(** store value of string topic dict as global var
+for fast access*)
+let content_dict = string_topic_dict topics (Hashtbl.create 200) 
+
 (* given a string list of all topics, 
     this one gives you list of topic type *)
 let rec all_topics (topics : string list) 
@@ -67,45 +83,41 @@ let rec all_topics (topics : string list)
 (* given a topic/key word, this one gives 
    you a list of tokenized word of the content 
    of the topic *)
-let tokenized_word_list (key_word:string) 
-    (json: Yojson.Basic.json) 
+let tokenized_word_list (key_word:string)  
     (acc:string list): string list = 
     (* Pervasives.print_string "track 0" ; *)
   List.concat (List.map Tokenizer.word_tokenize 
-                 (get_content key_word json).content)
+                 (Hashtbl.find content_dict key_word).content)
 
 (* gives a counter type of the topic *)
 let count_word (key_word:string) 
-    (json: Yojson.Basic.json) 
     (acc:string list): counter = 
     (* Pervasives.print_string "help 0" ; *)
-  Counter.make_dict (tokenized_word_list key_word json acc)
+  Counter.make_dict (tokenized_word_list key_word acc)
 
 (* returns topic_dict data type that has 
     the topic and the counter dictionary 
     via a representation of record *)
-let full_topic_dict (key_word:string) 
-    (json: Yojson.Basic.json) : topic_dict = 
+let full_topic_dict (key_word:string) : topic_dict = 
     (* Pervasives.print_string "help 1" ; *)
   {
     topic = key_word;
-    counter = (count_word key_word json []);
+    counter = (count_word key_word []);
   }
 
 (* returns a list of topic_dict 
     type from a list of topics *)
 let rec all_full_topics (topics : string list) 
-    (json : Yojson.Basic.json) 
     (acc : topic_dict list) : topic_dict list = 
     (* Pervasives.print_string "help 3" ; *)
   match topics with 
   |word::t -> all_full_topics t 
-                json (full_topic_dict word json :: acc)
+                 (full_topic_dict word :: acc)
   |[] -> acc
 
 (* this function actually creates a list of 
    topic_dict from the topic list we have above *)
-let all_topic_dict_counter = all_full_topics topics j []
+let all_topic_dict_counter = all_full_topics topics []
 
 (* this function actually creates a HASHTABLE of 
    topic_dict from the topic list we have above *)
@@ -220,8 +232,8 @@ let get_topics_tfidf (input_sent:string):
     This is the last function we will need to return the 
     calculated response to the user's input *)
 let max_jaccard_sentence (topic:string) 
-    (input_sent:string) (json): string = 
-  let topic_we_want = get_content topic json in
+    (input_sent:string) : string = 
+  let topic_we_want = (Hashtbl.find content_dict topic) in
   let doc_sentences = topic_we_want.content in
   let input_tokens = Similarity.remove_dups 
       (Tokenizer.word_tokenize input_sent) in
@@ -309,6 +321,6 @@ let add_tfidf (input_sent : string) : string =
 let get_response (input_sent : string) : string =
   let topic_doc = add_tfidf input_sent in
   let response = begin (*  Pervasives.print_string topic_doc;  *)
-          max_jaccard_sentence topic_doc input_sent j 
+          max_jaccard_sentence topic_doc input_sent 
           end 
   in response

@@ -15,22 +15,22 @@ val all_topics : string list -> Yojson.Basic.json -> topic list -> topic list
 (** 
    Returns tokenizedd content of a topic
 *)
-val tokenized_word_list : string -> Yojson.Basic.json -> string list -> string list
+val tokenized_word_list : string -> string list -> string list
 
 (**
    Returns a counter of the content of a topic
 *)
-val count_word : string -> Yojson.Basic.json -> string list -> counter
+val count_word : string ->  string list -> counter
 
 (** 
    Returns a topic_dict type of a topic
 *)
-val full_topic_dict : string -> Yojson.Basic.json -> topic_dict
+val full_topic_dict : string ->  topic_dict
 
 (**
    Returns a list of topic_dict of a list of topics
 *)
-val all_full_topics : string list -> Yojson.Basic.json -> topic_dict list -> topic_dict list
+val all_full_topics : string list -> topic_dict list -> topic_dict list
 
 (**
    Returns a list of topict_dict from a certain list of topics
@@ -57,7 +57,7 @@ val count_word_in_topic : string -> string -> int
     input sentence (question we ask the chatbot).
     This is the last function we will need to return the 
     calculated response to the user's input *)
-val max_jaccard_sentence : string ->  string -> Yojson.Basic.json -> string
+val max_jaccard_sentence : string ->  string ->  string
 
 val get_topic : topic_dict -> string
 
@@ -76,3 +76,5 @@ val add_list_to_list : (string, float) Hashtbl.t -> (string, float) Hashtbl.t ->
 val add_tfidf : string -> string
 
 val get_response : string -> string
+
+val all_topic_dict_counter : topic_dict list
