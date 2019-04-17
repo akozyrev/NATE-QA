@@ -56,7 +56,7 @@ In April 2016, New Scientist obtained a copy of a data-sharing agreement between
 
 
 == DeepMind Ethics and Society ==
-As of October 2017, DeepMind has expanded its focus to also include AI ethics. With the former Google UK and EU policy manager Verity Harding co-leading this new team with Sean Legassick, their goal is to fund external research of the following themes: privacy transparency and fairness; economic impacts; governance and accountability; managing AI risk; AI morality and values; and how AI can address the world's challenges. As a result, the team hopes to further understand the ethical implications of AI and aid society to seeing AI can be beneficial.This new subdivision of DeepMind is a completely separate unit from the large partnership of major tech companies of the name Partnership on Artificial Intelligence to Benefit People and Society which DeepMind is also a part of.
+As of October 2017, DeepMind has expanded its focus to also include AI ethics. With the former Google UK and EU policy manager Verity Harding co-leading this new team with Sean Legassick, their goal is to fund external research of the following themes: privacy transparency and fairness; economic impacts; governance and accountability; managing AI risk; AI morality and values; and how AI can address the world's challenges. As a result, the team hopes to further understand the ethical implications of AI and aid society to seeing AI can be beneficial.This new subdivision of DeepMind is a completely separate unit from the partnership of leading companies using AI, academia, civil society organizations and nonprofits of the name Partnership on Artificial Intelligence to Benefit People and Society which DeepMind is also a part of.
 
 
 == See also ==
