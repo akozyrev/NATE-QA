@@ -33,3 +33,6 @@ docs-private: build
 clean:
 	ocamlbuild -clean
 	rm -rf doc.public doc.private report
+
+zip:
+	zip -r a6.zip . -x *.git* *.byte* *_build*
