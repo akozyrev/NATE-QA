@@ -319,3 +319,8 @@ let get_response (input_sent : string) : string =
     max_jaccard_sentence topic_doc input_sent
   end
   in response
+
+let get_topic_dict_topic (topic_dict:topic_dict) = topic_dict.topic
+
+
+let get_topics (topic_dict_lst:topic_dict list) = List.map get_topic_dict_topic topic_dict_lst
