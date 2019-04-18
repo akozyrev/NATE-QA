@@ -26,9 +26,9 @@ let rec response input =
 (* [main ()] greets the user and starts the chatbot. *)
 let main () = 
     ANSITerminal.(print_string [red]
-                  ("\nHello! My name is CSCamlBot, and I am here to introduce" ^ 
-                  " you to the field of computer science.\n"^
-                  "Ask me about famous concepts, people, or companies and I'll try my best to answer!\n\n" ));
+                  ("\nHello! My name is NATE [Nonhuman Abstract Tech Expert]," ^ 
+                  "\nand I'm here to answer all your CS-related questions.\n"^
+                  "Ask me about common subfields, people, or companies.\n\n" ));
     print_endline ("Some things you may ask me include:" 
             ^ " \n- Where does David Gries live?\n- " ^ 
             "What is natural language processing used for?"^
