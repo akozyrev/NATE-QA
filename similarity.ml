@@ -67,7 +67,10 @@ module Similarity = struct
        then failwith "Violated precondition:
        either a or b or both contains duplicates!"
        else   *)
-    (float_of_int (intersect_cardinality a b)) /.
-    (float_of_int (union_cardinality a b))
+    let a_mod = List.filter (fun a -> not (List.mem a Filter.filter_list)) a in
+    let b_mod = List.filter (fun b -> not (List.mem b Filter.filter_list)) b in
+    
+    (float_of_int (intersect_cardinality a_mod b_mod)) /.
+    (float_of_int (union_cardinality a_mod b_mod))
 
 end

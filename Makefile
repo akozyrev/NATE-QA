@@ -1,4 +1,4 @@
-MODULES= counter similarity tokenizer extract
+MODULES= counter similarity tokenizer extract filter
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
