@@ -1,4 +1,4 @@
-MODULES= counter similarity tokenizer extract filter
+MODULES= counter similarity tokenizer extract filter lev autocorrect
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

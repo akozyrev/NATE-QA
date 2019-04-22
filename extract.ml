@@ -3,14 +3,15 @@ open Tokenizer
 open Counter
 open Similarity
 
-type counter = Counter.t
+(* module Extract = struct  *)
+(* type counter = Counter.t *)
 
 (** Topic Dictionary type, which contains the title of the topic (document)
     and a Counter.t which is a dictionary mapping each unique word to its
     number of occurrences in the topic/document.  *)
 type topic_dict = {
   topic : string;
-  counter : counter;
+  counter : Counter.t;
 }
 
 (** Topic type containing the title of the topic/document and a content string
@@ -96,7 +97,7 @@ let tokenized_word_list (key_word:string) (acc:string list): string list =
 
 (** [count_word key_word acc] gives you a counter type of
     the topic [key_word] *)
-let count_word (key_word:string) (acc:string list): counter =
+let count_word (key_word:string) (acc:string list): Counter.t =
   Counter.make_dict (tokenized_word_list key_word acc)
 
 (** [full_topic_dict key_word] returns topic_dict

@@ -133,9 +133,9 @@ let extract_test = [
         (max_jaccard_sentence "David Gries" "Where does David Gries live?")
         "David Gries currently lives in Ithaca, New York."); 
 
-  "test_vocab_size">:: (fun _ -> 
+  (* "test_vocab_size">:: (fun _ -> 
       assert_equal
-        (vocab_size) 19917; Pervasives.print_int vocab_size)
+        (vocab_size) 19917; Pervasives.print_int vocab_size) *)
 ]
 
 
@@ -186,12 +186,23 @@ let counter_test = [
 
 ]
 
+
+let lev_test = [
+    "lev_test1" >:: (fun _ -> assert_equal 0 (Lev.distance "" ""));
+    "lev_test2" >:: (fun _ -> assert_equal 0 (Lev.distance "hello" "hello"));
+    "lev_test3" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hell"));
+    "lev_test4" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "helloo"));
+    "lev_test5" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hella"));
+    "lev_test6" >:: (fun _ -> assert_equal 4 (Lev.distance "hello" "world"));
+]
+
 let suite =
   "test suite for extract"  >::: List.flatten [
     counter_test;
     tokenizer_test;
     similarity_test;
     extract_test;
+    lev_test;
   ]
 
 
