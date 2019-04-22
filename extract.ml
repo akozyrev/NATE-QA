@@ -47,9 +47,9 @@ let find_the_topics_content (key_word:string) (top_lst: topic list) =
   |topic::lst -> topic.content
   |[]->failwith"This topc does not exist"
 
-(** [get_content key_word json] creates topic type that has 
+(** [get_content key_word json] creates topic type that has
     the topic title [key_word] and its content, all extracted from [json] *)
-let get_content (key_word:string) (json: Yojson.Basic.json) : topic =  
+let get_content (key_word:string) (json: Yojson.Basic.json) : topic =
   (* Pervasives.print_string "track 2" ; *)
   {
     topic = key_word;
