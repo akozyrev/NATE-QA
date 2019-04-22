@@ -80,3 +80,4 @@ val get_topics : topic_dict list -> string list
 
 val get_counter : topic_dict -> Counter.t
 
+val vocab_size : int

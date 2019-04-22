@@ -132,8 +132,11 @@ let extract_test = [
       assert_equal 
         (max_jaccard_sentence "David Gries" "Where does David Gries live?")
         "David Gries currently lives in Ithaca, New York."); 
-]
 
+  (* "test_vocab_size">:: (fun _ -> 
+      assert_equal
+        (vocab_size) 19917; Pervasives.print_int vocab_size) *)
+]
 
 
 (* tests for counter module --done *)
@@ -143,15 +146,15 @@ let word_dict = Hashtbl.create 5
 
 let counter_test = [
 
-  "test_add_word1" >:: (fun _ -> assert_equal 
+  "test_add_word1" >:: (fun _ -> assert_equal
                            (Hashtbl.add word_dict "hello" 1; word_dict)
                            (Counter.add_word "hello"  word_dict) );
 
-  "test_add_word2" >:: (fun _ -> assert_equal 
+  "test_add_word2" >:: (fun _ -> assert_equal
                            (Hashtbl.add word_dict "world" 1; word_dict)
                            (Counter.add_word "world"  word_dict) );
 
-  "test_add_words" >:: (fun _ -> assert_equal 
+  "test_add_words" >:: (fun _ -> assert_equal
                            (Hashtbl.add word_dict "world" 2;
                             Hashtbl.add word_dict "hello" 3;
                             word_dict)
@@ -162,22 +165,22 @@ let counter_test = [
                           (Hashtbl.length empty_dict));
 
   "test_get_len2" >:: (fun _ -> assert_equal 2
-                          (Counter.get_length (Counter.make_dict 
+                          (Counter.get_length (Counter.make_dict
                                                  ["hello"; "world"; "world"; "hello";"hello"])));
 
   "test_mem1" >:: (fun _ -> assert_equal false (Counter.mem "hi"
                                                   (Counter.make_dict ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_mem2" >:: (fun _ -> assert_equal true 
-                      (Counter.mem "hello" (Counter.make_dict 
+  "test_mem2" >:: (fun _ -> assert_equal true
+                      (Counter.mem "hello" (Counter.make_dict
                                               ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_find_word1" >:: (fun _ -> assert_equal 3 
-                            (Counter.find_word "hello" (Counter.make_dict 
+  "test_find_word1" >:: (fun _ -> assert_equal 3
+                            (Counter.find_word "hello" (Counter.make_dict
                                                           ["hello"; "world"; "world"; "hello";"hello"])));
 
-  "test_find_word2" >:: (fun _ -> assert_equal 0 
-                            (Counter.find_word "hi" (Counter.make_dict 
+  "test_find_word2" >:: (fun _ -> assert_equal 0
+                            (Counter.find_word "hi" (Counter.make_dict
                                                        ["hello"; "world"; "world"; "hello";"hello"])));
 
 

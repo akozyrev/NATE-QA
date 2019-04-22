@@ -7,7 +7,7 @@ open Similarity
 (* type counter = Counter.t *)
 
 (** Topic Dictionary type, which contains the title of the topic (document)
-    and a Counter.t which is a dictionary mapping each unique word toits
+    and a Counter.t which is a dictionary mapping each unique word to its
     number of occurrences in the topic/document.  *)
 type topic_dict = {
   topic : string;
@@ -31,6 +31,7 @@ let unpack_Yojson (json: Yojson.Basic.json): topic =  {
 
 (** [j] opens our json file. *)
 let j = Yojson.Basic.from_file "corpus/improved_data.json"
+
 
 (** [get_topic tp] returns the title of topic [tp] *)
 let get_topic (tp: topic) : string =
@@ -59,9 +60,9 @@ let get_content (key_word:string) (json: Yojson.Basic.json) : topic =
               |>find_the_topics_content key_word
   }
 
-(** [string_topic_dict tp acc_tbl] makes a dictionary containing 
+(** [string_topic_dict tp acc_tbl] makes a dictionary containing
     bindings of topic name -> topic type *)
-let rec string_topic_dict (tp: string list) 
+let rec string_topic_dict (tp: string list)
     (acc_tbl : ((string, topic) Hashtbl.t)): ((string, topic) Hashtbl.t) =
   match tp with
   | [] -> acc_tbl
@@ -77,13 +78,13 @@ let all_topics = List.map unpack_Yojson json_lst
 (** [topics] list of topic_dicts *)
 let topics = get_all_topics all_topics
 
-(** [content_dict] topic dictionary stored for fast access 
+(** [content_dict] topic dictionary stored for fast access
     during calculations *)
 let content_dict = string_topic_dict topics (Hashtbl.create 200)
 
-(** [all_topics topics json acc] given a string list of all topics, this 
+(** [all_topics topics json acc] given a string list of all topics, this
     function gives you list of topic type *)
-let rec all_topics (topics : string list) (json : Yojson.Basic.json) 
+let rec all_topics (topics : string list) (json : Yojson.Basic.json)
     (acc : topic list) : (topic list) = match topics with
   | word::t -> all_topics t (json) (get_content word json :: acc)
   | [] -> acc
@@ -323,7 +324,28 @@ let get_response (input_sent : string) : string =
 
 let get_topic_dict_topic (topic_dict:topic_dict) = topic_dict.topic
 
-
 let get_topics (topic_dict_lst:topic_dict list) = List.map get_topic_dict_topic topic_dict_lst
 
-(* end *)
+(* Embeddings functions start here *)
+
+(** [vocab_size] is the number of unique words in all of the data provided by
+    json. *)
+let vocab_size =
+  let rec vocab_size_compute topic_dict_counter =
+    match topic_dict_counter with
+    | [] -> 0
+    | h::t -> (Counter.get_length h.counter) + vocab_size_compute t in
+  vocab_size_compute all_topic_dict_counter
+
+(** [vectorize_sent input_sent vocab_size word2vec_dict] constructs
+    a vector representation of a sentence by incrementing a vector of
+    size [vocab_size] at indices corresponding to specific vocabulary
+    words found in word2vec_dict.
+    For example: if the sentence is "the dog ate my homework"
+    then the vector will have values of 1 at indices corresponding
+    to words like "the", "dog" and others, and the rest of the vector will be
+    all 0 values. *)
+let vectorize_sent input_sent vocab_size word2vec_dict =
+  failwith "Unimplemented"
+
+let debug = Pervasives.print_int vocab_size
