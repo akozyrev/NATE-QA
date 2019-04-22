@@ -78,6 +78,7 @@ let find_candidates (input_word:string) : string list =
   form of a string, ready to be printed. *)
 let rec str_list = function 
   | [] -> ""
+  | h::[] -> (h ^ "")
   | h::t ->(h ^ ", ") ^ str_list t
 
 (** [correctness_ht toks_filtered] returns a hashtable, where each key

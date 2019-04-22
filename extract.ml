@@ -348,4 +348,4 @@ let vocab_size =
 let vectorize_sent input_sent vocab_size word2vec_dict =
   failwith "Unimplemented"
 
-let debug = Pervasives.print_int vocab_size
+(* let debug = Pervasives.print_int vocab_size *)

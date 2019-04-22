@@ -2,7 +2,7 @@ open Tokenizer
 open Counter
 open Extract
 
-let intro_txt = "\nHello! My name is NATE [Nonhuman Abstract Tech Expert]," ^ 
+let intro_txt = "\nMy name is NATE [Nonhuman Abstract Tech Expert]," ^ 
                   "\nand I'm here to answer all your CS-related questions.\n"^
                   "Ask me about common subfields, people, or companies.\n\n"
 
@@ -41,9 +41,9 @@ let process input =
         | "about", _ -> about
         | "examples", _ -> examples 
         | "help", _ -> help 
-        | _ , "" -> "I don’t have the answer for that.\n"
+        | _ , "" -> "Please input a valid question.\n"
         | _, _  ->  response ^ "\n" end
-    | _ -> "Autocorrect found word(s) not identified: " ^ a_response ^ "\n" 
+    | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
 
     
 
@@ -52,20 +52,25 @@ let process input =
     the user wishes to continue speaking to the chatbot. *)
 let rec response input =
     match input with
-    | "bye" -> Pervasives.print_endline "Thank you for talking to me!\n"
+    | "bye" -> ANSITerminal.(print_string [magenta; Bold] (("\nThank you for talking to me!\n")^("")))
     | input ->  
     let output = process input in
-    Pervasives.print_endline output;
-    print_string  "> ";
+    print_string  "\n";
+    if output = "Please input a valid question.\n" then 
+    ANSITerminal.(print_string [red; Bold] output) else
+    ANSITerminal.(print_string [blue; Bold] output);
+    print_string  "\n> ";
 
     let new_input = Pervasives.read_line () in response new_input
 
 (** [main ()] greets the user and starts the chatbot. *)
 let main () = 
-    ANSITerminal.(print_string [red] intro_txt);
+    ANSITerminal.(print_string [Bold; Blink; red] "\nHello!\n");
+    ANSITerminal.(print_string [Bold; magenta] intro_txt);
     (* print_endline (examples); *)
-    print_endline (help);
-    print_string  "> ";
+    (* print_endline (help); *)
+    ANSITerminal.(print_string [blue; Bold] help);
+    print_string  "\n> ";
     response (Pervasives.read_line ())
 
 (* Executes the chatbot. *)
