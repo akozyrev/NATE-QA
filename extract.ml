@@ -2,6 +2,7 @@ open Yojson.Basic.Util
 open Tokenizer
 open Counter
 open Similarity
+open Autocorrect
 
 (* module Extract = struct  *)
 (* type counter = Counter.t *)
@@ -43,7 +44,7 @@ let get_all_topics (topic_lst: topic list) : string list =
 
 (** [find_the_topics_content key_word top_lst] is the tokenized
     content of given topic [key_word] *)
-let find_the_topics_content (key_word:string) (top_lst: topic list) =  
+let find_the_topics_content (key_word:string) (top_lst: topic list) =
   match (List.filter (fun x -> x.topic = key_word) top_lst) with
   |topic::lst -> topic.content
   |[]->failwith"This topc does not exist"
@@ -331,11 +332,12 @@ let get_topics (topic_dict_lst:topic_dict list) = List.map get_topic_dict_topic 
 (** [vocab_size] is the number of unique words in all of the data provided by
     json. *)
 let vocab_size =
-  let rec vocab_size_compute topic_dict_counter =
-    match topic_dict_counter with
-    | [] -> 0
-    | h::t -> (Counter.get_length h.counter) + vocab_size_compute t in
-  vocab_size_compute all_topic_dict_counter
+  List.length Autocorrect.all_words
+(* let rec vocab_size_compute topic_dict_counter =
+   match topic_dict_counter with
+   | [] -> 0
+   | h::t -> (Counter.get_length h.counter) + vocab_size_compute t in
+   vocab_size_compute all_topic_dict_counter *)
 
 (** [vectorize_sent input_sent vocab_size word2vec_dict] constructs
     a vector representation of a sentence by incrementing a vector of
