@@ -6,12 +6,14 @@ open Lev
 open Filter
 open Similarity
 
-(** List of all counters for each document we have in the corpus *)
+(** [all_counters_list] returns a list of all counters for each
+  document we have in the corpus. *)
 let all_counters_list = 
   List.map (fun a -> Extract.get_counter a) Extract.all_topic_dict_counter
 
 
-(** List of all dictionaries for each document we have in the corpus *)
+(** [all_dict_list] returns a list of all dictionaries for each 
+  document we have in the corpus. *)
 let all_dict_list =
   List.map (fun (a:Counter.t) -> Counter.get_dictionary a) all_counters_list
 
@@ -42,18 +44,20 @@ let rec add_list_to_list (ht1: (string, int) Hashtbl.t)
       | None -> Hashtbl.add ht1 a b
     ) ht2; ht1
 
-(** Large hashtable with key : word, value: num occurences of word,
-for all documents in the corpus, i.e. all the counter dicts
-for each topic combined together *)
+(** [big_counter_ht] returns a large hashtable with key : word, 
+  value: num occurences of word for all of the documents in the corpus,
+  i.e. all the counter dicts for each topic, combined together *)
 let big_counter_ht = 
   List.fold_left add_list_to_list (Hashtbl.create 50000) all_dict_list
 
 
-(** List of all the words in document *)
+(** [all_words] returns a list of all the words in all of the documents. *)
 let all_words =  Hashtbl.fold (fun k v acc -> k :: acc) big_counter_ht []
 
-(**Return candidates with smallest Levenshtein distance
-from input word, the word we want to autocorrect*)
+(** [candidates input word_lst acc_lst acc_ld] acts as a helper for
+[find_candidates input_word]. It returns a string list of all the 
+"candidates"/valid words with the smallest Levenshtein distance from 
+[input], the word we want to autocorrect. *)
 let rec candidates (input:string) (word_lst: string list) 
                 (acc_lst: string list) (acc_ld : int): string list =
   match word_lst with
@@ -64,31 +68,35 @@ let rec candidates (input:string) (word_lst: string list)
       else if ld = acc_ld then candidates input t (a::acc_lst) ld
       else candidates input t acc_lst acc_ld
 
-(** Output a list of words most similar to given input word*)
+(** [find_candidates input_word] returns a list of words that are
+  most similar to [input_word] (Levenshtein distance is less than or
+  equal to 3). *)
 let find_candidates (input_word:string) : string list = 
   candidates input_word all_words [] 3
 
-(**Return all the elements of a string list as whole string, 
-ready to be printed*)
+(** [str_list] returns all the elements of a string list in the 
+  form of a string, ready to be printed. *)
 let rec str_list = function 
   | [] -> ""
   | h::t ->(h ^ ", ") ^ str_list t
 
-(** Check to see if each word is valid word,
-return hashtable of all bad words and their likely candidates *)
+(** [correctness_ht toks_filtered] returns a hashtable, where each key
+  is a "bad"/invalid word, and the value is a string list of likely
+  candidates/valid words. 
+  "Valid" is defined as a word that exists within the corpus. *)
 let correctness_ht (toks_filtered:string list) : (string, string list) Hashtbl.t = 
   let all_bad_words = List.filter (fun a -> not (Hashtbl.mem big_counter_ht a)) toks_filtered in
   let acc_tbl = Hashtbl.create 10 in (*string, string list*)
   List.fold_left (fun ht a-> (Hashtbl.add ht a (find_candidates a); ht)) acc_tbl all_bad_words
 
    
-(**Check correctness of each word in input sentence
-and return string *)
+(** [check_correctness input_sent] checks the correctness/validity of each word
+  in [input_sent] and returns a new string where each word is a correct/valid
+  word. 
+ "Valid" is defined as a word that exists within the corpus. *)
 let check_correctness (input_sent:string) : string = 
   let toks = Similarity.remove_dups (Tokenizer.word_tokenize input_sent) in
-  (* Pervasives.print_string (str_list toks) ;  *)
   let toks_f = List.filter (fun a -> not (List.mem a Filter.filter_list)) toks in
-  (* Pervasives.print_string (str_list toks_f) ; *)
   let corr_ht = correctness_ht toks_f in
 
   let rec make_str (tokens: string list) (acc_str : string) : string = 

@@ -5,12 +5,13 @@ page for inspiration for our implementation:
 https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance *)
 
 
-(* Minimum of three integers.  *)
+(** [minimum x y z] returns the minimum of three integers.  *)
 let minimum (x:int) y z =
   let m' (a:int) b = if a < b then a else b in
     m' (m' x y) z
 
-(* Matrix initialization. *)
+(** [init_matrix n m] initializes a matrix with n rows and m
+  columns. *)
 let init_matrix n m =
   let init_col = Array.init m in
   Array.init n (function
@@ -18,7 +19,8 @@ let init_matrix n m =
     | i -> init_col (function 0 -> i | _ -> 0)
   )
 
-(* Computes the Levenshtein distance between two arrays*)
+(** [distance_array x y] computes the Levenshtein distance 
+  between two arrays [x] and [y]. *)
 let distance_array x y =
   match Array.length x, Array.length y with
     | 0, n -> n
@@ -34,10 +36,12 @@ let distance_array x y =
          done;
          matrix.(m).(n)
 
-(**Convert string to char list*)
+(** [string_to_cl s] splits [s] into its individual characters
+  and returns a list of those characters. *)
 let string_to_cl s = List.init (String.length s) (String.get s)
 
-(** Compute Lev. distance between word1 and word2 *)
+(** [distance word1 word2] compute the Lev. distance between 
+  [word1] and [word2]. *)
 let distance word1 word2 =
   let cl1 = string_to_cl word1 in
   let cl2 = string_to_cl word2 in

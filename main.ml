@@ -16,7 +16,7 @@ let help = "Commands:
 | about: introduce myself and my thought process
 | examples: provide examples of questions you can ask
 | help: give list of commands you can type
-| <your question>: ask me a question to recieve response
+| <your question>: ask me a question to receive response
 | bye: exit the program \n"
 
 
