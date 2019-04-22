@@ -23,12 +23,12 @@ let help = "Commands:
 let about = "I was developed by a CS 3110 group and named after their professor, 
 Dr. Nate Foster. I gather my knowledge from an extensive text corpus of Wikipedia 
 articles related to the field of CS. I use 2 NLP/IR algorithms to answer your 
-input question: TFIDF, to find the most relevant document to search for the answer, 
-and Jaccard similarity, to find the best sentence in the doc that answers the question.
-I can also find misspelled words in the sentence you inputted, and provide possible
-corrections from my autocorrection algorithm that uses Levenshtein edit distance.
-I was optimized by using hashing, so I can get back to you almost instantaneously. 
-With that being said, I am still getting smarter and faster with each day!\n"
+question: TFIDF--to find the most relevant document to search for the answer--and 
+Jaccard similarity--to find the best sentence in the document that answers your question.
+I can also find misspelled words in your question and provide possible corrections 
+using my autocorrection feature, which implements the Levenshtein distance algorithm.
+By using the OCaml built-in module Hashtbl, I respond almost instantaneously. 
+That being said, I am still getting smarter and faster with each day!\n"
 
 (** [process input] will return the correct response to the input
     the user provides. *)
