@@ -133,16 +133,16 @@ let extract_test = [
         (max_jaccard_sentence "David Gries" "Where does David Gries live?")
         "David Gries currently lives in Ithaca, New York."); 
 
-  (* "test_vocab_size">:: (fun _ -> 
+  "test_vocab_size">:: (fun _ -> 
       assert_equal
-        (vocab_size) 19917; Pervasives.print_int vocab_size) *)
+        (vocab_size) 21913; Pervasives.print_int vocab_size)
 ]
 
 
 (* tests for counter module --done *)
 
 let empty_dict = Counter.get_dictionary (Counter.make_dict [])
-let word_dict = Hashtbl.create 5 
+let word_dict = Hashtbl.create 5
 
 let counter_test = [
 
@@ -188,12 +188,12 @@ let counter_test = [
 
 
 let lev_test = [
-    "lev_test1" >:: (fun _ -> assert_equal 0 (Lev.distance "" ""));
-    "lev_test2" >:: (fun _ -> assert_equal 0 (Lev.distance "hello" "hello"));
-    "lev_test3" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hell"));
-    "lev_test4" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "helloo"));
-    "lev_test5" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hella"));
-    "lev_test6" >:: (fun _ -> assert_equal 4 (Lev.distance "hello" "world"));
+  "lev_test1" >:: (fun _ -> assert_equal 0 (Lev.distance "" ""));
+  "lev_test2" >:: (fun _ -> assert_equal 0 (Lev.distance "hello" "hello"));
+  "lev_test3" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hell"));
+  "lev_test4" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "helloo"));
+  "lev_test5" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hella"));
+  "lev_test6" >:: (fun _ -> assert_equal 4 (Lev.distance "hello" "world"));
 ]
 
 let suite =

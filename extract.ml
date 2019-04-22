@@ -2,7 +2,6 @@ open Yojson.Basic.Util
 open Tokenizer
 open Counter
 open Similarity
-open Autocorrect
 
 (* module Extract = struct  *)
 (* type counter = Counter.t *)
@@ -327,18 +326,50 @@ let get_topic_dict_topic (topic_dict:topic_dict) = topic_dict.topic
 
 let get_topics (topic_dict_lst:topic_dict list) = List.map get_topic_dict_topic topic_dict_lst
 
+(** Useful helpers to be called in Autocorrect *)
+
+(** List of all counters for each document we have in the corpus *)
+let all_counters_list =
+  List.map (fun a -> get_counter a) all_topic_dict_counter
+
+(** List of all dictionaries for each document we have in the corpus *)
+let all_dict_list =
+  List.map (fun (a:Counter.t) -> Counter.get_dictionary a) all_counters_list
+
+(** [add_list_to_list ht1z ht2] combines the elements
+    of ht1 and ht2, where there are no duplicate
+    string values. If the string values are equal,
+      their float values are added. *)
+let rec add_list_to_list (ht1: (string, int) Hashtbl.t)
+    (ht2: (string, int) Hashtbl.t): (string, int) Hashtbl.t=
+  Hashtbl.iter (fun (a : string) (b : int) : unit ->
+      match (Hashtbl.find_opt ht1 a) with
+      | Some found_b -> Hashtbl.remove ht1 a;
+        Hashtbl.add ht1 a (b + found_b)
+      | None -> Hashtbl.add ht1 a b
+    ) ht2; ht1
+
+(** Large hashtable with key : word, value: num occurences of word,
+    for all documents in the corpus, i.e. all the counter dicts
+    for each topic combined together *)
+let big_counter_ht =
+  List.fold_left add_list_to_list (Hashtbl.create 50000) all_dict_list
+
+(** List of all the words in document *)
+let all_words =  Hashtbl.fold (fun k v acc -> k :: acc) big_counter_ht []
+
+(** Number of all unique words in the documents *)
+let count_all_unique_words = Hashtbl.fold (fun k v acc -> acc+1) big_counter_ht 0
+
 (* Embeddings functions start here *)
 
 (** [vocab_size] is the number of unique words in all of the data provided by
     json. *)
 let vocab_size =
-  List.length Autocorrect.all_words
-(* let rec vocab_size_compute topic_dict_counter =
-   match topic_dict_counter with
-   | [] -> 0
-   | h::t -> (Counter.get_length h.counter) + vocab_size_compute t in
-   vocab_size_compute all_topic_dict_counter *)
+  count_all_unique_words
 
+(* let word2vec_dict =
+   failwith "Unimplemented" *)
 (** [vectorize_sent input_sent vocab_size word2vec_dict] constructs
     a vector representation of a sentence by incrementing a vector of
     size [vocab_size] at indices corresponding to specific vocabulary
@@ -350,4 +381,4 @@ let vocab_size =
 let vectorize_sent input_sent vocab_size word2vec_dict =
   failwith "Unimplemented"
 
-let debug = Pervasives.print_int vocab_size
+(* let debug = Pervasives.print_int vocab_size *)

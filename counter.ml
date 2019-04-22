@@ -15,7 +15,7 @@ module Counter = struct
       occurrence 1 if word not already found in [dict], will add 1 to the word's
       value if the word is a member of [dict]. Used recursively in [add_words]. *)
   let rec add_word (word:string) (dict: 
-          (string, int) Hashtbl.t): (string, int) Hashtbl.t = 
+                                    (string, int) Hashtbl.t): (string, int) Hashtbl.t = 
     let w = Hashtbl.find_opt dict word in
     match w with 
     | None -> Hashtbl.add dict word 1; dict
@@ -28,7 +28,7 @@ module Counter = struct
       will add 1 to the word's value if word is a member of [dict]. Used recursively
       in [make_dict words]. *)
   let rec add_words (words:string list) (dict: (string, int) 
-        Hashtbl.t):(string, int) Hashtbl.t = 
+                                             Hashtbl.t):(string, int) Hashtbl.t = 
     match words with
     | [] -> dict
     | h::t -> add_words t (add_word h dict) 
@@ -59,10 +59,10 @@ module Counter = struct
 
 
   (** [find_word word d] returns the number of occurrences of [word] in 
-  Counter [d]. If the word is not found in Counter [d], 0 is returned. *)
+      Counter [d]. If the word is not found in Counter [d], 0 is returned. *)
   let rec find_word (word:string) (d:t) : int =
     let result = Hashtbl.find_opt d.dict word in
-    match result with 
+    match result with
     | None -> 0
     | Some n -> n
 

@@ -13,7 +13,7 @@ val get_content : string -> Yojson.Basic.json -> topic
 *)
 val all_topics : string list -> Yojson.Basic.json -> topic list -> topic list
 
-(** 
+(**
    Returns tokenizedd content of a topic
 *)
 val tokenized_word_list : string -> string list -> string list
@@ -23,7 +23,7 @@ val tokenized_word_list : string -> string list -> string list
 *)
 val count_word : string ->  string list -> Counter.t
 
-(** 
+(**
    Returns a topic_dict type of a topic
 *)
 val full_topic_dict : string ->  topic_dict
@@ -44,7 +44,7 @@ val all_topic_dict_counter : topic_dict list
 val print_topic_dict_list : topic_dict list -> unit
 
 (**
-   [which_dict_has_the_word word t_d_lst [] ]returns all topic_dicts that have the word 
+   [which_dict_has_the_word word t_d_lst [] ]returns all topic_dicts that have the word
 *)
 val which_dict_has_the_word : string -> topic_dict list -> topic_dict list -> topic_dict list
 
@@ -53,10 +53,10 @@ val which_dict_has_the_word : string -> topic_dict list -> topic_dict list -> to
 *)
 val count_word_in_topic : string -> string -> int
 
-(** Return sentence in specified document topic containing the 
-    maximum jaccard similarity metric, compared with the 
+(** Return sentence in specified document topic containing the
+    maximum jaccard similarity metric, compared with the
     input sentence (question we ask the chatbot).
-    This is the last function we will need to return the 
+    This is the last function we will need to return the
     calculated response to the user's input *)
 val max_jaccard_sentence : string ->  string ->  string
 
@@ -64,9 +64,9 @@ val max_jaccard_sentence : string ->  string ->  string
     to the document and the value is the combined tfidf scores of each word in that document. *)
 val add_elt_to_list : (string * float) -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t
 
-(* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate 
+(* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate
    string values. If the string values are equal, their float values are added. *)
-val add_list_to_list : (string, float) Hashtbl.t -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t 
+val add_list_to_list : (string, float) Hashtbl.t -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t
 
 (* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
    the document with the highest sum. *)
@@ -79,5 +79,17 @@ val all_topic_dict_counter : topic_dict list
 val get_topics : topic_dict list -> string list
 
 val get_counter : topic_dict -> Counter.t
+
+val all_counters_list : Counter.t list
+
+val all_dict_list : (string, int) Hashtbl.t list
+
+val add_list_to_list : (string, int) Hashtbl.t -> (string, int) Hashtbl.t -> (string, int) Hashtbl.t
+
+val big_counter_ht : (string, int) Hashtbl.t
+
+val all_words : string list
+
+val count_all_unique_words : int
 
 val vocab_size : int
