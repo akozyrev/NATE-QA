@@ -1,4 +1,5 @@
-type counter
+(* type counter *)
+open Counter
 type topic_dict 
 type topic
 
@@ -20,7 +21,7 @@ val tokenized_word_list : string -> string list -> string list
 (**
    Returns a counter of the content of a topic
 *)
-val count_word : string ->  string list -> counter
+val count_word : string ->  string list -> Counter.t
 
 (** 
    Returns a topic_dict type of a topic
@@ -76,3 +77,6 @@ val get_response : string -> string
 val all_topic_dict_counter : topic_dict list
 
 val get_topics : topic_dict list -> string list
+
+val get_counter : topic_dict -> Counter.t
+

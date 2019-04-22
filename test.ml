@@ -183,12 +183,23 @@ let counter_test = [
 
 ]
 
+
+let lev_test = [
+    "lev_test1" >:: (fun _ -> assert_equal 0 (Lev.distance "" ""));
+    "lev_test2" >:: (fun _ -> assert_equal 0 (Lev.distance "hello" "hello"));
+    "lev_test3" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hell"));
+    "lev_test4" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "helloo"));
+    "lev_test5" >:: (fun _ -> assert_equal 1 (Lev.distance "hello" "hella"));
+    "lev_test6" >:: (fun _ -> assert_equal 4 (Lev.distance "hello" "world"));
+]
+
 let suite =
   "test suite for extract"  >::: List.flatten [
     counter_test;
     tokenizer_test;
     similarity_test;
     extract_test;
+    lev_test;
   ]
 
 
