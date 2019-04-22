@@ -76,3 +76,5 @@ val get_response : string -> string
 val all_topic_dict_counter : topic_dict list
 
 val get_topics : topic_dict list -> string list
+
+val vocab_size : int
