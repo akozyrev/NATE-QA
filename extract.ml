@@ -304,9 +304,11 @@ let add_tfidf (input_sent : string) : string =
   let doc_list = get_topics_tfidf input_sent in
   let temp_list = List.fold_left add_list_to_list
       (Hashtbl.create 20000) doc_list in
-  let good_tup = Hashtbl.fold (fun (a : string)
-                                (b: float) (c : string * float) : (string * float) ->
-                                if b > (snd c) then (a, b) else c)
+  let good_tup = Hashtbl.fold (fun 
+                                (a : string)
+                                (b : float) 
+                                (c : string * float) : (string * float) 
+                                -> if b > (snd c) then (a, b) else c)
       temp_list ("David Gries", 0.0) in
 
   begin
