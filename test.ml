@@ -139,7 +139,7 @@ let extract_test = [
 
   "test_find_max_cosine" >:: (fun _ ->
       assert_equal
-        (find_max_cosine "David Gries" q_vector_test "" 0.0) "Fuck off");
+        (find_max_cosine "David Gries" q_vector_test [""] 0.0) ["Fuck off"]);
 ]
 
 

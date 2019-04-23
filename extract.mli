@@ -96,6 +96,6 @@ val vocab_size : int
 
 val wrap: 'a list -> int -> ('a, int) Hashtbl.t -> int array
 
-val find_max_cosine : string -> int array -> string -> Similarity.Similarity.cos_sim -> string
+val find_max_cosine : string -> int array -> string list -> Similarity.Similarity.cos_sim -> string list
 
 val word2vec_dict : int -> (string, int) Hashtbl.t

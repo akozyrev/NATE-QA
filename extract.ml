@@ -400,12 +400,13 @@ let wrap input_sent vocab_size word2vec_dict =
     of a score and sentence. *)
 let find_max_cosine topic q_vector acc_sent acc_score =
   let topic_we_want = (Hashtbl.find content_dict topic) in
-  let doc_sentences = topic_we_want.content in
+  let sentences_of_topic = List.map (fun s -> Tokenizer.word_tokenize s) topic_we_want.content in
+  (* let doc_sentences = topic_we_want.content in *)
   let rec helper sentences q_vector acc_sent acc_score =
     match sentences with
     | [] -> acc_sent
     | h::t ->
-      let sent_vec = wrap (Tokenizer.word_tokenize h)
+      let sent_vec = wrap h
           vocab_size (word2vec_dict vocab_size)
       in
       let new_score = Similarity.cosine_sim (Array.to_list sent_vec)
@@ -415,15 +416,20 @@ let find_max_cosine topic q_vector acc_sent acc_score =
       if new_score > acc_score then helper t q_vector h new_score
       else helper t q_vector acc_sent acc_score
   in
-  helper doc_sentences q_vector acc_sent acc_score
+  (* helper doc_sentences q_vector acc_sent acc_score *)
+  helper sentences_of_topic q_vector acc_sent acc_score
 
 (* let print_hash_debug ht =
    Hashtbl.iter (fun x y -> print_string x;
                  print_int y; print_newline ()) ht *)
+let rec print_list = function
+    [] -> ()
+  | e::l -> print_string e ; print_string " " ; print_list l
 let debug =
   let q_vector_test = wrap ["Who"; "is"; "David"; "Gries?"] 21913 (word2vec_dict 21913) in
-  Pervasives.print_string (find_max_cosine "David Gries" q_vector_test "" 0.0);
-  (* print_hash_debug (word2vec_dict vocab_size) *)
-  (* Pervasives.print_int vocab_size; *)
-  (* Pervasives.print_int (List.length all_words) *)
-  (* Array.iter (Pervasives.print_int) (wrap ["elon"; "musk"; "tesla"; "david"; "gries"; "facebook"] vocab_size (word2vec_dict vocab_size)) *)
+  print_list (find_max_cosine "David Gries" q_vector_test [""] 0.0);
+  Pervasives.print_string "here"
+(* print_hash_debug (word2vec_dict vocab_size) *)
+(* Pervasives.print_int vocab_size; *)
+(* Pervasives.print_int (List.length all_words) *)
+(* Array.iter (Pervasives.print_int) (wrap ["elon"; "musk"; "tesla"; "david"; "gries"; "facebook"] vocab_size (word2vec_dict vocab_size)) *)
