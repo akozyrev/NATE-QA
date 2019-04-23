@@ -3,16 +3,18 @@ open Counter
 open Extract
 open Suggestion
 
+(** The bot's introductory welcome message *)
 let intro_txt = "\nMy name is NATE [Nonhuman Abstract Tech Expert]," ^ 
                   "\nand I'm here to answer all your CS-related questions.\n"^
                   "Ask me about common subfields, people, or companies.\n\n"
 
-
+(** The bot's example questions *)
 let examples = "Some things you may ask me include:" 
             ^ " \n- Where does David Gries live?\n- " ^ 
             "What is natural language processing used for?"^
             "\n- Recommend me a good machine learning course.\n"
 
+(** A list of commands the bot can respond to *)
 let help = "Commands: 
 | about: introduce myself and my thought process
 | examples: provide examples of questions you can ask
@@ -20,7 +22,7 @@ let help = "Commands:
 | <your question>: ask me a question to receive response
 | bye: exit the program \n"
 
-
+(** More in depth summary about the bot *)
 let about = "I was developed by a CS 3110 group and named after their professor, 
 Dr. Nate Foster. I gather my knowledge from an extensive text corpus of Wikipedia 
 articles related to the field of CS. I use 2 NLP/IR algorithms to answer your 
