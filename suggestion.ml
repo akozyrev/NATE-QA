@@ -101,7 +101,7 @@ let suggestion (input_sent:string) : string =
     | h::t -> if contains sl h then begin
       let topic = Hashtbl.find elt_to_topic_ht h in
       let topic_lst = Hashtbl.find topic_to_elt_ht topic in
-      "Another " ^ topic ^ " you may be interested in learning about: " ^ (rand (remove topic_lst topic)) ^ "\n" end
+      "Another " ^ topic ^ " you may be interested in learning about: " ^ (rand (remove topic_lst h)) ^ "\n" end
 
       else suggestion2 sl t in 
 
