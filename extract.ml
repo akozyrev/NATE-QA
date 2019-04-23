@@ -228,31 +228,41 @@ let get_topics_tfidf (input_sent:string):
       (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
 
+(** Returns a list of questions that are matched to likely keywords. **)
 let questions = [("who", [["is"; "are"];["a"; "an" ;"the"]]);
-("where", [["in";"at"]]); 
+("where", [["at";"in"]]); 
 ("what", [["is";"are"];["a";"an";"the"]]);
-("when", [["in";"on"]])]
+("when", [["on"; "in"]])]
 
+(** Helper for [question_ht] that creates a hashtable from [lst]. *)
 let rec question_helper acc_tbl lst =
     match lst with
     | [] -> acc_tbl
     | h::t -> Hashtbl.add acc_tbl (fst h) (snd h);
     question_helper acc_tbl t
 
+(** Hash table version of questions. *)
 let question_ht = question_helper (Hashtbl.create 4) questions
 
+(** Returns a boolean value of whether any of the elements of [lst] are
+    present in [acc_tbl]. *)
 let rec check_by_category category (input_tokens:string list) = 
     match input_tokens with
     | [] -> false
     | h::t -> if List.mem h category then true else
     check_by_category category t 
 
+(** Returns true if [input_tokens] contains at least one element in each
+    list of [question_lst] and false otherwise. *)
 let rec check_all_categories question_lst input_tokens = 
     match question_lst with
     | [] -> true
     | h::t -> (check_by_category h input_tokens &&
     check_all_categories t input_tokens)
 
+(** Returns true if [sentence] contains the keywords associated with the
+    question word, if a question word is the first element of [input_tokens]. 
+    A question word is defined as "who", "what", "when", and "where". *)
 let filter_tokens input_tokens sentence =
     let tokenized_sentence = Tokenizer.word_tokenize sentence in
     match input_tokens with
