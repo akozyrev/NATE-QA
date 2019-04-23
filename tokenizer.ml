@@ -1,15 +1,14 @@
 module Tokenizer = struct
 
-  (** Tokenizer type, containing tokenized 
-      sentences and tokenized words in 2 list 
+  (** Tokenizer type, containing tokenized
+      sentences and tokenized words in 2 list
       attributes *)
   type t = {
     sentences : string list;
     words : string list;
   }
 
-
-  (** Tokenizes the string text into sentences,
+  (** [sent_tokenize text] tokenizes the string text into sentences,
       returns list of sentences with process:
       1. seperate sentences into string list by '.'
       2. trimming all from start with spaces, \n, \t
@@ -19,29 +18,27 @@ module Tokenizer = struct
     let strip_sents = List.map (fun s -> String.trim s) sentences in
     List.filter (fun s -> s <> "") strip_sents
 
-
-  (** Make all letters of word lowercase, 
+  (** [make_lower word] make all letters of word lowercase,
       if applicable *)
-  let make_lower (word:string) : string = 
+  let make_lower (word:string) : string =
     String.lowercase_ascii word
 
-  (** Split string s into list of strings separated by
-      any one of the chars in specified char list*)
-  let rec split_on_chars (chars : char list) (s : string) : string list = 
+  (** [split_on_chars chars s] splits string s into list of strings separated
+      by any one of the chars in specified char list*)
+  let rec split_on_chars (chars : char list) (s : string) : string list =
     match chars with
-    | h::t -> 
+    | h::t ->
       let split_strings = String.split_on_char h s in
       let split_strings2 = List.map (fun x -> split_on_chars t x) split_strings in
       List.concat split_strings2
-    | [] -> [s] 
+    | [] -> [s]
 
-
-  (** Tokenizes the text and returns string list by
+  (** [word_tokenize text] tokenizes the text and returns string list by
       1. making words all lowercase
       2. split into list by punctuation and spaces
   *)
-  let word_tokenize (text:string) : string list = 
-    let puncts = [' '; '\n'; '\t'; ';'; ','; '.'; ':'; '?'; '$'; 
+  let word_tokenize (text:string) : string list =
+    let puncts = [' '; '\n'; '\t'; ';'; ','; '.'; ':'; '?'; '$';
                   '-'; '!'; '#'; '%'; '^'; '&'; '*';
                   '('; ')'; '+'; '='; '/'; '\\';
                   '\"' ] in
@@ -51,8 +48,7 @@ module Tokenizer = struct
     let all_lower = List.map (fun w -> make_lower w) strip_words in
     all_lower
 
-
-  (** Return tokenized form of text, 
+  (** [tokenize] is the tokenized form of text,
       containing sentences tokens and word token
       attributes *)
   let tokenize (text:string) : t =
@@ -61,13 +57,12 @@ module Tokenizer = struct
       words = word_tokenize text;
     }
 
-  (** Return tokenized sentence list of token*)
+  (** [get_sentences] returns tokenized sentence list of token *)
   let get_sentences (tok:t) : string list =
     tok.sentences
 
-  (** Return tokenized word list of token*)
+  (** [get_words tok] returns a tokenized word list of [tok] *)
   let get_words (tok:t) : string list =
     tok.words
-
 
 end

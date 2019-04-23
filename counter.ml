@@ -2,90 +2,68 @@ module Counter = struct
 
   (** Type for this module, which is represented as
       a dictionary containing elements in the from of 
-      string (unique word) and int (number of occurences) 
+      string (unique word) and int (number of occurrences) 
       tuples. *)
   type t = {
-    dict: (string * int) list;   
+    dict: (string, int) Hashtbl.t;   
     length: int;
   }
 
-  (** Determine whether or not words is a list containing 
-      unique elements (each element is present only once). 
-      Used as helper for rep_ok *)
-  let rec no_repeats (words:string list) : bool = 
-    match words with
-    | [] -> true
-    | h::t -> if List.mem h t then false
-      else no_repeats t 
+  (** [add_word word dict] adds a word to the list representing a dictionary, where 
+      the keys are the unique words and the values are the number of occurrences of 
+      each word. This function will create a new element in dictionary with
+      occurrence 1 if word not already found in [dict], will add 1 to the word's
+      value if the word is a member of [dict]. Used recursively in [add_words]. *)
+  let rec add_word (word:string) (dict: 
+          (string, int) Hashtbl.t): (string, int) Hashtbl.t = 
+    let w = Hashtbl.find_opt dict word in
+    match w with 
+    | None -> Hashtbl.add dict word 1; dict
+    | Some i -> Hashtbl.replace dict word (i+1); dict 
 
-  (** Determine whether or not d satisfies the representation
-      invariant (dict has no repeats, and length is its actual length)*)
-  let rep_ok (d:t) : bool =
-    (List.length d.dict = d.length) &&
-    (let dict_words = List.map (fun a -> fst a) d.dict in
-     no_repeats dict_words)
-
-  (** Determine whether or not d is an empty dictionary *)
-  let is_empty (d:t) : bool = 
-    d.dict = [] && d.length = 0
-
-  (** Add a word to the list representing dictionary with keys
-      being unique words, values being number of occurence of each word.
-      Will create new element in dictionary with occurence 1 if word not 
-      already found in dictionary keys, will add 1 to corresponding value if
-      word is member of dictionary keys. Used as helper for step_dict*)
-  let rec add_word (word:string) (dict:(string*int) list):(string*int) list = 
-    match dict with
-    | [] -> [(word, 1)]
-    | h::t -> if (fst h = word) then (fst h, (snd h) + 1)::t
-      else h::(add_word word t) 
-
-  (** Construct a dictionary, given a list of words, with dictionary keys
-      being unique words, values being number of occurence of each word.
-      Will create new element in dictionary with occurence 1 if word not 
-      already found in dictionary keys, will add 1 to corresponding value if
-      word is member of dictionary keys. Used as helper for make_dict*)
-  let rec add_words (words:string list) (dict:(string*int) list):(string*int) list = 
+  (** [add_words words dict] constructs a dictionary, given [words]
+      --a list of words--, with dictionary keys being unique words, and values being 
+      the number of occurrences of each word. This function will create a new element
+      in dictionary with occurrence 1 if the word is not already found in [dict] and
+      will add 1 to the word's value if word is a member of [dict]. Used recursively
+      in [make_dict words]. *)
+  let rec add_words (words:string list) (dict: (string, int) 
+        Hashtbl.t):(string, int) Hashtbl.t = 
     match words with
     | [] -> dict
     | h::t -> add_words t (add_word h dict) 
 
 
-  (** Make new dict from scratch, using list of TOKENIZED WORDS. 
-      Dictionary keys are unique words and values are num occurences of word. *)
+  (** [make_dict words] makes new dict from scratch, using [words]--a list of tokenized words. 
+      Adds all of the words from [words] to the dictionary. 
+      Dictionary keys are unique words, and the value for each word is the number
+      of occurrences of the word in the list. *)
   let make_dict (words:string list) : t =
-    let new_dict = add_words words [] in
+    let new_dict = add_words words (Hashtbl.create 20000) in
     {
       dict = new_dict;
-      length = List.length new_dict
+      length = Hashtbl.length new_dict
     }
 
-  (** Returns whether or not word is found in d dictionary *)
+  (** [mem word d] returns true if [word] is in [d]. *)
   let mem (word:string) (d:t) : bool =
-    let dict_words = List.map (fun a -> fst a) d.dict 
-    in List.mem word dict_words
+    Hashtbl.mem d.dict word
 
-  (** Return length of dictionary *)
+  (** [get_length d] returns the number of elements in [d]. *)
   let get_length (d:t) : int =
     d.length
 
-  (** Return actual dictionary list *)
-  let get_dictionary (d:t) : (string * int) list= 
+  (** [get_dictionary d] returns the dictionary of [d]. *)
+  let get_dictionary (d:t) : (string, int) Hashtbl.t = 
     d.dict
 
-  (** [find k d] is [Some v] if [k] is bound to [v] in [d]; or
-      if [k] is not bound, then it is [None]. *)
-  let rec find k d =
-    match d with
-    | [] -> None
-    | h::t -> if (fst h) = k then (Some (snd h)) else find k t
 
-  (** find number of occurences of word in Counter d *)
+  (** [find_word word d] returns the number of occurrences of [word] in 
+  Counter [d]. If the word is not found in Counter [d], 0 is returned. *)
   let rec find_word (word:string) (d:t) : int =
-    let dict = get_dictionary d in 
-    match (find word dict) with
-    |None->0
-    |Some n-> n
-
+    let result = Hashtbl.find_opt d.dict word in
+    match result with 
+    | None -> 0
+    | Some n -> n
 
 end

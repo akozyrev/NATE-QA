@@ -23,7 +23,7 @@ module Similarity : sig
   val remove_dups : ('a list) -> 'a list 
 
 (** Compute union of set1 and set2, represented as lists *)
-  val union :  'a list -> 'a list -> 'a list 
+  val union : 'a list -> 'a list -> 'a list 
 
 (** Compute cardinality of union of set1 and set2, represented as lists *)
   val union_cardinality : 'a list -> 'a list -> int 
@@ -32,9 +32,9 @@ module Similarity : sig
   val intersect_cardinality : 'a list -> 'a list -> int
 
 
-  (** Compute jaccard similarity of sets a and b, with element being strings
+(** Compute jaccard similarity of sets a and b, with element being strings
   (unique words represented) 
-  PRECONDITION: a and b have no duplicates*)
+  PRECONDITION: a and b have no duplicates. *)
   val jaccard_sim : string list -> string list -> jac_sim 
 
 end

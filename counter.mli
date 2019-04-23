@@ -5,35 +5,23 @@ module Counter : sig
       string (unique word) and int (number of occurences) 
       tuples. *)
   type t = {
-    dict: (string * int) list;   
+    dict: (string, int) Hashtbl.t;   
     length: int;
   }
-
-  (** Determine whether or not words is a list containing 
-      unique elements (each element is present only once). 
-      Used as helper for rep_ok *)
-  val no_repeats: string list -> bool 
-
-  (** Determine whether or not d satisfies the representation
-      invariant (dict has no repeats, and length is its actual length)*)
-  val rep_ok: t -> bool
-
-  (** Determine whether or not d is an empty dictionary *)
-  val is_empty : t -> bool 
 
   (** Add a word to the list representing dictionary with keys
       being unique words, values being number of occurence of each word.
       Will create new element in dictionary with occurence 1 if word not 
       already found in dictionary keys, will add 1 to corresponding value if
       word is member of dictionary keys. Used as helper for step_dict*)
-  val add_word : string -> (string*int) list -> (string*int) list
+  val add_word : string -> (string, int) Hashtbl.t -> (string, int) Hashtbl.t
 
   (** Construct a dictionary, given a list of words, with dictionary keys
       being unique words, values being number of occurence of each word.
       Will create new element in dictionary with occurence 1 if word not 
       already found in dictionary keys, will add 1 to corresponding value if
       word is member of dictionary keys. Used as helper for make_dict*)
-  val add_words: string list -> ((string*int) list) -> (string*int) list 
+  val add_words: string list -> (string, int) Hashtbl.t -> (string, int) Hashtbl.t
 
 
   (** Make new dict from scratch, using list of TOKENIZED WORDS. 
@@ -48,9 +36,9 @@ module Counter : sig
   val get_length: t -> int
 
   (** Return actual dictionary list *)
-  val get_dictionary: t -> (string * int) list 
+  val get_dictionary: t -> (string, int) Hashtbl.t
 
-
+(** find number of occurences of word in Counter d *)
   val find_word : string -> t -> int
 
 end
