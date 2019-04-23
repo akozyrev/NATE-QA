@@ -8,18 +8,18 @@ module Similarity = struct
   (** Compute dot product of vectors a and b,
       represented as int lists
       PRECONDITION: length of a == length of b*)
-  let rec dot_prod (a: int list) (b: int list): int = 
+  let rec dot_prod (a: int list) (b: int list): int =
     match a, b with
     | [], [] -> 0
     | h1::t1, h2::t2 -> (h1 * h2) + dot_prod t1 t2
     | _ -> failwith "Error: vector lengths are different"
 
-  (** [norm a] computes norm (length) of vector a, 
+  (** [norm a] computes norm (length) of vector a,
       represented as int list *)
-  let norm (a: int list) : float = 
+  let norm (a: int list) : float =
     let a_floats = List.map float_of_int a in
-    let rec sum_squares vec = 
-      match vec with 
+    let rec sum_squares vec =
+      match vec with
       | [] -> 0.0
       | h::t -> (h ** 2.0) +. sum_squares t in
     sqrt (sum_squares a_floats)
@@ -28,16 +28,18 @@ module Similarity = struct
       represented as int lists*)
   let cosine_sim (a:int list) (b: int list) : cos_sim =
     let num = dot_prod a b in
+    Pervasives.print_int num;
     let denom = (norm a) *. (norm b) in
+    (* Pervasives.print_float denom; *)
     (float_of_int num) /. denom
 
   (** [remove_dups lst] removes all duplicates from lst, i.e.
       the set operation *)
   let rec remove_dups (lst: 'a list): 'a list =
-    match lst with 
+    match lst with
     | [] -> []
-    | h::t -> if List.mem h t then remove_dups t 
-      else h::remove_dups t  
+    | h::t -> if List.mem h t then remove_dups t
+      else h::remove_dups t
 
   (** [union set1 set2] compute union of set1 and set2, represented as lists *)
   let union (set1: 'a list) (set2: 'a list) : 'a list =
@@ -69,7 +71,7 @@ module Similarity = struct
        else   *)
     let a_mod = List.filter (fun a -> not (List.mem a Filter.filter_list)) a in
     let b_mod = List.filter (fun b -> not (List.mem b Filter.filter_list)) b in
-    
+
     (float_of_int (intersect_cardinality a_mod b_mod)) /.
     (float_of_int (union_cardinality a_mod b_mod))
 

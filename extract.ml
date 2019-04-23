@@ -355,7 +355,7 @@ let rec add_list_to_list (ht1: (string, int) Hashtbl.t)
 let big_counter_ht =
   List.fold_left add_list_to_list (Hashtbl.create 50000) all_dict_list
 
-(** List of all the words in document *)
+(** List of all the unique words in documents *)
 let all_words =  Hashtbl.fold (fun k v acc -> k :: acc) big_counter_ht []
 
 (** Number of all unique words in the documents *)
@@ -368,8 +368,12 @@ let count_all_unique_words = Hashtbl.fold (fun k v acc -> acc+1) big_counter_ht 
 let vocab_size =
   count_all_unique_words
 
-(* let word2vec_dict =
-   failwith "Unimplemented" *)
+(** [word2vec_dict] creates a hastable that maps each unique word to a unique
+    index, starting from 0.  *)
+let word2vec_dict vocab_size =
+  let new_hashtbl = Hashtbl.create vocab_size in
+  List.fold_left (fun ht word -> (Hashtbl.add ht word (Hashtbl.length ht); ht)) new_hashtbl all_words
+
 (** [vectorize_sent input_sent vocab_size word2vec_dict] constructs
     a vector representation of a sentence by incrementing a vector of
     size [vocab_size] at indices corresponding to specific vocabulary
@@ -378,7 +382,48 @@ let vocab_size =
     then the vector will have values of 1 at indices corresponding
     to words like "the", "dog" and others, and the rest of the vector will be
     all 0 values. *)
-let vectorize_sent input_sent vocab_size word2vec_dict =
-  failwith "Unimplemented"
+let wrap input_sent vocab_size word2vec_dict =
+  let vec = Array.init vocab_size (function i -> 0) in
 
-(* let debug = Pervasives.print_int vocab_size *)
+  let rec vectorize_sent input_sent vocab_size word2vec_dict (acc:int array) =
+    match input_sent with
+    | [] -> acc
+    | h::t ->
+      match Hashtbl.find_opt word2vec_dict h with
+      | None -> vec
+      | Some i -> Array.set vec i (Array.get vec i + 1);
+        vectorize_sent t vocab_size word2vec_dict (vec)
+  in
+  vectorize_sent input_sent vocab_size word2vec_dict vec
+
+(** [find_max_cosine topic acc_sent acc_score] finds the max cosine similarity
+    of a score and sentence. *)
+let find_max_cosine topic q_vector acc_sent acc_score =
+  let topic_we_want = (Hashtbl.find content_dict topic) in
+  let doc_sentences = topic_we_want.content in
+  let rec helper sentences q_vector acc_sent acc_score =
+    match sentences with
+    | [] -> acc_sent
+    | h::t ->
+      let sent_vec = wrap (Tokenizer.word_tokenize h)
+          vocab_size (word2vec_dict vocab_size)
+      in
+      let new_score = Similarity.cosine_sim (Array.to_list sent_vec)
+          (Array.to_list q_vector)
+      in
+      (* Pervasives.print_float new_score; Pervasives.prerr_float acc_score; *)
+      if new_score > acc_score then helper t q_vector h new_score
+      else helper t q_vector acc_sent acc_score
+  in
+  helper doc_sentences q_vector acc_sent acc_score
+
+(* let print_hash_debug ht =
+   Hashtbl.iter (fun x y -> print_string x;
+                 print_int y; print_newline ()) ht *)
+let debug =
+  let q_vector_test = wrap ["Who"; "is"; "David"; "Gries?"] 21913 (word2vec_dict 21913) in
+  Pervasives.print_string (find_max_cosine "David Gries" q_vector_test "" 0.0);
+  (* print_hash_debug (word2vec_dict vocab_size) *)
+  (* Pervasives.print_int vocab_size; *)
+  (* Pervasives.print_int (List.length all_words) *)
+  (* Array.iter (Pervasives.print_int) (wrap ["elon"; "musk"; "tesla"; "david"; "gries"; "facebook"] vocab_size (word2vec_dict vocab_size)) *)

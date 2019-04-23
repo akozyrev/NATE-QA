@@ -1,6 +1,6 @@
 (* type counter *)
 open Counter
-type topic_dict 
+type topic_dict
 type topic
 
 (**
@@ -8,8 +8,8 @@ type topic
 *)
 val get_content : string -> Yojson.Basic.json -> topic
 
-(** 
-   Returns all topics in the json file, represented by a topic list 
+(**
+   Returns all topics in the json file, represented by a topic list
 *)
 val all_topics : string list -> Yojson.Basic.json -> topic list -> topic list
 
@@ -93,3 +93,9 @@ val all_words : string list
 val count_all_unique_words : int
 
 val vocab_size : int
+
+val wrap: 'a list -> int -> ('a, int) Hashtbl.t -> int array
+
+val find_max_cosine : string -> int array -> string -> Similarity.Similarity.cos_sim -> string
+
+val word2vec_dict : int -> (string, int) Hashtbl.t
