@@ -9293,7 +9293,6 @@
       "Even when a program is well-defined within a language, it may still have a meaning that is not intended by the person who wrote it.",
       "Using natural language as an example, it may not be possible to assign a meaning to a grammatically correct sentence or the sentence may be false:\n\n\"Colorless green ideas sleep furiously.\"",
       "is grammatically well-formed but has no generally accepted meaning.",
-      "\"John is a married bachelor.\"",
       "is grammatically well-formed but expresses a meaning that cannot be true.The following C language fragment is syntactically correct, but performs operations that are not semantically defined (the operation *p >> 4 has no meaning for a value having a complex type and p->im is not defined because the value of p is the null pointer):\n\nIf the type declaration on the first line were omitted, the program would trigger an error on undefined variable \"p\" during compilation.",
       "However, the program would still be syntactically correct since type declarations provide only semantic information.",
       "The grammar needed to specify a programming language can be classified by its position in the Chomsky hierarchy.",
