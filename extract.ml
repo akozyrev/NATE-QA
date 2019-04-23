@@ -227,6 +227,41 @@ let get_topics_tfidf (input_sent:string):
       (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
 
+let questions = [("who", [["is"; "are"];["a"; "an" ;"the"]]);
+("where", [["in";"at"]]); 
+("what", [["is";"are"];["a";"an";"the"]]);
+("when", [["in";"on"]])]
+
+let rec question_helper acc_tbl lst =
+    match lst with
+    | [] -> acc_tbl
+    | h::t -> Hashtbl.add acc_tbl (fst h) (snd h);
+    question_helper acc_tbl t
+
+let question_ht = question_helper (Hashtbl.create 4) questions
+
+let rec check_by_category category (input_tokens:string list) = 
+    match input_tokens with
+    | [] -> false
+    | h::t -> if List.mem h category then true else
+    check_by_category category t 
+
+let rec check_all_categories question_lst input_tokens = 
+    match question_lst with
+    | [] -> true
+    | h::t -> (check_by_category h input_tokens &&
+    check_all_categories t input_tokens)
+
+let filter_tokens input_tokens sentence =
+    let tokenized_sentence = Tokenizer.word_tokenize sentence in
+    match input_tokens with
+    | [] -> true
+    | h::t ->
+    if (Hashtbl.mem question_ht h) then 
+    let q = Hashtbl.find question_ht h in
+    (check_all_categories q tokenized_sentence)
+    else true
+
 (** [max_jaccard_sentence topic input_sent]
     Returns sentence in specified document topic containing the
     maximum jaccard similarity metric, compared with the
@@ -239,12 +274,16 @@ let max_jaccard_sentence (topic:string)
   let doc_sentences = topic_we_want.content in
   let input_tokens = Similarity.remove_dups
       (Tokenizer.word_tokenize input_sent) in
+    let filter_tokens_fixed sentence = filter_tokens input_tokens sentence in
 
   (* [doc_sent_tok_dict] creates [key: sentence, value: sentence's
      word token list] dict *)
-  let doc_sent_tok_dict = List.map (fun s ->
+  let doc_sent_tok_dict = 
+    let filtered_sentences = 
+    (List.filter (filter_tokens_fixed) doc_sentences) in
+    List.map (fun s ->
       (s, Similarity.remove_dups
-         (Tokenizer.word_tokenize s))) doc_sentences in
+         (Tokenizer.word_tokenize s))) filtered_sentences in
 
   (* [doc_sent_jac_dict] creates [key: sentence, value: sentence's
       jaccard score] dict *)
