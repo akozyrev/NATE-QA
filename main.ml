@@ -1,6 +1,7 @@
 open Tokenizer
 open Counter
 open Extract
+open Suggestion
 
 let intro_txt = "\nMy name is NATE [Nonhuman Abstract Tech Expert]," ^ 
                   "\nand I'm here to answer all your CS-related questions.\n"^
@@ -35,6 +36,7 @@ That being said, I am still getting smarter and faster with each day!\n"
 let process input = 
     let response = Extract.get_response input in
     let a_response = Autocorrect.check_correctness input in
+    let sug = Suggestion.suggestion input in
 
     match a_response with 
     | "all correct" -> begin match input, response with 
@@ -42,7 +44,7 @@ let process input =
         | "examples", _ -> examples 
         | "help", _ -> help 
         | _ , "" -> "Please input a valid question.\n"
-        | _, _  ->  response ^ "\n" end
+        | _, _  ->  response ^ "\n" ^ sug ^ "\n" end
     | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
 
     
