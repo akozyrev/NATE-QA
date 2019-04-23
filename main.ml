@@ -42,9 +42,7 @@ let process input =
   in
   let topic = Extract.add_tfidf input in 
   let cos_response = Extract.find_max_cosine topic qeustion_vec [""] 0.0 in
-
   let a_response = Autocorrect.check_correctness input in
-
   match a_response with 
   | "all correct" -> begin match input, response with 
       | "about", _ -> about
