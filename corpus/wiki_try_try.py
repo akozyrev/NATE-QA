@@ -130,6 +130,7 @@ topics = [
 # data = {}
 d = []
 vocab_size = set()
+vocab_size_2 = set()
 for topic in topics:
     content = wikipedia.page(topic).content
     sent_tokenized_content = nltk.sent_tokenize(content)
@@ -137,11 +138,12 @@ for topic in topics:
     for sentence in sent_tokenized_content:
         if len(sentence) > 3:
             final_content.append(sentence)
-    article = {}
-    article["topic"] = topic
-    article["content"] = final_content
+    # article = {}
+    # article["topic"] = topic
+    # article["content"] = final_content
     vocab_size.update(set(sent_tokenized_content))
-    d.append(article)
+    vocab_size_2.update(set(final_content))
+    # d.append(article)
 
     # if topic in data:
     #     data[topic]["content"] = sent_tokenized_content
@@ -155,6 +157,9 @@ for topic in topics:
     # text_file.write(content)
     #
     # text_file.close()
+print("vocab size 1:")
 print(len(vocab_size))
-with open("improved_data.json", "w") as outfile:
-    json.dump(d, outfile, ensure_ascii=False)
+print("vocab size 2:")
+print(len(vocab_size_2))
+# with open("improved_data.json", "w") as outfile:
+#     json.dump(d, outfile, ensure_ascii=False)

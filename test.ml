@@ -112,7 +112,7 @@ let similarity_test = [
 
 ]
 
-let q_vector_test = wrap ["Who"; "is"; "David"; "Gries?"] 21913 (word2vec_dict 21913)
+let q_vector_test = wrap ["Who"; "is"; "David"; "Gries?"] 33144 (word2vec_dict 33144)
 (* tests for extract module *)
 let extract_test = [
   "test_counter_word_in_topic_in_real" >:: (fun _ ->
@@ -135,7 +135,7 @@ let extract_test = [
 
   "test_vocab_size">:: (fun _ ->
       assert_equal
-        (vocab_size) 21913; Pervasives.print_int vocab_size);
+        (vocab_size) 33144; Pervasives.print_int vocab_size);
 
   "test_find_max_cosine" >:: (fun _ ->
       assert_equal
