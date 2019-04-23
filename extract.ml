@@ -374,7 +374,7 @@ let word2vec_dict vocab_size =
   let new_hashtbl = Hashtbl.create vocab_size in
   List.fold_left (fun ht word -> (Hashtbl.add ht word (Hashtbl.length ht); ht)) new_hashtbl all_words
 
-(** [vectorize_sent input_sent vocab_size word2vec_dict] constructs
+(** [vectorize input_sent vocab_size word2vec_dict] constructs
     a vector representation of a sentence by incrementing a vector of
     size [vocab_size] at indices corresponding to specific vocabulary
     words found in word2vec_dict.
@@ -382,7 +382,7 @@ let word2vec_dict vocab_size =
     then the vector will have values of 1 at indices corresponding
     to words like "the", "dog" and others, and the rest of the vector will be
     all 0 values. *)
-let wrap input_sent vocab_size word2vec_dict =
+let vectorize input_sent vocab_size word2vec_dict =
   let vec = Array.init vocab_size (function i -> 0) in
 
   let rec vectorize_sent input_sent vocab_size word2vec_dict (acc:int array) =
@@ -413,7 +413,7 @@ let find_max_cosine topic q_vector acc_sent acc_score =
     match sentences with
     | [] -> acc_sent
     | h::t ->
-      let sent_vec = wrap h
+      let sent_vec = vectorize h
           vocab_size (word2vec_dict vocab_size)
       in
       let new_score = Similarity.cosine_sim (Array.to_list sent_vec)
@@ -431,7 +431,7 @@ let find_max_cosine topic q_vector acc_sent acc_score =
                  print_int y; print_newline ()) ht *)
 
 let debug =
-  let q_vector_test = wrap ["where"; "is"; "the"; "office"; "of"; "Facebook"; "in"; "california"] 33144 (word2vec_dict 33144) in
+  let q_vector_test = vectorize ["where"; "is"; "the"; "office"; "of"; "Facebook"; "in"; "california"] 33144 (word2vec_dict 33144) in
   print_list (find_max_cosine "Facebook" q_vector_test [""] 0.0);
   Pervasives.print_string "here"
 (* print_hash_debug (word2vec_dict vocab_size) *)

@@ -94,7 +94,7 @@ val count_all_unique_words : int
 
 val vocab_size : int
 
-val wrap: 'a list -> int -> ('a, int) Hashtbl.t -> int array
+val vectorize: 'a list -> int -> ('a, int) Hashtbl.t -> int array
 
 val find_max_cosine : string -> int array -> string list -> Similarity.Similarity.cos_sim -> string list
 

@@ -3,14 +3,14 @@ open Counter
 open Extract
 
 let intro_txt = "\nHello! My name is NATE [Nonhuman Abstract Tech Expert]," ^ 
-                  "\nand I'm here to answer all your CS-related questions.\n"^
-                  "Ask me about common subfields, people, or companies.\n\n"
+                "\nand I'm here to answer all your CS-related questions.\n"^
+                "Ask me about common subfields, people, or companies.\n\n"
 
 
 let examples = "Some things you may ask me include:" 
-            ^ " \n- Where does David Gries live?\n- " ^ 
-            "What is natural language processing used for?"^
-            "\n- Recommend me a good machine learning course.\n"
+               ^ " \n- Where does David Gries live?\n- " ^ 
+               "What is natural language processing used for?"^
+               "\n- Recommend me a good machine learning course.\n"
 
 let help = "Commands: 
 | about: introduce myself and my thought process
@@ -33,27 +33,38 @@ With that being said, I am still getting smarter and faster with each day!\n"
 (** [process input] will return the correct response to the input
     the user provides. *)
 let process input = 
-    let response = Extract.get_response input in
-    let a_response = Autocorrect.check_correctness input in
+  let response = Extract.get_response input in
+  let qeustion_vec =
+    Extract.vectorize 
+      (Tokenizer.word_tokenize input)
+      Extract.count_all_unique_words 
+      (Extract.word2vec_dict Extract.count_all_unique_words)
+  in
+  let topic = Extract.add_tfidf input in 
+  let cos_response = Extract.find_max_cosine topic qeustion_vec [""] 0.0 in
 
-    match a_response with 
-    | "all correct" -> begin match input, response with 
-        | "about", _ -> about
-        | "examples", _ -> examples 
-        | "help", _ -> help 
-        | _ , "" -> "I don’t have the answer for that.\n"
-        | _, _  ->  response ^ "\n" end
-    | _ -> "Autocorrect found word(s) not identified: " ^ a_response ^ "\n" 
+  let a_response = Autocorrect.check_correctness input in
 
-    
+  match a_response with 
+  | "all correct" -> begin match input, response with 
+      | "about", _ -> about
+      | "examples", _ -> examples 
+      | "help", _ -> help 
+      | _ , "" -> "I don’t have the answer for that.\n"
+      | _, _  ->  "Jaccard Similarity Based: " ^ response ^ "\n" 
+                  ^
+                  "Cosine-similarity: " ^  (String.concat " " cos_response) end
+  | _ -> "Autocorrect found word(s) not identified: " ^ a_response ^ "\n" 
+
+
 
 (** [response input] provides the user with a response to the input
     they provide. It also prompts the user for another question, if
     the user wishes to continue speaking to the chatbot. *)
 let rec response input =
-    match input with
-    | "bye" -> Pervasives.print_endline "Thank you for talking to me!\n"
-    | input ->  
+  match input with
+  | "bye" -> Pervasives.print_endline "Thank you for talking to me!\n"
+  | input ->  
     let output = process input in
     Pervasives.print_endline output;
     print_string  "> ";
@@ -62,11 +73,11 @@ let rec response input =
 
 (** [main ()] greets the user and starts the chatbot. *)
 let main () = 
-    ANSITerminal.(print_string [red] intro_txt);
-    (* print_endline (examples); *)
-    print_endline (help);
-    print_string  "> ";
-    response (Pervasives.read_line ())
+  ANSITerminal.(print_string [red] intro_txt);
+  (* print_endline (examples); *)
+  print_endline (help);
+  print_string  "> ";
+  response (Pervasives.read_line ())
 
 (* Executes the chatbot. *)
 

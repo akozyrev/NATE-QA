@@ -28,7 +28,7 @@ module Similarity = struct
       represented as int lists*)
   let cosine_sim (a:int list) (b: int list) : cos_sim =
     let num = dot_prod a b in
-    Pervasives.print_int num;
+    (* Pervasives.print_int num; *)
     let denom = (norm a) *. (norm b) in
     (* Pervasives.print_float denom; *)
     (float_of_int num) /. denom
