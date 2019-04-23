@@ -396,11 +396,17 @@ let wrap input_sent vocab_size word2vec_dict =
   in
   vectorize_sent input_sent vocab_size word2vec_dict vec
 
+
+let rec print_list = function
+    [] -> ()
+  | e::l -> print_string e ; print_string " " ; print_list l
+
 (** [find_max_cosine topic acc_sent acc_score] finds the max cosine similarity
     of a score and sentence. *)
 let find_max_cosine topic q_vector acc_sent acc_score =
   let topic_we_want = (Hashtbl.find content_dict topic) in
-  let sentences_of_topic = List.map (fun s -> Tokenizer.word_tokenize s) topic_we_want.content in
+  let sentences_of_topic = List.map (fun s -> Tokenizer.word_tokenize s) topic_we_want.content; in
+  (* print_list (List.hd sentences_of_topic); *)
   (* let doc_sentences = topic_we_want.content in *)
   let rec helper sentences q_vector acc_sent acc_score =
     match sentences with
@@ -422,13 +428,11 @@ let find_max_cosine topic q_vector acc_sent acc_score =
 (* let print_hash_debug ht =
    Hashtbl.iter (fun x y -> print_string x;
                  print_int y; print_newline ()) ht *)
-let rec print_list = function
-    [] -> ()
-  | e::l -> print_string e ; print_string " " ; print_list l
-let debug =
-  let q_vector_test = wrap ["Who"; "is"; "David"; "Gries?"] 21913 (word2vec_dict 21913) in
-  print_list (find_max_cosine "David Gries" q_vector_test [""] 0.0);
-  Pervasives.print_string "here"
+
+(* let debug =
+   let q_vector_test = wrap ["Who"; "is"; "David"; "Gries?"] 21913 (word2vec_dict 21913) in
+   print_list (find_max_cosine "David Gries" q_vector_test [""] 0.0);
+   Pervasives.print_string "here" *)
 (* print_hash_debug (word2vec_dict vocab_size) *)
 (* Pervasives.print_int vocab_size; *)
 (* Pervasives.print_int (List.length all_words) *)
