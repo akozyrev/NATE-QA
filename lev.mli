@@ -1,4 +1,4 @@
-(*Module for calculating Levenshtein distance
+(**Module for calculating Levenshtein distance
 between 2 strings*)
 
 (** [distance w1 w2] returns the calculated 

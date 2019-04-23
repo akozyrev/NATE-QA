@@ -1,8 +1,15 @@
 open Pervasives
 
+(** Module for calculating and storing the
+simlarity metrics of 2 input sentences.
+Contains cosine similarity and jaccard similarity
+calculations. *)
 module Similarity = struct
 
+  (**Type of cosine similarity calculation*)
   type cos_sim = float
+
+  (**Type of jaccard similarity calculation*)
   type jac_sim = float
 
   (** Compute dot product of vectors a and b,

@@ -1,4 +1,6 @@
-(*Autocorrection module*)
+(**Module to autocorrect misspellings in user input,
+and return all possible candidates with the lowest possible
+Levenshetein edit distance, max 3 units. *)
 open Tokenizer
 open Counter
 open Extract

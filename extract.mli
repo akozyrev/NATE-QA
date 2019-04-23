@@ -1,6 +1,18 @@
-(* type counter *)
+(** Module for processing the data from json file, 
+storing each doc's data into a dictionary, and making
+the main computations for gathering the bot's response *)
+
 open Counter
+
+(** Contains the title of the topic (document)
+    and a Counter.t which is a dictionary mapping each unique word to its
+    number of occurrences in the topic/document.  *)
 type topic_dict 
+
+
+(** Topic type containing the title of the topic/document and a content string
+    list, which is a list of sentence tokens extracted from
+    that particular topic  *)
 type topic
 
 (**
@@ -72,12 +84,17 @@ val add_list_to_list : (string, float) Hashtbl.t -> (string, float) Hashtbl.t ->
    the document with the highest sum. *)
 val add_tfidf : string -> string
 
+(** [get_response input_sent] calculates a response based on [input_sent] sentence
+    and returns the response*)
 val get_response : string -> string
 
-val all_topic_dict_counter : topic_dict list
-
+(** [get_topic tp] returns the title of topic [tp] *)
 val get_topics : topic_dict list -> string list
 
+(** [get_counter topic_dict] is a getter function that allows us to use
+    List.map in the following *)
 val get_counter : topic_dict -> Counter.t
 
+(** [vocab_size] is the number of unique words in all of the data provided by
+    json. *)
 val vocab_size : int

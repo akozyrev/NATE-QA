@@ -1,9 +1,14 @@
+(**Module used for topic clustering and suggesting new topics
+relevant to user's input question. Will output a neighbor
+in the same cluster as the topic the user asked about, nothing
+if cannot find a similar cluster *)
+
 (**list of topic clusters for topic suggestion*)
 let lst : (string * string list) list = [
   ("person", ["david gries";"john hopcroft"; "alan turing";
               "andreessen horowitz"; "anita borg"; "barbara liskov"; "bill gates";
               "brian acton"; "david easley"; "elon musk"; "eva tardos"; "grace hopper";
-              "jeff bezos"; "john kleinberg"; "karlie kloss"; "kevin systrom"; 
+              "jeff bezos"; "jon kleinberg"; "karlie kloss"; "kevin systrom"; 
               "mark zuckerberg"; "mike krieger"; "robert kleinberg"; "sheryl sandberg";
               "steve ballmer"; "steve jobs"; "steve wozniak"; "tracy chou"]) ;
 
@@ -22,7 +27,7 @@ let lst : (string * string list) list = [
   ("neural network", ["perceptron"; "recurrent neural network"; "convolutional neural network";
                       "generative adversarial network"; "artificial neural network"]);
   
-  ("algorithm", ["mergesort"; "bubble sort"; "stable marriage"; "dijkstra's shortest path";
+  ("algorithm", ["merge sort"; "bubble sort"; "stable marriage"; "dijkstra's shortest path";
                 "k nearest neighbors"; "SVM"; "decision tree"; "minimax"; "hill climbing";
                 "genetic algorithm"; "breadth first search"; "depth first search";"heapsort"]);
   
@@ -101,7 +106,7 @@ let suggestion (input_sent:string) : string =
     | h::t -> if contains sl h then begin
       let topic = Hashtbl.find elt_to_topic_ht h in
       let topic_lst = Hashtbl.find topic_to_elt_ht topic in
-      "Another " ^ topic ^ " you may be interested in learning about: " ^ (rand (remove topic_lst topic)) ^ "\n" end
+      "Another " ^ topic ^ " you may be interested in learning about: " ^ (rand (remove topic_lst h)) ^ "\n" end
 
       else suggestion2 sl t in 
 

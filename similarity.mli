@@ -1,6 +1,11 @@
+(** Module for calculating and storing the
+simlarity metrics of 2 input sentences. *)
 module Similarity : sig
 
+  (**Type of cosine similarity calculation*)
   type cos_sim = float
+
+  (**Type of jaccard similarity calculation*)
   type jac_sim = float
 
 (** Compute dot product of vectors a and b,
