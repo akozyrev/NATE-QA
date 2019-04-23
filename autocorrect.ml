@@ -98,7 +98,8 @@ let correctness_ht (toks_filtered:string list) : (string, string list) Hashtbl.t
 let check_correctness (input_sent:string) : string = 
   let toks = Similarity.remove_dups (Tokenizer.word_tokenize input_sent) in
   let toks_f = List.filter (fun a -> not (List.mem a Filter.filter_list)) toks in
-  let corr_ht = correctness_ht toks_f in
+  let toks_ff = List.filter (fun a -> not (List.mem '\'' (List.init (String.length a) (String.get a)))) toks in
+  let corr_ht = correctness_ht toks_ff in
 
   let rec make_str (tokens: string list) (acc_str : string) : string = 
     match tokens with 
