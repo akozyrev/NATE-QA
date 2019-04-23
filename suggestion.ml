@@ -3,7 +3,7 @@ let lst : (string * string list) list = [
   ("person", ["david gries";"john hopcroft"; "alan turing";
               "andreessen horowitz"; "anita borg"; "barbara liskov"; "bill gates";
               "brian acton"; "david easley"; "elon musk"; "eva tardos"; "grace hopper";
-              "jeff bezos"; "john kleinberg"; "karlie kloss"; "kevin systrom"; 
+              "jeff bezos"; "jon kleinberg"; "karlie kloss"; "kevin systrom"; 
               "mark zuckerberg"; "mike krieger"; "robert kleinberg"; "sheryl sandberg";
               "steve ballmer"; "steve jobs"; "steve wozniak"; "tracy chou"]) ;
 
