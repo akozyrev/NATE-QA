@@ -22,7 +22,7 @@ let lst : (string * string list) list = [
   ("neural network", ["perceptron"; "recurrent neural network"; "convolutional neural network";
                       "generative adversarial network"; "artificial neural network"]);
   
-  ("algorithm", ["mergesort"; "bubble sort"; "stable marriage"; "dijkstra's shortest path";
+  ("algorithm", ["merge sort"; "bubble sort"; "stable marriage"; "dijkstra's shortest path";
                 "k nearest neighbors"; "SVM"; "decision tree"; "minimax"; "hill climbing";
                 "genetic algorithm"; "breadth first search"; "depth first search";"heapsort"]);
   
