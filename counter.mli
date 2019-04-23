@@ -1,3 +1,4 @@
+(** Module for representing document types. *)
 module Counter : sig
 
   (** Type for this module, which is represented as

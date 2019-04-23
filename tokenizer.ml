@@ -1,3 +1,6 @@
+(**Module used to tokenize the document, as well
+as sentences within the doc. Contains sentence tokenize
+and word tokenize functionality*)
 module Tokenizer = struct
 
   (** Tokenizer type, containing tokenized

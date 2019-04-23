@@ -3,8 +3,9 @@ open Tokenizer
 open Counter
 open Similarity
 
-(* module Extract = struct  *)
-(* type counter = Counter.t *)
+(** Module for processing the data from json file, 
+storing each doc's data into a dictionary, and making
+the main computations for gathering the bot's response *)
 
 (** Topic Dictionary type, which contains the title of the topic (document)
     and a Counter.t which is a dictionary mapping each unique word to its

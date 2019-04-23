@@ -1,6 +1,6 @@
-(*Module for calculating Levenshtein distance
-between 2 strings. This uses a generic algorithm
-commonly found on the internet. We credit this
+(** Module for calculating Levenshtein distance
+between 2 strings. This uses a famous, math-based 
+generic algorithm. We credit this
 page for inspiration for our implementation:
 https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance *)
 
