@@ -27,13 +27,16 @@ module Tokenizer = struct
   let make_lower (word:string) : string =
     String.lowercase_ascii word
 
-  (** [split_on_chars chars s] splits string s into list of strings separated
+  (** [split_on_chars chars s] splits string 
+      s into list of strings separated
       by any one of the chars in specified char list*)
-  let rec split_on_chars (chars : char list) (s : string) : string list =
+  let rec split_on_chars (chars : char list) 
+    (s : string) : string list =
     match chars with
     | h::t ->
       let split_strings = String.split_on_char h s in
-      let split_strings2 = List.map (fun x -> split_on_chars t x) split_strings in
+      let split_strings2 = List.map (fun x -> 
+          split_on_chars t x) split_strings in
       List.concat split_strings2
     | [] -> [s]
 

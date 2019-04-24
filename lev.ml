@@ -2,7 +2,7 @@
 between 2 strings. This uses a famous, math-based 
 generic algorithm. We credit this
 page for inspiration for our implementation:
-https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance *)
+en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance*)
 
 
 (** [minimum x y z] returns the minimum of three integers.  *)

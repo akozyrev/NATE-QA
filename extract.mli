@@ -10,7 +10,8 @@ open Counter
 type topic_dict
 
 
-(** Topic type containing the title of the topic/document and a content string
+(** Topic type containing the title of the 
+    topic/document and a content string
     list, which is a list of sentence tokens extracted from
     that particular topic  *)
 type topic
@@ -23,7 +24,8 @@ val get_content : string -> Yojson.Basic.json -> topic
 (**
    Returns all topics in the json file, represented by a topic list
 *)
-val all_topics : string list -> Yojson.Basic.json -> topic list -> topic list
+val all_topics : string list -> Yojson.Basic.json 
+        -> topic list -> topic list
 
 (**
    Returns tokenizedd content of a topic
@@ -56,9 +58,11 @@ val all_topic_dict_counter : topic_dict list
 val print_topic_dict_list : topic_dict list -> unit
 
 (**
-   [which_dict_has_the_word word t_d_lst [] ]returns all topic_dicts that have the word
+   [which_dict_has_the_word word t_d_lst [] ] 
+   returns all topic_dicts that have the word
 *)
-val which_dict_has_the_word : string -> topic_dict list -> topic_dict list -> topic_dict list
+val which_dict_has_the_word : string -> topic_dict list 
+    -> topic_dict list -> topic_dict list
 
 (**
    Returns the number of occurance of a word in a topic's content
@@ -72,26 +76,35 @@ val count_word_in_topic : string -> string -> int
     calculated response to the user's input *)
 val max_jaccard_sentence : string ->  string ->  string
 
-(** [add_elt_to_list doc lst] returns a list of tuples where the first value corresponds
-    to the document and the value is the combined tfidf scores of each word in that document. *)
-val add_elt_to_list : (string * float) -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t
+(** [add_elt_to_list doc lst] returns a list of 
+    tuples where the first value corresponds
+    to the document and the value is the combined 
+    tfidf scores of each word in that document. *)
+val add_elt_to_list : (string * float) -> 
+    (string, float) Hashtbl.t -> (string, float) Hashtbl.t
 
-(* [add_list_to_list lst1 lst2] combines the elements of lst1 and lst2, where there are no duplicate
-   string values. If the string values are equal, their float values are added. *)
-val add_list_to_list : (string, float) Hashtbl.t -> (string, float) Hashtbl.t -> (string, float) Hashtbl.t
+(* [add_list_to_list lst1 lst2] combines the 
+    elements of lst1 and lst2, where there are no duplicate
+   string values. If the string values are equal, 
+    their float values are added. *)
+val add_list_to_list : (string, float) Hashtbl.t -> 
+    (string, float) Hashtbl.t -> (string, float) Hashtbl.t
 
-(* [add_tfidf input_sent] computes the sum of TFIDF scores for each word in each document and returns
+(* [add_tfidf input_sent] computes the sum of TFIDF 
+    scores for each word in each document and returns
    the document with the highest sum. *)
 val add_tfidf : string -> string
 
-(** [get_response input_sent] calculates a response based on [input_sent] sentence
+(** [get_response input_sent] calculates a response 
+    based on [input_sent] sentence
     and returns the response*)
 val get_response : string -> string
 
 (** [get_topic tp] returns the title of topic [tp] *)
 val get_topics : topic_dict list -> string list
 
-(** [get_counter topic_dict] is a getter function that allows us to use
+(** [get_counter topic_dict] is a getter 
+    function that allows us to use
     List.map in the following *)
 val get_counter : topic_dict -> Counter.t
 
@@ -99,7 +112,8 @@ val all_counters_list : Counter.t list
 
 val all_dict_list : (string, int) Hashtbl.t list
 
-val add_list_to_list : (string, int) Hashtbl.t -> (string, int) Hashtbl.t -> (string, int) Hashtbl.t
+val add_list_to_list : (string, int) Hashtbl.t -> 
+    (string, int) Hashtbl.t -> (string, int) Hashtbl.t
 
 val big_counter_ht : (string, int) Hashtbl.t
 
@@ -111,6 +125,7 @@ val vocab_size : int
 
 val vectorize: 'a list -> int -> ('a, int) Hashtbl.t -> int array
 
-val find_max_cosine : string -> string list -> int array -> string -> Similarity.Similarity.cos_sim -> string 
+val find_max_cosine : string -> string list -> 
+    int array -> string -> Similarity.Similarity.cos_sim -> string 
 
 val word2vec_dict : int -> (string, int) Hashtbl.t
