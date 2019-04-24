@@ -454,11 +454,16 @@ let rec print_list = function
     [] -> ()
   | e::l -> print_string e ; print_string " " ; print_list l
 
+
 (** [find_max_cosine topic acc_sent acc_score] finds the max cosine similarity
     of a score and sentence. *)
-let find_max_cosine topic q_vector acc_sent acc_score =
+let find_max_cosine (topic:string) (input_tokens: string list) q_vector acc_sent (acc_score:float) =
   let topic_we_want = (Hashtbl.find content_dict topic) in
-  let sentences_of_topic = List.map (fun s -> Tokenizer.word_tokenize s) topic_we_want.content; in
+  let sentences = topic_we_want.content in
+  let filter_tokens_fixed sentence = filter_tokens input_tokens sentence in
+  let filtered_sentences = 
+      (List.filter (filter_tokens_fixed) sentences) in
+  let sentences_of_topic = List.map (fun s -> Tokenizer.word_tokenize s) filtered_sentences; in
   (* print_list (List.hd sentences_of_topic); *)
   (* let doc_sentences = topic_we_want.content in *)
   let rec helper sentences q_vector acc_sent acc_score =

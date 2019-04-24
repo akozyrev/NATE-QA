@@ -2,6 +2,7 @@ open Tokenizer
 open Counter
 open Extract
 open Suggestion
+open Similarity
 
 (** The bot's introductory welcome message *)
 let intro_txt = "\nMy name is NATE [Nonhuman Abstract Tech Expert]," ^ 
@@ -43,7 +44,9 @@ let process_cos input =
       (Extract.word2vec_dict Extract.count_all_unique_words)
   in
   let topic = Extract.add_tfidf input in 
-  let cos_response = Extract.find_max_cosine topic question_vec [""] 0.0 in
+  let input_tokens = Similarity.remove_dups (Tokenizer.word_tokenize input) in
+  let cos_response = 
+  Extract.find_max_cosine topic input_tokens question_vec [""] 0.0 in
   let a_response = Autocorrect.check_correctness input in
   let sug = Suggestion.suggestion input in
   match a_response with 
