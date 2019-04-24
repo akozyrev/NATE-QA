@@ -444,7 +444,8 @@ let vectorize input_sent vocab_size word2vec_dict =
       match Hashtbl.find_opt word2vec_dict h with
       (* | None -> vec *)
       | None -> vectorize_sent t vocab_size word2vec_dict (acc)
-      | Some i -> Array.set acc i ((Array.get acc i) + 1);
+      (* | Some i -> Array.set acc i ((Array.get acc i) + 1);*)
+       | Some i -> Array.set acc i 1;
         vectorize_sent t vocab_size word2vec_dict (acc)
   in
   vectorize_sent input_sent vocab_size word2vec_dict vec

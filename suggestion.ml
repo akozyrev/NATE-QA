@@ -75,7 +75,7 @@ let rec populate_ht_inv (lst: (string * string list) list)
   List.fold_left (fun ht elt -> populate_ht_list (snd elt) ht (fst elt)) acc_tbl lst
 
 
-(**global contant where our inverse hashtable is stored*)
+(**global constant where our inverse hashtable is stored*)
 let elt_to_topic_ht: (string, string) Hashtbl.t = populate_ht_inv lst (Hashtbl.create 500)
 
 (**check to see if s1 contains s2*)
