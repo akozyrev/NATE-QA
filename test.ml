@@ -27,8 +27,8 @@ let tok = ({sentences = ["The cat is fat"; "The cat ate the rat"];
                      "cat"; "ate"; "the"; "rat"] }:Tokenizer.t )
 let tokenizer_test = [
   "test_sent_tokenize" >:: (fun _ -> assert_equal
-                               ["The cat is fat"; "The cat ate the rat"]
-                               (Tokenizer.sent_tokenize "The cat is fat. The cat ate the rat."));
+            ["The cat is fat"; "The cat ate the rat"]
+            (Tokenizer.sent_tokenize "The cat is fat. The cat ate the rat."));
 
   "test_make_lower" >:: (fun _ -> assert_equal "rat"
                             (Tokenizer.make_lower "Rat"));
@@ -37,24 +37,24 @@ let tokenizer_test = [
                              (Tokenizer.make_lower "rat"));
 
   "test_split_on_chars" >:: (fun _ -> assert_equal
-                                ["hi"; ""; "my"; "name"; "is"; ""; "blahblahblah"; ""]
-                                (Tokenizer.split_on_chars [';';':';'.';' ']
-                                   "hi; my name is: blahblahblah "));
+                    ["hi"; ""; "my"; "name"; "is"; ""; "blahblahblah"; ""]
+                    (Tokenizer.split_on_chars [';';':';'.';' ']
+                        "hi; my name is: blahblahblah "));
 
   "test_word_tokenize" >:: (fun _ -> assert_equal ["hi";
-                                                   "my"; "name"; "is"; "blahblahblah"]
-                               (Tokenizer.word_tokenize "hi; my name is: blahblahblah "));
+                            "my"; "name"; "is"; "blahblahblah"]
+        (Tokenizer.word_tokenize "hi; my name is: blahblahblah "));
 
   "test_tokenize" >:: (fun _ -> assert_equal tok
-                          (Tokenizer.tokenize "The cat is fat. The cat ate the rat."));
+                (Tokenizer.tokenize "The cat is fat. The cat ate the rat."));
 
   "test_get_sentences" >:: (fun _ -> assert_equal
-                               ["The cat is fat"; "The cat ate the rat"]
-                               (Tokenizer.get_sentences tok));
+                    ["The cat is fat"; "The cat ate the rat"]
+                    (Tokenizer.get_sentences tok));
 
   "test_get_words" >::  (fun _ -> assert_equal ["the";
-                                                "cat"; "is"; "fat"; "the"; "cat"; "ate"; "the"; "rat"]
-                            (Tokenizer.get_words tok));
+                    "cat"; "is"; "fat"; "the"; "cat"; "ate"; "the"; "rat"]
+                    (Tokenizer.get_words tok));
 
 ]
 
@@ -62,31 +62,31 @@ let tokenizer_test = [
 (** tests for similarity module --done*)
 let similarity_test = [
   "test_dot_prod" >:: (fun _ -> assert_equal
-                          25 (Similarity.dot_prod [3;4] [3;4]));
+                25 (Similarity.dot_prod [3;4] [3;4]));
 
   "test_dot_prod2" >:: (fun _ -> assert_equal
-                           0 (Similarity.dot_prod [0] [0]));
+                0 (Similarity.dot_prod [0] [0]));
 
   "test_norm" >:: (fun _ -> assert_equal
-                      true ((Similarity.norm [3;4]) -. 25.0 < 0.01) );
+            true ((Similarity.norm [3;4]) -. 25.0 < 0.01) );
 
   "test_norm2" >:: (fun _ -> assert_equal
-                       0.0 (Similarity.norm [0;0;0]));
+           0.0 (Similarity.norm [0;0;0]));
 
   "test_remove_dups" >:: (fun _ -> assert_equal
-                             [1;2;3] (Similarity.remove_dups [1;2;3]));
+            [1;2;3] (Similarity.remove_dups [1;2;3]));
 
   "test_remove_dups2" >:: (fun _ -> assert_equal
-                              [0] (Similarity.remove_dups [0;0;0]));
+            [0] (Similarity.remove_dups [0;0;0]));
 
   "test_union" >:: (fun _ -> assert_equal true
-                       (cmp_set_like_lists [1;2;3] (Similarity.union [1;2] [3])));
+        (cmp_set_like_lists [1;2;3] (Similarity.union [1;2] [3])));
 
   "test_union2" >:: (fun _ -> assert_equal true
-                        (cmp_set_like_lists [1;2] (Similarity.union [1;2] [])));
+        (cmp_set_like_lists [1;2] (Similarity.union [1;2] [])));
 
   "test_union3" >:: (fun _ -> assert_equal true
-                        (cmp_set_like_lists [1;2] (Similarity.union [1;2] [1;2])));
+        (cmp_set_like_lists [1;2] (Similarity.union [1;2] [1;2])));
 
   "test_ucardinality1" >:: (fun _ ->
       assert_equal 3 (Similarity.union_cardinality [1;2] [3]));
@@ -119,13 +119,10 @@ let extract_test = [
       assert_equal (count_word_in_topic "youtube" "youTube"  )
         (365) );
 
-  "test_which_dict_has_the_words_1" >:: (fun _ -> assert_equal
-                                            (get_topics (which_dict_has_the_word "spacex" all_topic_dict_counter []))
-                                            (["Artificial Intelligence"; "Elon Musk"]) );
 
   "test_which_dict_has_the_words_2" >:: (fun _ ->
       assert_equal (get_topics (which_dict_has_the_word
-                                  "askdnjaksjdaojd" all_topic_dict_counter []))
+        "askdnjaksjdaojd" all_topic_dict_counter []))
         ([]) );
 
   "test_max_jaccard_sentence">:: (fun _ ->
@@ -137,9 +134,6 @@ let extract_test = [
       assert_equal
         (vocab_size) 33144; Pervasives.print_int vocab_size);
 
-  "test_find_max_cosine" >:: (fun _ ->
-      assert_equal
-        (find_max_cosine "David Gries" ["who"; "is"; "david"; "gries"] q_vector_test "" 0.0) "David Gries currently lives in Ithaca, NY.");
 ]
 
 
@@ -151,41 +145,41 @@ let word_dict = Hashtbl.create 5
 let counter_test = [
 
   "test_add_word1" >:: (fun _ -> assert_equal
-                           (Hashtbl.add word_dict "hello" 1; word_dict)
-                           (Counter.add_word "hello"  word_dict) );
+            (Hashtbl.add word_dict "hello" 1; word_dict)
+            (Counter.add_word "hello"  word_dict) );
 
   "test_add_word2" >:: (fun _ -> assert_equal
-                           (Hashtbl.add word_dict "world" 1; word_dict)
-                           (Counter.add_word "world"  word_dict) );
+        (Hashtbl.add word_dict "world" 1; word_dict)
+        (Counter.add_word "world"  word_dict) );
 
   "test_add_words" >:: (fun _ -> assert_equal
-                           (Hashtbl.add word_dict "world" 2;
-                            Hashtbl.add word_dict "hello" 3;
-                            word_dict)
-                           (Counter.add_words ["hello";"world";"hello"]  word_dict) );
+        (Hashtbl.add word_dict "world" 2;
+        Hashtbl.add word_dict "hello" 3;
+            word_dict)
+            (Counter.add_words ["hello";"world";"hello"]  word_dict) );
 
 
   "test_get_len1" >:: (fun _ -> assert_equal 0
-                          (Hashtbl.length empty_dict));
+            (Hashtbl.length empty_dict));
 
   "test_get_len2" >:: (fun _ -> assert_equal 2
-                          (Counter.get_length (Counter.make_dict
-                                                 ["hello"; "world"; "world"; "hello";"hello"])));
+        (Counter.get_length (Counter.make_dict
+            ["hello"; "world"; "world"; "hello";"hello"])));
 
   "test_mem1" >:: (fun _ -> assert_equal false (Counter.mem "hi"
-                                                  (Counter.make_dict ["hello"; "world"; "world"; "hello";"hello"])));
+                (Counter.make_dict ["hello"; "world"; "world"; "hello";"hello"])));
 
   "test_mem2" >:: (fun _ -> assert_equal true
-                      (Counter.mem "hello" (Counter.make_dict
-                                              ["hello"; "world"; "world"; "hello";"hello"])));
+            (Counter.mem "hello" (Counter.make_dict
+            ["hello"; "world"; "world"; "hello";"hello"])));
 
   "test_find_word1" >:: (fun _ -> assert_equal 3
-                            (Counter.find_word "hello" (Counter.make_dict
-                                                          ["hello"; "world"; "world"; "hello";"hello"])));
+            (Counter.find_word "hello" (Counter.make_dict
+            ["hello"; "world"; "world"; "hello";"hello"])));
 
   "test_find_word2" >:: (fun _ -> assert_equal 0
-                            (Counter.find_word "hi" (Counter.make_dict
-                                                       ["hello"; "world"; "world"; "hello";"hello"])));
+            (Counter.find_word "hi" (Counter.make_dict
+            ["hello"; "world"; "world"; "hello";"hello"])));
 
 
 ]

@@ -355,10 +355,10 @@ let add_tfidf (input_sent : string) : string =
   let temp_list = List.fold_left add_list_to_list
       (Hashtbl.create 20000) doc_list in
   let good_tup = Hashtbl.fold (fun 
-                                (a : string)
-                                (b : float) 
-                                (c : string * float) : (string * float)
-                                -> if b > (snd c) then (a, b) else c)
+                (a : string)
+                (b : float) 
+                (c : string * float) : (string * float)
+                -> if b > (snd c) then (a, b) else c)
       temp_list ("David Gries", 0.0) in
 
   begin
@@ -376,7 +376,8 @@ let get_response (input_sent : string) : string =
 
 let get_topic_dict_topic (topic_dict:topic_dict) = topic_dict.topic
 
-let get_topics (topic_dict_lst:topic_dict list) = List.map get_topic_dict_topic topic_dict_lst
+let get_topics (topic_dict_lst:topic_dict list) = List.map 
+    get_topic_dict_topic topic_dict_lst
 
 (** Useful helpers to be called in Autocorrect *)
 
@@ -424,7 +425,8 @@ let vocab_size =
     index, starting from 0.  *)
 let word2vec_dict vocab_size =
   let new_hashtbl = Hashtbl.create vocab_size in
-  List.fold_left (fun ht word -> (Hashtbl.add ht word (Hashtbl.length ht); ht)) new_hashtbl all_words
+  List.fold_left (fun ht word -> (Hashtbl.add ht word 
+    (Hashtbl.length ht); ht)) new_hashtbl all_words
 
 (** [vectorize input_sent vocab_size word2vec_dict] constructs
     a vector representation of a sentence by incrementing a vector of
@@ -437,7 +439,8 @@ let word2vec_dict vocab_size =
 let vectorize input_sent vocab_size word2vec_dict =
   let vec = Array.init vocab_size (function i -> 0) in
 
-  let rec vectorize_sent input_sent vocab_size word2vec_dict (acc:int array) =
+  let rec vectorize_sent input_sent vocab_size 
+    word2vec_dict (acc:int array) =
     match input_sent with
     | [] -> acc
     | h::t ->
@@ -458,14 +461,17 @@ let rec print_list = function
 
 (** [find_max_cosine topic acc_sent acc_score] finds the max cosine similarity
     of a score and sentence. *)
-let find_max_cosine (topic:string) (input_tokens: string list) q_vector (acc_sent_o:string) (acc_score:float) =
+let find_max_cosine (topic:string) (input_tokens: string list) 
+    q_vector (acc_sent_o:string) (acc_score:float) =
   let acc_sent = Tokenizer.word_tokenize acc_sent_o in
   let topic_we_want = (Hashtbl.find content_dict topic) in
   let sentences = topic_we_want.content in
-  let filter_tokens_fixed sentence = filter_tokens input_tokens sentence in
+  let filter_tokens_fixed sentence = filter_tokens 
+        input_tokens sentence in
   let filtered_sentences = 
       (List.filter (filter_tokens_fixed) sentences) in
-  let sentences_of_topic = List.map (fun s -> (s, Tokenizer.word_tokenize s)) filtered_sentences; in
+  let sentences_of_topic = List.map (fun s -> 
+            (s, Tokenizer.word_tokenize s)) filtered_sentences; in
   (* print_list (List.hd sentences_of_topic); *)
   (* let doc_sentences = topic_we_want.content in *)
   let rec helper sentences q_vector acc_sent acc_sent_o acc_score =
@@ -479,7 +485,8 @@ let find_max_cosine (topic:string) (input_tokens: string list) q_vector (acc_sen
           (Array.to_list q_vector)
       in
       (* Pervasives.print_float new_score; Pervasives.prerr_float acc_score; *)
-      if new_score > acc_score then helper t q_vector (snd h) (fst h) new_score
+      if new_score > acc_score then helper t q_vector 
+            (snd h) (fst h) new_score
       else helper t q_vector acc_sent acc_sent_o acc_score
   in
   (* helper doc_sentences q_vector acc_sent acc_score *)
@@ -490,11 +497,14 @@ let find_max_cosine (topic:string) (input_tokens: string list) q_vector (acc_sen
                  print_int y; print_newline ()) ht *)
 
 (* let debug =
-  let q_vector_test = vectorize ["where"; "is"; "the"; "office"; "of"; "Facebook"; "in"; "california"] 33144 (word2vec_dict 33144) in
+  let q_vector_test = vectorize ["where"; "is"; "the"; "office"; 
+            "of"; "Facebook"; "in"; "california"] 33144 (word2vec_dict 33144) in
   print_list (find_max_cosine "Facebook" q_vector_test [""] 0.0);
   Pervasives.print_string "here" *)
 
 (* print_hash_debug (word2vec_dict vocab_size) *)
 (* Pervasives.print_int vocab_size; *)
 (* Pervasives.print_int (List.length all_words) *)
-(* Array.iter (Pervasives.print_int) (wrap ["elon"; "musk"; "tesla"; "david"; "gries"; "facebook"] vocab_size (word2vec_dict vocab_size)) *)
+(* Array.iter (Pervasives.print_int) (wrap ["elon"; "musk"; 
+    "tesla"; "david"; "gries"; "facebook"] 
+    vocab_size (word2vec_dict vocab_size)) *)
