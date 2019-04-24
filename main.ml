@@ -85,18 +85,20 @@ let process_cos input =
   | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
 
 let process_jac input = 
-  let response = Extract.get_response input in
-  let a_response = Autocorrect.check_correctness input in
-  let sug = Suggestion.suggestion input in
-
-  match a_response with 
-  | "all correct" -> begin match input, response with 
-      | "about", _ -> about
-      | "examples", _ -> examples 
-      | "help", _ -> help 
-      | _ , "" -> "Please input a valid question.\n"
-      | _, _  ->  response ^ "\n\n" ^ sug ^ "\n" end
-  | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
+  match input with
+    | "about" -> about
+    | "examples" -> examples
+    | "help" -> help
+    | _ -> begin
+        let a_response = Autocorrect.check_correctness input in
+        match a_response with 
+        | "all correct" -> begin 
+          let response = Extract.get_response input in
+          let sug = Suggestion.suggestion input in
+          match response with  
+            | "" -> "Please input a valid question.\n"
+            | _  ->  response ^ "\n\n" ^ sug ^ "\n" end
+        | _ -> "Autocorrect found word(s) not identified: " ^ a_response end
 
 (** [response input] provides the user with a response to the input
     they provide. It also prompts the user for another question, if
