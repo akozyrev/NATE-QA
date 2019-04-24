@@ -46,16 +46,16 @@ let process_cos input =
   let topic = Extract.add_tfidf input in 
   let input_tokens = Similarity.remove_dups (Tokenizer.word_tokenize input) in
   let cos_response = 
-  Extract.find_max_cosine topic input_tokens question_vec [""] 0.0 in
+  Extract.find_max_cosine topic input_tokens question_vec "" 0.0 in
   let a_response = Autocorrect.check_correctness input in
   let sug = Suggestion.suggestion input in
   match a_response with 
-  | "all correct" -> begin match input, (String.concat " " cos_response) with 
+  | "all correct" -> begin match input, (cos_response) with 
       | "about", _ -> about
       | "examples", _ -> examples 
       | "help", _ -> help 
       | _ , "" -> "Please input a valid question.\n"
-      | _, _  ->  (String.concat " " cos_response) ^ "\n" ^ sug ^ "\n" end
+      | _, _  ->  (cos_response) ^ "\n\n" ^ sug ^ "\n" end
   | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
 
 let process_jac input = 
