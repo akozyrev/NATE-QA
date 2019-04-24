@@ -1,15 +1,12 @@
-(**Module used to tokenize the document, as well
-as sentences within the doc. Contains sentence tokenize
-and word tokenize functionality*)
+(** Module used to tokenize the words in a document, as well
+as tokenize the sentences within the doc. Contains functionality 
+to tokenize sentences and tokenize words. *)
 
-(**Module used to tokenize the document, as well
-as sentences within the doc. Contains sentence tokenize
-and word tokenize functionality*)
 module Tokenizer = struct
 
-  (** Tokenizer type, containing tokenized
-      sentences and tokenized words in 2 list
-      attributes *)
+  (** Tokenizer type, which contains tokenized
+      sentences and tokenized words in 2 separate list
+      attributes. *)
   type t = {
     sentences : string list;
     words : string list;
@@ -25,8 +22,8 @@ module Tokenizer = struct
     let strip_sents = List.map (fun s -> String.trim s) sentences in
     List.filter (fun s -> s <> "") strip_sents
 
-  (** [make_lower word] make all letters of word lowercase,
-      if applicable *)
+  (** [make_lower word] make all letters of the word lowercase,
+      if applicable. *)
   let make_lower (word:string) : string =
     String.lowercase_ascii word
 
@@ -40,9 +37,10 @@ module Tokenizer = struct
       List.concat split_strings2
     | [] -> [s]
 
-  (** [word_tokenize text] tokenizes the text and returns string list by
-      1. making words all lowercase
-      2. split into list by punctuation and spaces
+  (** [word_tokenize text] tokenizes the text and returns a string list in
+    two steps:
+      1. making all the words lowercase
+      2. splitting the words into a string list by punctuation and spaces
   *)
   let word_tokenize (text:string) : string list =
     let puncts = [' '; '\n'; '\t'; ';'; ','; '.'; ':'; '?'; '$';
@@ -55,20 +53,19 @@ module Tokenizer = struct
     let all_lower = List.map (fun w -> make_lower w) strip_words in
     all_lower
 
-  (** [tokenize] is the tokenized form of text,
-      containing sentences tokens and word token
-      attributes *)
+  (** [tokenize] is the tokenized form of text in a document, containing two
+    attributes: a string list of sentence tokens and a string list of word tokens. *)
   let tokenize (text:string) : t =
     {
       sentences = sent_tokenize text;
       words = word_tokenize text;
     }
 
-  (** [get_sentences] returns tokenized sentence list of token *)
+  (** [get_sentences] returns a string list of tokenized sentences in a document. *)
   let get_sentences (tok:t) : string list =
     tok.sentences
 
-  (** [get_words tok] returns a tokenized word list of [tok] *)
+  (** [get_words tok] returns a tokenized word list of [tok]. *)
   let get_words (tok:t) : string list =
     tok.words
 
