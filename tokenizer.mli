@@ -10,7 +10,6 @@ module Tokenizer : sig
     words : string list;
   }
 
-
   (** Tokenizes the string text into sentences,
       returns list of sentences with process:
       1. seperate sentences into string list by '.'
@@ -22,18 +21,15 @@ module Tokenizer : sig
       if applicable *)
   val make_lower : (string) -> string 
 
-
   (** Split string s into list of strings separated by
       any one of the chars in specified char list*)
   val split_on_chars : (char list) -> (string) -> string list 
-
 
   (** Tokenizes the text and returns string list by
       1. making words all lowercase
       2. split into list by punctuation and spaces
   *)
   val word_tokenize : (string) -> string list
-
 
   (** Return tokenized form of text, 
       containing sentences tokens and word token

@@ -88,7 +88,8 @@ let contains s1 s2 =
     false
   with Exit -> true
 
-(**output suggestion string from user input question*)
+(** [suggestion] outputs a suggestion string from user input and 
+outputs "" if cannot find a suggestion *)
 let suggestion (input_sent:string) : string = 
   let sent_lower = String.lowercase_ascii input_sent in
 

@@ -1,14 +1,13 @@
-(**Module to autocorrect misspellings in user input,
+(** Module to autocorrect misspellings in user input,
    and return all possible candidates with the lowest possible
    Levenshetein edit distance, max 3 units. *)
+
 open Tokenizer
 open Counter
 open Extract
 open Lev
 open Filter
 open Similarity
-
-
 
 (** [add_elt_to_list doc ht] returns a list of
       tuples where the first value corresponds
@@ -21,7 +20,6 @@ let rec add_elt_to_list (doc : string*int)
   | None -> Hashtbl.add ht (fst doc) (snd doc); ht
   | Some i -> Hashtbl.remove ht (fst doc);
     Hashtbl.add ht (fst doc) (i + (snd doc)); ht
-
 
 (**Return candidates with smallest Levenshtein distance
    from input word, the word we want to autocorrect*)

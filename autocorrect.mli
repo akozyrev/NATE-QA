@@ -1,4 +1,4 @@
-(**Module to autocorrect misspellings in user input*)
+(** Module to autocorrect misspellings in user input. *)
 
 (** [check_correctness sentence] calculates the
     autocorrect module's response regarding the
