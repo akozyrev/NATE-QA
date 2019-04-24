@@ -94,7 +94,7 @@ let main () =
   ANSITerminal.(print_string [blue; Bold] help);
   print_string  "\n";
   ANSITerminal.(print_string [green; Bold] "Which algorithm would you like to use for this session?\n");
-  ANSITerminal.(print_string [green; Bold] "\n> 1 for Jaccard\n> 2 for Cosine Similarity\n");
+  ANSITerminal.(print_string [cyan; Bold] "\n> 1 for Jaccard\n> 2 for Cosine Similarity\n");
   print_string "\n> ";
   let algo = Pervasives.read_line () in
   begin
@@ -113,7 +113,7 @@ let main () =
   end
   | _ -> 
   begin 
-  ANSITerminal.(print_string [green; Bold] "\nInvalid input; Jaccard will be used by default.\n");
+  ANSITerminal.(print_string [red; Bold] "\nInvalid input; Jaccard will be used by default.\n");
   print_string  "\n> ";
   response process_jac (Pervasives.read_line ());
   end
