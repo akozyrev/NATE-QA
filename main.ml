@@ -97,7 +97,8 @@ let process_jac input =
           let sug = Suggestion.suggestion input in
           match response with  
             | "" -> "Please input a valid question.\n"
-            | _  ->  response ^ "\n\n" ^ sug ^ "\n" end
+            | _  ->  response ^ "\n\n" ^ sug
+             end
         | _ -> "Autocorrect found word(s) not identified: " ^ a_response end
 
 (** [response input] provides the user with a response to the input
