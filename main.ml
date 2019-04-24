@@ -46,16 +46,8 @@ let process_cos input =
     | "help" -> help
     | "" -> "Please input a valid question.\n"
     | _ -> 
-        let question_vec =
-        Extract.vectorize (Tokenizer.word_tokenize input) 
-              Extract.count_all_unique_words 
-              (Extract.word2vec_dict Extract.count_all_unique_words) in 
-        let topic = Extract.add_tfidf input in 
-        let input_tokens = Similarity.remove_dups 
-              (Tokenizer.word_tokenize input) in
-        let cos_response = Extract.find_max_cosine topic 
-              input_tokens question_vec "" 0.0 in 
-              (cos_response) ^ "\n\n" ^ sug 
+    let cos_response = Extract.get_response_2 input in 
+    (cos_response) ^ "\n\n" ^ sug 
     end
   | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
 

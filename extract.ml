@@ -453,7 +453,6 @@ let vectorize input_sent vocab_size word2vec_dict =
   in
   vectorize_sent input_sent vocab_size word2vec_dict vec
 
-
 let rec print_list = function
     [] -> ()
   | e::l -> print_string e ; print_string " " ; print_list l
@@ -508,3 +507,11 @@ let find_max_cosine (topic:string) (input_tokens: string list)
 (* Array.iter (Pervasives.print_int) (wrap ["elon"; "musk"; 
     "tesla"; "david"; "gries"; "facebook"] 
     vocab_size (word2vec_dict vocab_size)) *)
+
+let get_response_2 (input:string) : string = 
+    let question_vec = vectorize (Tokenizer.word_tokenize input) 
+    count_all_unique_words (word2vec_dict count_all_unique_words) in 
+    let topic = add_tfidf input in 
+    let input_tokens = Similarity.remove_dups 
+    (Tokenizer.word_tokenize input) in 
+    (find_max_cosine topic input_tokens question_vec "" 0.0)

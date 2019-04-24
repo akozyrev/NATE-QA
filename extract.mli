@@ -129,3 +129,5 @@ val find_max_cosine : string -> string list ->
     int array -> string -> Similarity.Similarity.cos_sim -> string 
 
 val word2vec_dict : int -> (string, int) Hashtbl.t
+
+val get_response_2 : string -> string
