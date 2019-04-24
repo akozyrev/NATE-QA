@@ -112,7 +112,7 @@ let similarity_test = [
 
 ]
 
-let q_vector_test = wrap ["Who"; "is"; "David"; "Gries?"] 33144 (word2vec_dict 33144)
+let q_vector_test = vectorize ["Who"; "is"; "David"; "Gries?"] 33144 (word2vec_dict 33144)
 (* tests for extract module *)
 let extract_test = [
   "test_counter_word_in_topic_in_real" >:: (fun _ ->
