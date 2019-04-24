@@ -3,8 +3,9 @@ open Tokenizer
 open Counter
 open Similarity
 
-(* module Extract = struct  *)
-(* type counter = Counter.t *)
+(** Module for processing the data from json file, 
+    storing each doc's data into a dictionary, and making
+    the main computations for gathering the bot's response *)
 
 (** Topic Dictionary type, which contains the title of the topic (document)
     and a Counter.t which is a dictionary mapping each unique word to its
@@ -227,6 +228,51 @@ let get_topics_tfidf (input_sent:string):
       (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
 
+(** Returns a list of questions that are matched to likely keywords. **)
+let questions = [("who", [["is"; "are"];["a"; "an" ;"the"]]);
+                 ("where", [["at";"in"]]); 
+                 ("what", [["is";"are"];["a";"an";"the"]]);
+                 ("when", [["on"; "in"]])]
+
+(** Helper for [question_ht] that creates a hashtable from [lst]. *)
+let rec question_helper acc_tbl lst =
+  match lst with
+  | [] -> acc_tbl
+  | h::t -> Hashtbl.add acc_tbl (fst h) (snd h);
+    question_helper acc_tbl t
+
+(** Hash table version of questions. *)
+let question_ht = question_helper (Hashtbl.create 4) questions
+
+(** Returns a boolean value of whether any of the elements of [lst] are
+    present in [acc_tbl]. *)
+let rec check_by_category category (input_tokens:string list) = 
+  match input_tokens with
+  | [] -> false
+  | h::t -> if List.mem h category then true else
+      check_by_category category t 
+
+(** Returns true if [input_tokens] contains at least one element in each
+    list of [question_lst] and false otherwise. *)
+let rec check_all_categories question_lst input_tokens = 
+  match question_lst with
+  | [] -> true
+  | h::t -> (check_by_category h input_tokens &&
+             check_all_categories t input_tokens)
+
+(** Returns true if [sentence] contains the keywords associated with the
+    question word, if a question word is the first element of [input_tokens]. 
+    A question word is defined as "who", "what", "when", and "where". *)
+let filter_tokens input_tokens sentence =
+  let tokenized_sentence = Tokenizer.word_tokenize sentence in
+  match input_tokens with
+  | [] -> true
+  | h::t ->
+    if (Hashtbl.mem question_ht h) then 
+      let q = Hashtbl.find question_ht h in
+      (check_all_categories q tokenized_sentence)
+    else true
+
 (** [max_jaccard_sentence topic input_sent]
     Returns sentence in specified document topic containing the
     maximum jaccard similarity metric, compared with the
@@ -239,12 +285,16 @@ let max_jaccard_sentence (topic:string)
   let doc_sentences = topic_we_want.content in
   let input_tokens = Similarity.remove_dups
       (Tokenizer.word_tokenize input_sent) in
+  let filter_tokens_fixed sentence = filter_tokens input_tokens sentence in
 
   (* [doc_sent_tok_dict] creates [key: sentence, value: sentence's
      word token list] dict *)
-  let doc_sent_tok_dict = List.map (fun s ->
-      (s, Similarity.remove_dups
-         (Tokenizer.word_tokenize s))) doc_sentences in
+  let doc_sent_tok_dict = 
+    let filtered_sentences = 
+      (List.filter (filter_tokens_fixed) doc_sentences) in
+    List.map (fun s ->
+        (s, Similarity.remove_dups
+           (Tokenizer.word_tokenize s))) filtered_sentences in
 
   (* [doc_sent_jac_dict] creates [key: sentence, value: sentence's
       jaccard score] dict *)
@@ -304,9 +354,11 @@ let add_tfidf (input_sent : string) : string =
   let doc_list = get_topics_tfidf input_sent in
   let temp_list = List.fold_left add_list_to_list
       (Hashtbl.create 20000) doc_list in
-  let good_tup = Hashtbl.fold (fun (a : string)
-                                (b: float) (c : string * float) : (string * float) ->
-                                if b > (snd c) then (a, b) else c)
+  let good_tup = Hashtbl.fold (fun 
+                                (a : string)
+                                (b : float) 
+                                (c : string * float) : (string * float)
+                                -> if b > (snd c) then (a, b) else c)
       temp_list ("David Gries", 0.0) in
 
   begin

@@ -1,3 +1,5 @@
+(**Module for tokenizing the document into 
+sentences, and the sentences into words.*)
 module Tokenizer : sig
 
   (** Tokenizer type, containing tokenized 

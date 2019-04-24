@@ -1,4 +1,6 @@
-(*Autocorrection module*)
+(**Module to autocorrect misspellings in user input,
+   and return all possible candidates with the lowest possible
+   Levenshetein edit distance, max 3 units. *)
 open Tokenizer
 open Counter
 open Extract
@@ -64,32 +66,37 @@ let rec candidates (input:string) (word_lst: string list)
     else if ld = acc_ld then candidates input t (a::acc_lst) ld
     else candidates input t acc_lst acc_ld
 
-(** Output a list of words most similar to given input word*)
+(** [find_candidates input_word] returns a list of words that are
+    most similar to [input_word] (Levenshtein distance is less than or
+    equal to 3). *)
 let find_candidates (input_word:string) : string list = 
   candidates input_word Extract.all_words [] 3
 
-(**Return all the elements of a string list as whole string, 
-   ready to be printed*)
+(** [str_list] returns all the elements of a string list in the 
+    form of a string, ready to be printed. *)
 let rec str_list = function 
   | [] -> ""
+  | h::[] -> (h ^ "")
   | h::t ->(h ^ ", ") ^ str_list t
 
-(** Check to see if each word is valid word,
-    return hashtable of all bad words and their likely candidates *)
+(** [correctness_ht toks_filtered] returns a hashtable, where each key
+    is a "bad"/invalid word, and the value is a string list of likely
+    candidates/valid words. 
+    "Valid" is defined as a word that exists within the corpus. *)
 let correctness_ht (toks_filtered:string list) : (string, string list) Hashtbl.t = 
   let all_bad_words = List.filter (fun a -> not (Hashtbl.mem Extract.big_counter_ht a)) toks_filtered in
   let acc_tbl = Hashtbl.create 10 in (*string, string list*)
   List.fold_left (fun ht a-> (Hashtbl.add ht a (find_candidates a); ht)) acc_tbl all_bad_words
 
-
-(**Check correctness of each word in input sentence
-   and return string *)
-let check_correctness (input_sent:string) : string = 
+(** [check_correctness input_sent] checks the correctness/validity of each word
+    in [input_sent] and returns a new string where each word is a correct/valid
+    word. 
+    "Valid" is defined as a word that exists within the corpus. *)
+let check_correctness (input_sent:string) : string =
   let toks = Similarity.remove_dups (Tokenizer.word_tokenize input_sent) in
-  (* Pervasives.print_string (str_list toks) ;  *)
   let toks_f = List.filter (fun a -> not (List.mem a Filter.filter_list)) toks in
-  (* Pervasives.print_string (str_list toks_f) ; *)
-  let corr_ht = correctness_ht toks_f in
+  let toks_ff = List.filter (fun a -> not (List.mem '\'' (List.init (String.length a) (String.get a)))) toks in
+  let corr_ht = correctness_ht toks_ff in
 
   let rec make_str (tokens: string list) (acc_str : string) : string =
     match tokens with
