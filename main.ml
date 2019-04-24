@@ -55,7 +55,7 @@ let process_cos input =
       | "examples", _ -> examples 
       | "help", _ -> help 
       | _ , "" -> "Please input a valid question.\n"
-      | _, _  ->  (String.concat " " cos_response) ^ ".\n" ^ sug ^ "\n" end
+      | _, _  ->  (String.concat " " cos_response) ^ "\n" ^ sug ^ "\n" end
   | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
 
 let process_jac input = 
