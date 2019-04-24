@@ -418,7 +418,7 @@ let count_all_unique_words = Hashtbl.fold (fun k v acc -> acc+1) big_counter_ht 
 (** [vocab_size] is the number of unique words in all of the data provided by
     json. *)
 let vocab_size =
-  Pervasives.print_int count_all_unique_words; count_all_unique_words
+  (* Pervasives.print_int count_all_unique_words; *) count_all_unique_words 
 
 (** [word2vec_dict] creates a hastable that maps each unique word to a unique
     index, starting from 0.  *)
@@ -482,10 +482,11 @@ let find_max_cosine topic q_vector acc_sent acc_score =
    Hashtbl.iter (fun x y -> print_string x;
                  print_int y; print_newline ()) ht *)
 
-let debug =
+(* let debug =
   let q_vector_test = vectorize ["where"; "is"; "the"; "office"; "of"; "Facebook"; "in"; "california"] 33144 (word2vec_dict 33144) in
   print_list (find_max_cosine "Facebook" q_vector_test [""] 0.0);
-  Pervasives.print_string "here"
+  Pervasives.print_string "here" *)
+
 (* print_hash_debug (word2vec_dict vocab_size) *)
 (* Pervasives.print_int vocab_size; *)
 (* Pervasives.print_int (List.length all_words) *)
