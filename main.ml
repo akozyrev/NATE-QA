@@ -36,17 +36,23 @@ That being said, I am still getting smarter and faster with each day!\n"
 (** [process input] will return the correct response to the input
     the user provides. *)
 let process input = 
-  let response = Extract.get_response input in
+  let qeustion_vec =
+    Extract.vectorize 
+      (Tokenizer.word_tokenize input)
+      Extract.count_all_unique_words 
+      (Extract.word2vec_dict Extract.count_all_unique_words)
+  in
+  let topic = Extract.add_tfidf input in 
+  let cos_response = Extract.find_max_cosine topic qeustion_vec [""] 0.0 in
   let a_response = Autocorrect.check_correctness input in
   let sug = Suggestion.suggestion input in
-
   match a_response with 
-  | "all correct" -> begin match input, response with 
+  | "all correct" -> begin match input, (String.concat " " cos_response) with 
       | "about", _ -> about
       | "examples", _ -> examples 
       | "help", _ -> help 
       | _ , "" -> "Please input a valid question.\n"
-      | _, _  ->  response ^ "\n" ^ sug ^ "\n" end
+      | _, _  ->  (String.concat " " cos_response) ^ "\n" ^ sug ^ "\n" end
   | _ -> "Autocorrect found word(s) not identified: " ^ a_response 
 
 
