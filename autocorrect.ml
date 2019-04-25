@@ -58,10 +58,6 @@ let correctness_ht (toks_filtered:string list)
   List.fold_left (fun ht a-> (Hashtbl.add ht a (find_candidates a); ht)) 
     acc_tbl all_bad_words
 
-(** [check_correctness input_sent] checks the 
-    correctness/validity of each word in [input_sent] and 
-    returns a new string where each word is a correct/valid word. 
-    "Valid" is defined as a word that exists within the corpus. *)
 let check_correctness (input_sent:string) : string =
   let toks = Similarity.remove_dups 
     (Tokenizer.word_tokenize input_sent) in

@@ -7,17 +7,11 @@ open Similarity
     storing each document's data in a dictionary, and executing
     the main computations for constructing the bot's response. *)
 
-(** Topic Dictionary type, which contains the title of the topic (document)
-    and a Counter.t, a dictionary mapping each unique word to its
-    number of occurrences in the topic/document.  *)
 type topic_dict = {
   topic : string;
   counter : Counter.t;
 }
 
-(** Topic type containing the title of the topic/document and an attribute
-    called content, which is a string list of sentence tokens extracted from
-    that particular topic. *)
 type topic = {
   topic : string;
   content : string list;
@@ -119,8 +113,6 @@ let rec all_full_topics (topics : string list)
                  (full_topic_dict word :: acc)
   | [] -> acc
 
-(** [all_topic_dict_counter] is the list of topic_dict counters from
-    the topic list we have above *)
 let all_topic_dict_counter = all_full_topics topics []
 
 (** [get_td_counter_ht td] this function creates a Hashtable of the
@@ -152,12 +144,6 @@ let rec print_topic_dict_list = function
   |  (e:topic_dict)::l -> print_string e.topic ;
     print_string " | " ; print_topic_dict_list l
 
-(** [which_dict_has_the_word word topic_dict lst acc]
-    Given a word, this function checks every
-    topic_dict generated from the above topic list,
-    and if the word is in the topic_dict's counter
-    dictionary, then we add that entire topic_dict
-    type to the accumulator.  *)
 let rec which_dict_has_the_word (word:string)
     (topic_dict_lst:topic_dict list)
     (acc:topic_dict list): topic_dict list =
@@ -169,8 +155,6 @@ let rec which_dict_has_the_word (word:string)
     else which_dict_has_the_word word lst acc
   |[]->acc
 
-(** [count_word_in_topic word topic] counts how many times [word] appears
-    in given [topic]. *)
 let rec count_word_in_topic (word:string)
     (topic:string) : int =
   let counter = Hashtbl.find all_topic_dict_counter_ht topic in
@@ -275,12 +259,6 @@ let filter_tokens input_tokens sentence =
       (check_all_categories q tokenized_sentence)
     else true
 
-(** [max_jaccard_sentence topic input_sent]
-    Returns sentence in specified document topic containing the
-    maximum jaccard similarity metric, compared with the
-    input sentence (question we ask the chatbot).
-    This is the last function we will need to return the
-    calculated response to the user's input *)
 let max_jaccard_sentence (topic:string)
     (input_sent:string) : string =
   let topic_we_want = (Hashtbl.find content_dict topic) in
@@ -367,8 +345,6 @@ let add_tfidf (input_sent : string) : string =
     fst good_tup
   end
 
-(** [get_response input_sent] calculates a response based on [input_sent]
-    and returns the response using the Jaccard Similarity algorithm. *)
 let get_response (input_sent : string) : string =
   let topic_doc = add_tfidf input_sent in
   let response = begin (*  Pervasives.print_string topic_doc;  *)
@@ -379,12 +355,10 @@ let get_response (input_sent : string) : string =
 (** [get_topic_dict_topic topic_dict] returns the topic of [topic_dict]. *)
 let get_topic_dict_topic (topic_dict:topic_dict) = topic_dict.topic
 
-(** [get_topics topic_dict_lst] returns a topic list of each topic
-    in each topic_dict in [topic_dict_lst]. *)
 let get_topics (topic_dict_lst:topic_dict list) = List.map 
     get_topic_dict_topic topic_dict_lst
 
-(** Useful helpers to be called in Autocorrect *)
+(** Useful helpers to be called in Autocorrect. *)
 
 (** List of all counters for each document we have in the corpus *)
 let all_counters_list =
@@ -408,13 +382,9 @@ let rec add_list_to_list (ht1: (string, int) Hashtbl.t)
       | None -> Hashtbl.add ht1 a b
     ) ht2; ht1
 
-(** [big_counter_ht] returns a large hashtable with key : word, 
-    value: number of occurrences of the word, for all documents in the 
-    corpus, i.e. all the counter dicts for each topic combined together. *)
 let big_counter_ht =
   List.fold_left add_list_to_list (Hashtbl.create 50000) all_dict_list
 
-(** [all_words] is a list of all the unique words in all of the documents *)
 let all_words =  Hashtbl.fold (fun k v acc -> k :: acc) big_counter_ht []
 
 (** [count_all_unique_words] is the number of all unique words in all of 
@@ -423,25 +393,13 @@ let count_all_unique_words = Hashtbl.fold (fun k v acc -> acc+1) big_counter_ht 
 
 (* Embeddings functions start here *)
 
-(** [vocab_size] is the number of unique words in all of the data provided by
-    json. *)
 let vocab_size = count_all_unique_words 
 
-(** [word2vec_dict] creates a hastable that maps each unique word to a unique
-    index, starting from 0.  *)
 let word2vec_dict vocab_size =
   let new_hashtbl = Hashtbl.create vocab_size in
   List.fold_left (fun ht word -> (Hashtbl.add ht word 
     (Hashtbl.length ht); ht)) new_hashtbl all_words
 
-(** [vectorize input_sent vocab_size word2vec_dict] constructs
-    a vector representation of a sentence by incrementing a vector of
-    size [vocab_size] at indices corresponding to specific vocabulary
-    words found in word2vec_dict.
-    For example: if the sentence is "the dog ate my homework"
-    then the vector will have values of 1 at indices corresponding
-    to words like "the", "dog" and others, and the rest of the vector will be
-    all 0 values. *)
 let vectorize input_sent vocab_size word2vec_dict =
   let vec = Array.init vocab_size (function i -> 0) in
 
@@ -488,9 +446,6 @@ let find_max_cosine (topic:string) (input_tokens: string list)
   in
   helper sentences_of_topic q_vector acc_sent acc_sent_o acc_score
 
-(** [get_response_2 input_sent] calculates a response based on 
-    [input_sent] sentence and returns the response using the Cosine 
-    Similarity algorithm. *)
 let get_response_2 (input:string) : string = 
     let question_vec = vectorize (Tokenizer.word_tokenize input) 
     count_all_unique_words (word2vec_dict count_all_unique_words) in 

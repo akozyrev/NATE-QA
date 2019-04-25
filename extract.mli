@@ -18,12 +18,12 @@ type topic
     and returns the response using the Jaccard Similarity algorithm. *)
 val get_response : string -> string
 
-(** Large hashtable with key : word, value: num occurences of word,
-    for all documents in the corpus, i.e. all the counter dicts
-    for each topic combined together *)
+(** [big_counter_ht] returns a large hashtable with key : word, 
+    value: number of occurrences of the word, for all documents in the 
+    corpus, i.e. all the counter dicts for each topic combined together. *)
 val big_counter_ht : (string, int) Hashtbl.t
 
-(** List of all the unique words in documents *)
+(** [all_words] is a list of all the unique words in all of the documents *)
 val all_words : string list
 
 (** [get_response_2 input_sent] calculates a response based on 
@@ -41,7 +41,7 @@ val get_response_2 : string -> string
     all 0 values. *)
 val vectorize : 'a list -> int -> ('a, int) Hashtbl.t -> int array
 
-(** [word2vec_dict] creates a hastable that maps each unique word to a unique
+(** [word2vec_dict] creates a hashtable that maps each unique word to a unique
     index, starting from 0.  *)
 val word2vec_dict : int -> (string, int) Hashtbl.t
 
@@ -63,7 +63,7 @@ val which_dict_has_the_word : string -> topic_dict list ->
 topic_dict list -> topic_dict list
 
 (** [all_topic_dict_counter] is the list of topic_dict counters from
-    the topic list we have above *)
+    the topic list we have above. *)
 val all_topic_dict_counter : topic_dict list
 
 (** [max_jaccard_sentence topic input_sent]

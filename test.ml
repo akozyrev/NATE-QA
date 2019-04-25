@@ -119,7 +119,6 @@ let extract_test = [
       assert_equal (count_word_in_topic "youtube" "youTube"  )
         (365) );
 
-
   "test_which_dict_has_the_words_2" >:: (fun _ ->
       assert_equal (get_topics (which_dict_has_the_word
         "askdnjaksjdaojd" all_topic_dict_counter []))
