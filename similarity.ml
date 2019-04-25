@@ -1,9 +1,10 @@
 open Pervasives
 
 (** Module for calculating and storing the
-simlarity metrics of 2 input sentences.
-Contains cosine similarity and jaccard similarity
-calculations. *)
+simlarity metrics of 2 sentences, one being the user's
+input and the other being a sentence in a document decided
+by TFIDF. Contains both Cosine Similarity and Jaccard Similarity
+algorithms. *)
 module Similarity = struct
 
   (**Type of cosine similarity calculation*)
@@ -12,9 +13,9 @@ module Similarity = struct
   (**Type of jaccard similarity calculation*)
   type jac_sim = float
 
-  (** Compute dot product of vectors a and b,
-      represented as int lists
-      PRECONDITION: length of a == length of b*)
+  (** [dot_prod a b] computes and returns the dot product of vectors 
+    a and b, represented as int lists.
+    PRECONDITION: length of a == length of b*)
   let rec dot_prod (a: int list) (b: int list): int =
     match a, b with
     | [], [] -> 0
@@ -22,7 +23,7 @@ module Similarity = struct
     | _ -> failwith "Error: vector lengths are different"
 
   (** [norm a] computes norm (length) of vector a,
-      represented as int list *)
+      represented as an int list. *)
   let norm (a: int list) : float =
     let a_floats = List.map float_of_int a in
     let rec sum_squares vec =
@@ -41,7 +42,7 @@ module Similarity = struct
     (float_of_int num) /. denom
 
   (** [remove_dups lst] removes all duplicates from lst, i.e.
-      the set operation *)
+      the set operation. *)
   let rec remove_dups (lst: 'a list): 'a list =
     match lst with
     | [] -> []
