@@ -1,4 +1,4 @@
-(* Module used to tokenize the words in a document, as well
+(** Module used to tokenize the words in a document, as well
 as tokenize the sentences within the doc. Contains functionality 
 to tokenize sentences and tokenize words. *)
 module Tokenizer = struct
@@ -55,15 +55,17 @@ module Tokenizer = struct
     let all_lower = List.map (fun w -> make_lower w) strip_words in
     all_lower
 
-  (** [tokenize] is the tokenized form of text in a document, containing two
-    attributes: a string list of sentence tokens and a string list of word tokens. *)
+  (** [tokenize text] is the tokenized form of [text] in a document, 
+  containing two attributes: a string list of sentence tokens and a 
+  string list of word tokens. *)
   let tokenize (text:string) : t =
     {
       sentences = sent_tokenize text;
       words = word_tokenize text;
     }
 
-  (** [get_sentences] returns a string list of tokenized sentences in a document. *)
+  (** [get_sentences] returns a string list of tokenized sentences 
+  in a document [tok]. *)
   let get_sentences (tok:t) : string list =
     tok.sentences
 

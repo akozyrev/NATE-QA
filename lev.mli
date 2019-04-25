@@ -4,6 +4,6 @@ generic algorithm. We credit this
 page for inspiration for our implementation:
 en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance*)
 
-(** [distance w1 w2] returns the calculated 
-Levenshtein between strings w1 and w2 *)
+(** [distance word1 word2] compute the Lev. distance between 
+  [word1] and [word2]. *)
 val distance: string -> string -> int
