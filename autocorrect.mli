@@ -1,4 +1,6 @@
-(** Module to autocorrect misspellings in the user's input.*)
+(** Module to autocorrect misspellings in user input,
+   and return all possible candidates with the lowest possible
+   Levenshetein edit distance, max 3 units. *)
 
 (** [check_correctness input_sent] checks the 
     correctness/validity of each word in [input_sent] and 

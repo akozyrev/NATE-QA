@@ -1,5 +1,5 @@
 (* Module for representing document types. 
-It has dictionary, which is a hashtable of 
+It has a dictionary, which is a hashtable of 
 all words (keys) and their number of occurences 
 in the document (values), and also a length (number
 of  unique words in the document. *)

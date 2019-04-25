@@ -1,6 +1,6 @@
 (** Module used to tokenize the words in a document, as well
 as tokenize the sentences within the doc. Contains functionality 
-to tokenize sentences and tokenize words. *)
+to tokenize sentences and tokenize words.*)
 module Tokenizer : sig
 
   (** Tokenizer type, containing tokenized 

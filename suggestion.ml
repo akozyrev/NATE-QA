@@ -1,9 +1,9 @@
-(* Module used for topic clustering and suggesting new topics
+(** Module used for topic clustering and suggesting new topics
 relevant to user's input question. Will output a neighbor
 in the same cluster as the topic the user asked about, nothing
 if cannot find a similar cluster *)
 
-(**list of topic clusters for topic suggestion*)
+(** [lst] is a list of topic clusters for topic suggestions. *)
 let lst : (string * string list) list = [
   ("person", ["david gries";"john hopcroft"; "alan turing";
               "andreessen horowitz"; "anita borg"; "barbara liskov"; "bill gates";

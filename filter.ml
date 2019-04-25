@@ -1,4 +1,5 @@
-(* Module for filtering out unimportant words in similarity calculation*)
+(** Module for filtering out unimportant words in
+the input question from evaluation. *)
 
 (** [interrogative] is a list of interrogative words as strings. *)
 let interrogative = ["who";"when";"where";"what";"how";"whom";"this";"whose";
@@ -18,5 +19,7 @@ let pronoun = ["I"; "me"; "myself"; "he"; "him";"himself";
 "us";"ourselves";"you";"you're";"yourself";"yourselves";
 "his";"hers";"mine";"my";"their";"it";"its"]
 
-(** [filter_list] is all of the lists above combined together. *)
+(** [filter_list] is a list of all the unimportant words
+    we want to filter from the input question before
+    we continue with the jaccard similarity calculations. *)
 let filter_list = List.flatten [auxillary; pronoun]
