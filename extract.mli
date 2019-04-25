@@ -1,6 +1,6 @@
 (** Module for processing the data from the json file, 
     storing each document's data in a dictionary, and executing
-    the main computations for constructing the bot's response. *)
+    the main computations for constructing the bot's response.*)
 
 open Counter
 
