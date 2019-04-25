@@ -1,133 +1,79 @@
-(** Module for processing the data from json file,
-    storing each doc's data into a dictionary, and making
-    the main computations for gathering the bot's response *)
+(** Module for processing the data from the json file, 
+    storing each document's data in a dictionary, and executing
+    the main computations for constructing the bot's response. *)
 
 open Counter
 
-(** Contains the title of the topic (document)
-    and a Counter.t which is a dictionary mapping each unique word to its
+(** Topic Dictionary type, which contains the title of the topic (document)
+    and a Counter.t, a dictionary mapping each unique word to its
     number of occurrences in the topic/document.  *)
 type topic_dict
 
-
-(** Topic type containing the title of the 
-    topic/document and a content string
-    list, which is a list of sentence tokens extracted from
-    that particular topic  *)
+(** Topic type containing the title of the topic/document and an attribute
+    called content, which is a string list of sentence tokens extracted from
+    that particular topic. *)
 type topic
 
-(**
-   Returns a topic type that the topic and its content
-*)
-val get_content : string -> Yojson.Basic.json -> topic
+(** [get_response input_sent] calculates a response based on [input_sent]
+    and returns the response using the Jaccard Similarity algorithm. *)
+val get_response : string -> string
 
-(**
-   Returns all topics in the json file, represented by a topic list
-*)
-val all_topics : string list -> Yojson.Basic.json 
-        -> topic list -> topic list
+(** Large hashtable with key : word, value: num occurences of word,
+    for all documents in the corpus, i.e. all the counter dicts
+    for each topic combined together *)
+val big_counter_ht : (string, int) Hashtbl.t
 
-(**
-   Returns tokenizedd content of a topic
-*)
-val tokenized_word_list : string -> string list -> string list
+(** List of all the unique words in documents *)
+val all_words : string list
 
-(**
-   Returns a counter of the content of a topic
-*)
-val count_word : string ->  string list -> Counter.t
+(** [get_response_2 input_sent] calculates a response based on 
+    [input_sent] sentence and returns the response using the Cosine 
+    Similarity algorithm. *)
+val get_response_2 : string -> string
 
-(**
-   Returns a topic_dict type of a topic
-*)
-val full_topic_dict : string ->  topic_dict
+(** [vectorize input_sent vocab_size word2vec_dict] constructs
+    a vector representation of a sentence by incrementing a vector of
+    size [vocab_size] at indices corresponding to specific vocabulary
+    words found in word2vec_dict.
+    For example: if the sentence is "the dog ate my homework"
+    then the vector will have values of 1 at indices corresponding
+    to words like "the", "dog" and others, and the rest of the vector will be
+    all 0 values. *)
+val vectorize : 'a list -> int -> ('a, int) Hashtbl.t -> int array
 
-(**
-   Returns a list of topic_dict of a list of topics
-*)
-val all_full_topics : string list -> topic_dict list -> topic_dict list
+(** [word2vec_dict] creates a hastable that maps each unique word to a unique
+    index, starting from 0.  *)
+val word2vec_dict : int -> (string, int) Hashtbl.t
 
-(**
-   Returns a list of topict_dict from a certain list of topics
-*)
-val all_topic_dict_counter : topic_dict list
-
-(**
-   Prints a list of topic_dict
-*)
-val print_topic_dict_list : topic_dict list -> unit
-
-(**
-   [which_dict_has_the_word word t_d_lst [] ] 
-   returns all topic_dicts that have the word
-*)
-val which_dict_has_the_word : string -> topic_dict list 
-    -> topic_dict list -> topic_dict list
-
-(**
-   Returns the number of occurance of a word in a topic's content
-*)
+(** [count_word_in_topic word topic] counts how many times [word] appears
+    in given [topic]. *)
 val count_word_in_topic : string -> string -> int
 
-(** Return sentence in specified document topic containing the
+(** [get_topics topic_dict_lst] returns a topic list of each topic
+    in each topic_dict in [topic_dict_lst]. *)
+val get_topics : topic_dict list -> string list
+
+(** [which_dict_has_the_word word topic_dict lst acc]
+    Given a word, this function checks every
+    topic_dict generated from the above topic list,
+    and if the word is in the topic_dict's counter
+    dictionary, then we add that entire topic_dict
+    type to the accumulator.  *)
+val which_dict_has_the_word : string -> topic_dict list -> 
+topic_dict list -> topic_dict list
+
+(** [all_topic_dict_counter] is the list of topic_dict counters from
+    the topic list we have above *)
+val all_topic_dict_counter : topic_dict list
+
+(** [max_jaccard_sentence topic input_sent]
+    Returns sentence in specified document topic containing the
     maximum jaccard similarity metric, compared with the
     input sentence (question we ask the chatbot).
     This is the last function we will need to return the
     calculated response to the user's input *)
-val max_jaccard_sentence : string ->  string ->  string
+val max_jaccard_sentence : string -> string -> string
 
-(** [add_elt_to_list doc lst] returns a list of 
-    tuples where the first value corresponds
-    to the document and the value is the combined 
-    tfidf scores of each word in that document. *)
-val add_elt_to_list : (string * float) -> 
-    (string, float) Hashtbl.t -> (string, float) Hashtbl.t
-
-(* [add_list_to_list lst1 lst2] combines the 
-    elements of lst1 and lst2, where there are no duplicate
-   string values. If the string values are equal, 
-    their float values are added. *)
-val add_list_to_list : (string, float) Hashtbl.t -> 
-    (string, float) Hashtbl.t -> (string, float) Hashtbl.t
-
-(* [add_tfidf input_sent] computes the sum of TFIDF 
-    scores for each word in each document and returns
-   the document with the highest sum. *)
-val add_tfidf : string -> string
-
-(** [get_response input_sent] calculates a response 
-    based on [input_sent] sentence
-    and returns the response*)
-val get_response : string -> string
-
-(** [get_topic tp] returns the title of topic [tp] *)
-val get_topics : topic_dict list -> string list
-
-(** [get_counter topic_dict] is a getter 
-    function that allows us to use
-    List.map in the following *)
-val get_counter : topic_dict -> Counter.t
-
-val all_counters_list : Counter.t list
-
-val all_dict_list : (string, int) Hashtbl.t list
-
-val add_list_to_list : (string, int) Hashtbl.t -> 
-    (string, int) Hashtbl.t -> (string, int) Hashtbl.t
-
-val big_counter_ht : (string, int) Hashtbl.t
-
-val all_words : string list
-
-val count_all_unique_words : int
-
+(** [vocab_size] is the number of unique words in all of the data provided by
+    json. *)
 val vocab_size : int
-
-val vectorize: 'a list -> int -> ('a, int) Hashtbl.t -> int array
-
-val find_max_cosine : string -> string list -> 
-    int array -> string -> Similarity.Similarity.cos_sim -> string 
-
-val word2vec_dict : int -> (string, int) Hashtbl.t
-
-val get_response_2 : string -> string

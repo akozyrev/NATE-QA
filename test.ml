@@ -132,7 +132,7 @@ let extract_test = [
 
   "test_vocab_size">:: (fun _ ->
       assert_equal
-        (vocab_size) 33144; Pervasives.print_int vocab_size);
+        (vocab_size) 33144);
 
 ]
 

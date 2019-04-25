@@ -3,21 +3,21 @@ open Tokenizer
 open Counter
 open Similarity
 
-(** Module for processing the data from json file, 
-    storing each doc's data into a dictionary, and making
-    the main computations for gathering the bot's response *)
+(** Module for processing the data from the json file, 
+    storing each document's data in a dictionary, and executing
+    the main computations for constructing the bot's response. *)
 
 (** Topic Dictionary type, which contains the title of the topic (document)
-    and a Counter.t which is a dictionary mapping each unique word to its
+    and a Counter.t, a dictionary mapping each unique word to its
     number of occurrences in the topic/document.  *)
 type topic_dict = {
   topic : string;
   counter : Counter.t;
 }
 
-(** Topic type containing the title of the topic/document and a content string
-    list, which is a list of sentence tokens extracted from
-    that particular topic  *)
+(** Topic type containing the title of the topic/document and an attribute
+    called content, which is a string list of sentence tokens extracted from
+    that particular topic. *)
 type topic = {
   topic : string;
   content : string list;
@@ -34,23 +34,23 @@ let unpack_Yojson (json: Yojson.Basic.json): topic =  {
 let j = Yojson.Basic.from_file "corpus/improved_data.json"
 
 
-(** [get_topic tp] returns the title of topic [tp] *)
+(** [get_topic tp] returns the title of topic [tp]. *)
 let get_topic (tp: topic) : string =
   tp.topic
 
-(** [get_all_topics] is all topic bindings of tp list *)
+(** [get_all_topics] is all topic bindings of [topic_lst]. *)
 let get_all_topics (topic_lst: topic list) : string list =
   List.map (get_topic) topic_lst
 
 (** [find_the_topics_content key_word top_lst] is the tokenized
-    content of given topic [key_word] *)
+    content of the given topic [key_word]. *)
 let find_the_topics_content (key_word:string) (top_lst: topic list) =
   match (List.filter (fun x -> x.topic = key_word) top_lst) with
   |topic::lst -> topic.content
   |[]->failwith"This topc does not exist"
 
-(** [get_content key_word json] creates topic type that has
-    the topic title [key_word] and its content, all extracted from [json] *)
+(** [get_content key_word json] creates the topic type that has
+    the topic title [key_word] and its content, all extracted from [json]. *)
 let get_content (key_word:string) (json: Yojson.Basic.json) : topic =
   (* Pervasives.print_string "track 2" ; *)
   {
@@ -61,8 +61,8 @@ let get_content (key_word:string) (json: Yojson.Basic.json) : topic =
               |>find_the_topics_content key_word
   }
 
-(** [string_topic_dict tp acc_tbl] makes a dictionary containing
-    bindings of topic name -> topic type *)
+(** [string_topic_dict tp acc_tbl] returns a dictionary containing
+    bindings of topic name -> topic type. *)
 let rec string_topic_dict (tp: string list)
     (acc_tbl : ((string, topic) Hashtbl.t)): ((string, topic) Hashtbl.t) =
   match tp with
@@ -70,40 +70,40 @@ let rec string_topic_dict (tp: string list)
   | h::t -> Hashtbl.add acc_tbl h (get_content h j);
     string_topic_dict t acc_tbl
 
-(** [json_lst ] formats the json to a list *)
+(** [json_lst] is a formatted version of the json file in a list. *)
 let json_lst = to_list j
 
-(** [all_topics] list of all topic titles parsed from the json *)
+(** [all_topics] is a list of all topic titles parsed from the json. *)
 let all_topics = List.map unpack_Yojson json_lst
 
-(** [topics] list of topic_dicts *)
+(** [topics] is a list of topic_dicts. *)
 let topics = get_all_topics all_topics
 
-(** [content_dict] topic dictionary stored for fast access
-    during calculations *)
+(** [content_dict] is a topic dictionary, which is created and stored
+    for fast access during calculations. *)
 let content_dict = string_topic_dict topics (Hashtbl.create 200)
 
-(** [all_topics topics json acc] given a string list of all topics, this
-    function gives you list of topic type *)
+(** [all_topics topics json acc], given a string list of all topics,
+    returns a list of topic data type. *)
 let rec all_topics (topics : string list) (json : Yojson.Basic.json)
     (acc : topic list) : (topic list) = match topics with
   | word::t -> all_topics t (json) (get_content word json :: acc)
   | [] -> acc
 
-(** [tokenized_word_list key_word acc] given a [key_word] topic, this function
-    returns a list of tokenized words from the content of the topic *)
+(** [tokenized_word_list key_word acc] returns, given a [key_word] topic,
+    a list of tokenized words from the content of the topic. *)
 let tokenized_word_list (key_word:string) (acc:string list): string list =
   List.concat (List.map Tokenizer.word_tokenize
                  (Hashtbl.find content_dict key_word).content)
 
-(** [count_word key_word acc] gives you a counter type of
-    the topic [key_word] *)
+(** [count_word key_word acc] gives you the counter data type of
+    the topic [key_word]. It is a helper function for [full_topic_dict] *)
 let count_word (key_word:string) (acc:string list): Counter.t =
   Counter.make_dict (tokenized_word_list key_word acc)
 
-(** [full_topic_dict key_word] returns topic_dict
-    data type that has the topic and the counter dictionary
-    via a representation of record *)
+(** [full_topic_dict key_word] returns a topic_dict
+    data type that contains the topic and the counter dictionary
+    using a record. *)
 let full_topic_dict (key_word:string) : topic_dict =
   {
     topic = key_word;
@@ -111,7 +111,7 @@ let full_topic_dict (key_word:string) : topic_dict =
   }
 
 (** [all_full_topics topics acc] returns a list of topic_dict
-    type from a list of topics *)
+    from a list of topics. *)
 let rec all_full_topics (topics : string list)
     (acc : topic_dict list) : topic_dict list =
   match topics with
@@ -123,8 +123,9 @@ let rec all_full_topics (topics : string list)
     the topic list we have above *)
 let all_topic_dict_counter = all_full_topics topics []
 
-(** [get_td_counter_ht td] this function actually creates a Hashtable of
-    topic_dict from the topic list we have above *)
+(** [get_td_counter_ht td] this function creates a Hashtable of the
+    topic_dict instantiations from the topic list we have above
+    (all of the topics in the JSON file). *)
 let rec get_td_counter_ht (td: topic_dict list)
     (acc_tbl: (string, Counter.t) Hashtbl.t) :
   ((string, Counter.t) Hashtbl.t ) =
@@ -133,19 +134,19 @@ let rec get_td_counter_ht (td: topic_dict list)
   | h::t -> Hashtbl.add acc_tbl h.topic h.counter;
     get_td_counter_ht t acc_tbl
 
-(** [all_topic_dict_counter_ht] is a HASHTABLE of
-    topic_dict from the topic list we have above *)
+(** [all_topic_dict_counter_ht] is a Hashtable of the
+    topic_dict instantiations from the topic list we have above
+    (all of the topics in the JSON file). *)
 let all_topic_dict_counter_ht = get_td_counter_ht
     all_topic_dict_counter (Hashtbl.create 100)
 
-(** [get_counter topic_dict] is a getter function that allows us to use
-    List.map in the following *)
+(** [get_counter topic_dict] returns the counter of [topic_dict]. *)
 let get_counter topic_dict =
   (* Pervasives.print_string "help 4" ; *)
   topic_dict.counter
 
-(** [print_topic_dict_list] is a print helper function to visualize
-    `topic_dict list` from `all_topic_dict_counter` *)
+(** [print_topic_dict_list] is a print helper function to visualize 
+    the topic_dict list from [all_topic_dict_counter]. *)
 let rec print_topic_dict_list = function
   |  [] -> ()
   |  (e:topic_dict)::l -> print_string e.topic ;
@@ -156,12 +157,10 @@ let rec print_topic_dict_list = function
     topic_dict generated from the above topic list,
     and if the word is in the topic_dict's counter
     dictionary, then we add that entire topic_dict
-    type to the accumulator  *)
-(*OPTIMIZED*)
+    type to the accumulator.  *)
 let rec which_dict_has_the_word (word:string)
     (topic_dict_lst:topic_dict list)
     (acc:topic_dict list): topic_dict list =
-  (* Pervasives.print_string "help 5" ; *)
   match topic_dict_lst with
   |topic_dict::lst->
     if Counter.mem word topic_dict.counter
@@ -171,7 +170,7 @@ let rec which_dict_has_the_word (word:string)
   |[]->acc
 
 (** [count_word_in_topic word topic] counts how many times [word] appears
-    in given [topic] *)
+    in given [topic]. *)
 let rec count_word_in_topic (word:string)
     (topic:string) : int =
   let counter = Hashtbl.find all_topic_dict_counter_ht topic in
@@ -183,7 +182,6 @@ let rec count_word_in_topic (word:string)
 (** [tf word topic] is term frequency of [word] in [topic]
     calculated as follows:
     # of times [word] appears in [topic] / total number of topics *)
-(*OPTIMIZED*)
 let rec tf (word:string) (topic:string) =
   float_of_int (count_word_in_topic word topic) /.
   float_of_int (Hashtbl.length all_topic_dict_counter_ht)
@@ -192,7 +190,6 @@ let rec tf (word:string) (topic:string) =
     how important [word] is, based on the following
     calculation: log (total # of documents / # of
     documents with [word] in them) *)
-(*OPTIMIZED*)
 let rec idf (word:string) =
   Pervasives.log(
     float_of_int (List.length topics) /.
@@ -200,7 +197,7 @@ let rec idf (word:string) =
                     ((which_dict_has_the_word word all_topic_dict_counter) [])))
 
 (** [tfidf input_word topics] is the TF-IDF
-    of an input word computed for the given [topic] .*)
+    of an input word computed for the given [topic]. *)
 let rec tfidf (input_word:string)
     (topic:string): float =
   (tf input_word topic) *. (idf input_word)
@@ -208,7 +205,7 @@ let rec tfidf (input_word:string)
 (** [construct_tfidf input_word] is a list of tuples,
     where the first element of each tuple is a topic title
     (string) and the second element is the TF-IDF value for
-    that topic with respect to [input_word] *)
+    that topic with respect to [input_word]. *)
 let rec construct_tfidf (input_word:string) :
   (string, float) Hashtbl.t =
   let ht = Hashtbl.create 200000 in
@@ -228,41 +225,46 @@ let get_topics_tfidf (input_sent:string):
       (Tokenizer.word_tokenize input_sent) in
   List.map (fun w -> construct_tfidf w) input_tokens
 
-(** Returns a list of questions that are matched to likely keywords. **)
+(** [questions] is a list of questions that are matched to likely 
+    keywords. *)
 let questions = [("who", [["is"; "are"];["a"; "an" ;"the"]]);
                  ("where", [["at";"in"]]); 
                  ("what", [["is";"are"];["a";"an";"the"]]);
                  ("when", [["on"; "in"]])]
 
-(** Helper for [question_ht] that creates a hashtable from [lst]. *)
+(** [question_helper acc_tbl lst] is a helper function for 
+    [question_ht] that creates a hashtable from [lst]. *)
 let rec question_helper acc_tbl lst =
   match lst with
   | [] -> acc_tbl
   | h::t -> Hashtbl.add acc_tbl (fst h) (snd h);
     question_helper acc_tbl t
 
-(** Hash table version of questions. *)
+(** [question_ht] is a hash table version of questions. *)
 let question_ht = question_helper (Hashtbl.create 4) questions
 
-(** Returns a boolean value of whether any of the elements of [lst] are
-    present in [acc_tbl]. *)
+(** [check_by_category category input_tokens] returns a boolean 
+    value of whether any of the elements of [lst] are present in 
+    [acc_tbl]. *)
 let rec check_by_category category (input_tokens:string list) = 
   match input_tokens with
   | [] -> false
   | h::t -> if List.mem h category then true else
       check_by_category category t 
 
-(** Returns true if [input_tokens] contains at least one element in each
-    list of [question_lst] and false otherwise. *)
+(** [check_all_categories question_lst input_tokens] returns true if 
+    [input_tokens] contains at least one element in each list of 
+    [question_lst] and false otherwise. *)
 let rec check_all_categories question_lst input_tokens = 
   match question_lst with
   | [] -> true
   | h::t -> (check_by_category h input_tokens &&
              check_all_categories t input_tokens)
 
-(** Returns true if [sentence] contains the keywords associated with the
-    question word, if a question word is the first element of [input_tokens]. 
-    A question word is defined as "who", "what", "when", and "where". *)
+(** [filter_tokens input_tokens sentence] returns true if [sentence] 
+    contains the keywords associated with the question word, if a question
+    word is the first element of [input_tokens]. A question word is defined
+    as "who", "what", "when", and "where". *)
 let filter_tokens input_tokens sentence =
   let tokenized_sentence = Tokenizer.word_tokenize sentence in
   match input_tokens with
@@ -341,7 +343,7 @@ let rec add_list_to_list (lst1: (string, float) Hashtbl.t)
     ) lst2; lst1
 
 (** [print_hashtable ht] is a helper function to print hashtable [ht]
-    for debugging *)
+    for debugging. *)
 let print_hashtable (ht :
                        (string, float) Hashtbl.t) : unit =
   Hashtbl.iter (fun x y -> print_string x;
@@ -365,8 +367,8 @@ let add_tfidf (input_sent : string) : string =
     fst good_tup
   end
 
-(** [get_response input_sent] calculates a response based on [input_sent] sentence
-    and returns the response*)
+(** [get_response input_sent] calculates a response based on [input_sent]
+    and returns the response using the Jaccard Similarity algorithm. *)
 let get_response (input_sent : string) : string =
   let topic_doc = add_tfidf input_sent in
   let response = begin (*  Pervasives.print_string topic_doc;  *)
@@ -374,8 +376,11 @@ let get_response (input_sent : string) : string =
   end
   in response
 
+(** [get_topic_dict_topic topic_dict] returns the topic of [topic_dict]. *)
 let get_topic_dict_topic (topic_dict:topic_dict) = topic_dict.topic
 
+(** [get_topics topic_dict_lst] returns a topic list of each topic
+    in each topic_dict in [topic_dict_lst]. *)
 let get_topics (topic_dict_lst:topic_dict list) = List.map 
     get_topic_dict_topic topic_dict_lst
 
@@ -385,7 +390,8 @@ let get_topics (topic_dict_lst:topic_dict list) = List.map
 let all_counters_list =
   List.map (fun a -> get_counter a) all_topic_dict_counter
 
-(** List of all dictionaries for each document we have in the corpus *)
+(** [all_dict_list] is a list of all dictionaries for each document we have 
+    in the corpus. *)
 let all_dict_list =
   List.map (fun (a:Counter.t) -> Counter.get_dictionary a) all_counters_list
 
@@ -402,24 +408,24 @@ let rec add_list_to_list (ht1: (string, int) Hashtbl.t)
       | None -> Hashtbl.add ht1 a b
     ) ht2; ht1
 
-(** Large hashtable with key : word, value: num occurences of word,
-    for all documents in the corpus, i.e. all the counter dicts
-    for each topic combined together *)
+(** [big_counter_ht] returns a large hashtable with key : word, 
+    value: number of occurrences of the word, for all documents in the 
+    corpus, i.e. all the counter dicts for each topic combined together. *)
 let big_counter_ht =
   List.fold_left add_list_to_list (Hashtbl.create 50000) all_dict_list
 
-(** List of all the unique words in documents *)
+(** [all_words] is a list of all the unique words in all of the documents *)
 let all_words =  Hashtbl.fold (fun k v acc -> k :: acc) big_counter_ht []
 
-(** Number of all unique words in the documents *)
+(** [count_all_unique_words] is the number of all unique words in all of 
+    the documents. *)
 let count_all_unique_words = Hashtbl.fold (fun k v acc -> acc+1) big_counter_ht 0
 
 (* Embeddings functions start here *)
 
 (** [vocab_size] is the number of unique words in all of the data provided by
     json. *)
-let vocab_size =
-  (* Pervasives.print_int count_all_unique_words; *) count_all_unique_words 
+let vocab_size = count_all_unique_words 
 
 (** [word2vec_dict] creates a hastable that maps each unique word to a unique
     index, starting from 0.  *)
@@ -453,11 +459,6 @@ let vectorize input_sent vocab_size word2vec_dict =
   in
   vectorize_sent input_sent vocab_size word2vec_dict vec
 
-let rec print_list = function
-    [] -> ()
-  | e::l -> print_string e ; print_string " " ; print_list l
-
-
 (** [find_max_cosine topic acc_sent acc_score] finds the max cosine similarity
     of a score and sentence. *)
 let find_max_cosine (topic:string) (input_tokens: string list) 
@@ -471,8 +472,6 @@ let find_max_cosine (topic:string) (input_tokens: string list)
       (List.filter (filter_tokens_fixed) sentences) in
   let sentences_of_topic = List.map (fun s -> 
             (s, Tokenizer.word_tokenize s)) filtered_sentences; in
-  (* print_list (List.hd sentences_of_topic); *)
-  (* let doc_sentences = topic_we_want.content in *)
   let rec helper sentences q_vector acc_sent acc_sent_o acc_score =
     match sentences with
     | [] -> acc_sent_o
@@ -483,31 +482,15 @@ let find_max_cosine (topic:string) (input_tokens: string list)
       let new_score = Similarity.cosine_sim (Array.to_list sent_vec)
           (Array.to_list q_vector)
       in
-      (* Pervasives.print_float new_score; Pervasives.prerr_float acc_score; *)
       if new_score > acc_score then helper t q_vector 
             (snd h) (fst h) new_score
       else helper t q_vector acc_sent acc_sent_o acc_score
   in
-  (* helper doc_sentences q_vector acc_sent acc_score *)
   helper sentences_of_topic q_vector acc_sent acc_sent_o acc_score
 
-(* let print_hash_debug ht =
-   Hashtbl.iter (fun x y -> print_string x;
-                 print_int y; print_newline ()) ht *)
-
-(* let debug =
-  let q_vector_test = vectorize ["where"; "is"; "the"; "office"; 
-            "of"; "Facebook"; "in"; "california"] 33144 (word2vec_dict 33144) in
-  print_list (find_max_cosine "Facebook" q_vector_test [""] 0.0);
-  Pervasives.print_string "here" *)
-
-(* print_hash_debug (word2vec_dict vocab_size) *)
-(* Pervasives.print_int vocab_size; *)
-(* Pervasives.print_int (List.length all_words) *)
-(* Array.iter (Pervasives.print_int) (wrap ["elon"; "musk"; 
-    "tesla"; "david"; "gries"; "facebook"] 
-    vocab_size (word2vec_dict vocab_size)) *)
-
+(** [get_response_2 input_sent] calculates a response based on 
+    [input_sent] sentence and returns the response using the Cosine 
+    Similarity algorithm. *)
 let get_response_2 (input:string) : string = 
     let question_vec = vectorize (Tokenizer.word_tokenize input) 
     count_all_unique_words (word2vec_dict count_all_unique_words) in 
