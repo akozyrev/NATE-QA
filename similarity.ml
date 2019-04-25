@@ -1,6 +1,6 @@
 open Pervasives
 
-(** [.ml] Module for calculating and storing the
+(* Module for calculating and storing the
 simlarity metrics of 2 sentences, one being the user's
 input and the other being a sentence in a document decided
 by TFIDF. Contains both Cosine Similarity and Jaccard Similarity

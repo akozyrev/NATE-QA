@@ -1,4 +1,4 @@
-(**Module for filtering out unimportant words in similarity calculation*)
+(* Module for filtering out unimportant words in similarity calculation*)
 
 (** [interrogative] is a list of interrogative words as strings. *)
 let interrogative = ["who";"when";"where";"what";"how";"whom";"this";"whose";

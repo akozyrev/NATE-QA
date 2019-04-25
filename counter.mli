@@ -7,7 +7,7 @@ module Counter : sig
 
   (** Type for this module, which is represented as
       a dictionary containing elements in the from of 
-      string (unique word) and int (number of occurences) 
+      string (unique word) and int (number of occurrences) 
       tuples. *)
   type t = {
     dict: (string, int) Hashtbl.t;   
